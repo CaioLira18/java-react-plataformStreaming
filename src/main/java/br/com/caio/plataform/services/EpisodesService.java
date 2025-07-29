@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import br.com.caio.plataform.entities.Episodes;
 import br.com.caio.plataform.repository.EpisodeRepository;
 
@@ -17,11 +19,15 @@ public class EpisodesService {
         this.episodeRepository = episodeRepository;
     }
 
+    public Episodes insert(@RequestBody Episodes episodes){
+        return episodeRepository.save(episodes);
+    }
+
     public Optional<Episodes> findById(String id){
         return episodeRepository.findById(id);
     }
 
-    public List<Episodes> findAll(String id){
+    public List<Episodes> findAll(){
         return episodeRepository.findAll();
     }
 

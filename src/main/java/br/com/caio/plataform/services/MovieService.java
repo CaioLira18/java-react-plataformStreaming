@@ -2,7 +2,10 @@ package br.com.caio.plataform.services;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import br.com.caio.plataform.entities.Movie;
 import br.com.caio.plataform.repository.MovieRepository;
 
@@ -14,11 +17,15 @@ public class MovieService {
         this.movieRepository = movieRepository;
     }
 
+    public Movie insert(@RequestBody Movie movie) {
+        return movieRepository.save(movie);
+    }
+
     public Optional<Movie> findById(String id){
         return movieRepository.findById(id);
     }
 
-    public List<Movie> findAll(String id){
+    public List<Movie> findAll(){
         return movieRepository.findAll();
     }
 
