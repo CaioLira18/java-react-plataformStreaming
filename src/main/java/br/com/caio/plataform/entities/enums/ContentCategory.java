@@ -5,5 +5,6 @@ public enum ContentCategory {
     ADVENTURE,
     HORROR,
     COMEDY,
-    HERO
+    HERO,
+    FAMILY;
 }
