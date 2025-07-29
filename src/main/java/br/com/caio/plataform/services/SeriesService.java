@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import br.com.caio.plataform.entities.Series;
 import br.com.caio.plataform.repository.SeriesRepository;
 
@@ -17,11 +19,15 @@ public class SeriesService {
         this.seriesRepository = seriesRepository;
     }
 
+    public Series insert(@RequestBody Series serie) {
+        return seriesRepository.save(serie);
+    }
+
     public Optional<Series> findById(String id){
         return seriesRepository.findById(id);
     }
 
-    public List<Series> findAll(String id){
+    public List<Series> findAll(){
         return seriesRepository.findAll();
     }
 
