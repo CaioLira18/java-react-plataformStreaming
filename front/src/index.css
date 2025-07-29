@@ -11,15 +11,38 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.boxContent {
+.containerContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.boxInformation {
   display: flex;
   align-items: center;
   justify-content: left;
   flex-direction: column;
+  gap: 20px;
+}
+
+.boxInformation p {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.boxContent img {
+  width: 250px;
+  transition: 0.3s all ease-in-out;
+}
+
+.boxContent img:hover {
+  transform: scale(1.1);
 }
 
 .boxContent p {
-  text-align: left;
+  text-align: center;
 }
 
 .boxContent h1 {

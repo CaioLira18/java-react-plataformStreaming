@@ -2,14 +2,29 @@ import React, { useState, useEffect } from 'react';
 
 const Home = () => {
   const API_URL = "http://localhost:8080/api";
-  const [movie, setMovie] = useState([]);
+  const [series, setSeries] = useState([]);
+  const [movies, setMovies] = useState([]);
+
+
+  useEffect(() => {
+    fetch(`${API_URL}/series`)
+      .then(response => response.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setSeries(data);
+        } else {
+          console.error('Formato inesperado para Movies:', data);
+        }
+      })
+      .catch(error => console.error('Erro ao buscar Movies:', error));
+  }, []);
 
   useEffect(() => {
     fetch(`${API_URL}/movie`)
       .then(response => response.json())
       .then(data => {
         if (Array.isArray(data)) {
-          setMovie(data);
+          setMovies(data);
         } else {
           console.error('Formato inesperado para Movies:', data);
         }
@@ -19,14 +34,38 @@ const Home = () => {
 
   return (
     <div>
-      {movie.map((movie, i) => (
-        <div className="containerContent" key={i}>
-          <div className="boxContent">
-            <p>{movie.category}</p>
-            <h1>{movie.name}</h1>
+      <div className="genericContentBox">
+        <h1>Series</h1>
+          <div className="containerContent" >
+            {series.map((series, i) => (
+            <div className="boxContent" key={i}>
+              {series.type = "SERIES" && (
+              <div className="boxInformation">
+                  <img src={series.image} alt="" />
+                  <p>{series.name}</p>
+              </div>
+              )}
+            </div>
+              ))}
           </div>
-        </div>
-      ))}
+      </div>
+
+      <div className="genericContentBox">
+        <h1>Filmes</h1>
+          <div className="containerContent" >
+            {movies.map((movies, i) => (
+            <div className="boxContent" key={i}>
+              {movies.type = "MOVIES" && (
+              <div className="boxInformation">
+                  <img src={movies.image} alt="" />
+                  <p>{movies.name}</p>
+              </div>
+              )}
+            </div>
+              ))}
+          </div>
+      </div>
+   
     </div>
   );
 }
