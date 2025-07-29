@@ -36,36 +36,46 @@ const Home = () => {
     <div>
       <div className="genericContentBox">
         <h1>Series</h1>
-          <div className="containerContent" >
-            {series.map((series, i) => (
+        <p>Mostrar Tudo</p>
+        <div className="containerContent" >
+          {series.map((series, i) => (
             <div className="boxContent" key={i}>
               {series.type = "SERIES" && (
-              <div className="boxInformation">
+                <div className="boxInformation">
                   <img src={series.image} alt="" />
-                  <p>{series.name}</p>
-              </div>
+                  <a href={"/series/" + series.id}><p>{series.name}</p></a>
+                </div>
               )}
             </div>
-              ))}
+
+          ))}
+          <div className="rowAngle">
+            <i class="fa-solid fa-angle-right"></i>
           </div>
+        </div>
+
       </div>
 
       <div className="genericContentBox">
         <h1>Filmes</h1>
-          <div className="containerContent" >
-            {movies.map((movies, i) => (
+        <p>Mostrar Tudo</p>
+        <div className="containerContent" >
+          {movies.map((movies, i) => (
             <div className="boxContent" key={i}>
               {movies.type = "MOVIES" && (
-              <div className="boxInformation">
+                <div className="boxInformation">
                   <img src={movies.image} alt="" />
                   <p>{movies.name}</p>
-              </div>
+                </div>
               )}
             </div>
-              ))}
+          ))}
+          <div className="rowAngle">
+            <i class="fa-solid fa-angle-right"></i>
           </div>
+        </div>
       </div>
-   
+
     </div>
   );
 }

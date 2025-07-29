@@ -26,6 +26,7 @@ public class Series {
     private String id;
 
     private String name;
+    private String description;
     private String image;
     private ContentCategory category;
     private ContentType type;

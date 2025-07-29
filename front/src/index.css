@@ -10,10 +10,28 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Reset básico e seguro */
 * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: sans-serif;
+  background-color: #000; /* opcional: fundo escuro */
+  color: #fff;            /* texto branco como base */
+}
+
+a {
   text-decoration: none;
+  color: inherit; /* herda a cor do elemento pai */
+}
+
+ul, ol {
   list-style: none;
-  color: white;
 }
 
 .containerContent {
@@ -30,6 +48,10 @@
   justify-content: left;
   flex-direction: column;
   gap: 20px;
+}
+
+.boxInformation a {
+  width: 100%;
 }
 
 .boxInformation p {
@@ -59,12 +81,40 @@
   font-size: 20px;
 }
 
+.genericContentBox {
+  margin-top: 100px;
+  padding: 30px;
+}
+
+.liProfile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rowAngle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  background-color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 20px;
+  color: #000;
+}
+
 /* Header */
+
+.logoHeader img {
+  width: 100px;
+}
 
 .headerContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 20px;
   color: white;
 }
 
@@ -84,3 +134,53 @@
   justify-content: space-between;
   gap: 20px;
 }
+
+/* Series */
+
+.seriesIndividualContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.serieImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.serieImage img {
+  width: 50%;
+  border-radius: 20px;
+}
+
+.serieInformations {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.inputSeassons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.inputSeassons select {
+  width: 350px;
+  height: 40px;
+  background-color: transparent;
+  text-align: center;
+  border-radius: 20px;
+  margin-top: 10px;
+  transition: 0.3s all ease-in-out;
+}
+
+.inputSeassons select:hover {
+  background-color: white;
+  color: black;
+}
+

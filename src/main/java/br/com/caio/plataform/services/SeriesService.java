@@ -36,6 +36,7 @@ public class SeriesService {
         if(existingSeries.isPresent()){
             Series seriesToUpdate = existingSeries.get();
             seriesToUpdate.setName(series.getName());
+            seriesToUpdate.setDescription(series.getDescription());
             seriesToUpdate.setCategory(series.getCategory());
             seriesToUpdate.setType(series.getType());
             seriesToUpdate.setImage(series.getImage());
