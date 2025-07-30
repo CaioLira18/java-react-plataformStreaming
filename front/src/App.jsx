@@ -7,6 +7,8 @@ import Login from './pages/Login'
 import SeriesPage from './pages/SeriesPage'
 import Movie from './pages/Movies'
 import Footer from './components/Footer'
+import Movies from './pages/MoviesPage'
+import MoviesPage from './pages/MoviesPage'
 
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
         <Route path="/movies/:id" element={<Movie />} />
         <Route path="/login" element={<Login />} />
         <Route path="/series" element={<SeriesPage />} />
+        <Route path="/movies" element={<MoviesPage />} />
       </Routes>
     <Footer />
    </div>

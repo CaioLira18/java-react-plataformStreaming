@@ -108,6 +108,7 @@ ul, ol {
   height: 30px;
   border-radius: 20px;
   color: #000;
+  cursor: pointer;
 }
 
 /* Header */
@@ -125,12 +126,11 @@ ul, ol {
 }
 
 .optionsHeader ul li a {
-  transition: 0.1s all ease-in-out;
+  transition: 0.3s all ease-in-out;
   margin: 0 auto;
 }
 
 .optionsHeader ul li a:hover {
-  font-weight: bold;
   border-bottom: 1px solid white;
 }
 

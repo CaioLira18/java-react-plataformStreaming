@@ -41,7 +41,7 @@ const Header = () => {
             <div className="optionsHeader">
                 <ul>
                     <li><a href="/">Home</a></li>
-                    <li><a href="">Filmes</a></li>
+                    <li><a href="/movies">Filmes</a></li>
                     <li><a href="/series">Series</a></li>
                     <li className='liProfile'>
                         <i class="fa-solid fa-user"></i>

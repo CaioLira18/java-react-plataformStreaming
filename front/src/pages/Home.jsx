@@ -88,7 +88,7 @@ const Home = () => {
 
       <div className="genericContentBox">
         <h1>Filmes</h1>
-        <p>Mostrar Tudo</p>
+        <a href="/movies">Mostrar tudo</a>
         <div className="containerContent" >
           {movies.map((movies, i) => (
             <div className="boxContent" key={i}>
