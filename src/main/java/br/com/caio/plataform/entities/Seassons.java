@@ -1,15 +1,8 @@
 package br.com.caio.plataform.entities;
 
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,8 +18,11 @@ public class Seassons {
 
     private String name;
 
-    @OneToMany
-    @JsonIgnore
+    @OneToMany(mappedBy = "season", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Episodes> episodesList;
 
+    @ManyToOne
+    @JoinColumn(name = "series_id")
+    @JsonIgnore
+    private Series series;
 }

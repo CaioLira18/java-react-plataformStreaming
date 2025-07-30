@@ -5,24 +5,17 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.caio.plataform.entities.Episodes;
+import br.com.caio.plataform.dto.CreateEpisodeDTO;
 import br.com.caio.plataform.services.EpisodesService;
 
-
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") // Your Vite dev server
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/episodes")
 public class EpisodeController {
+    
     private final EpisodesService episodesService;
 
     @Autowired
@@ -30,10 +23,31 @@ public class EpisodeController {
         this.episodesService = episodesService;
     }
 
+    // Método original mantido
     @PostMapping
     public ResponseEntity<Episodes> createEpisode(@RequestBody Episodes episode) {
         Episodes createdEpisode = episodesService.insert(episode);
         return new ResponseEntity<>(createdEpisode, HttpStatus.CREATED);
+    }
+
+    // Novo método para criar episódio por ID da temporada
+    @PostMapping("/season/{seasonId}")
+    public ResponseEntity<Episodes> createEpisodeBySeason(
+            @PathVariable String seasonId, 
+            @RequestBody CreateEpisodeDTO episodeDTO) {
+        try {
+            Episodes createdEpisode = episodesService.createEpisodeBySeason(seasonId, episodeDTO);
+            return new ResponseEntity<>(createdEpisode, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // Método para buscar episódios de uma temporada específica
+    @GetMapping("/season/{seasonId}")
+    public ResponseEntity<List<Episodes>> getEpisodesBySeason(@PathVariable String seasonId) {
+        List<Episodes> episodes = episodesService.findBySeasonId(seasonId);
+        return new ResponseEntity<>(episodes, HttpStatus.OK);
     }
 
     @GetMapping

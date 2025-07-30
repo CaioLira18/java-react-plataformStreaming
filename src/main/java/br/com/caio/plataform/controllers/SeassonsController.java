@@ -5,23 +5,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import br.com.caio.plataform.entities.Seassons;
+import br.com.caio.plataform.dto.CreateSeasonDTO;
 import br.com.caio.plataform.services.SeassonsService;
 
-
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") // Your Vite dev server
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/seassons")
 public class SeassonsController {
+    
     private final SeassonsService seassonsService;
 
     @Autowired
@@ -29,21 +22,41 @@ public class SeassonsController {
         this.seassonsService = seassonsService;
     }
 
-
+    // Método original mantido
     @PostMapping
-    public ResponseEntity<Seassons> createEpisode(@RequestBody Seassons seasson) {
+    public ResponseEntity<Seassons> createSeason(@RequestBody Seassons seasson) {
         Seassons createdSeasson = seassonsService.insert(seasson);
         return new ResponseEntity<>(createdSeasson, HttpStatus.CREATED);
     }
 
+    // Novo método para criar temporada por ID da série
+    @PostMapping("/series/{seriesId}")
+    public ResponseEntity<Seassons> createSeasonBySeries(
+            @PathVariable String seriesId, 
+            @RequestBody CreateSeasonDTO seasonDTO) {
+        try {
+            Seassons createdSeason = seassonsService.createSeasonBySeries(seriesId, seasonDTO.getName());
+            return new ResponseEntity<>(createdSeason, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // Método para buscar temporadas de uma série específica
+    @GetMapping("/series/{seriesId}")
+    public ResponseEntity<List<Seassons>> getSeasonsBySeries(@PathVariable String seriesId) {
+        List<Seassons> seasons = seassonsService.findBySeriesId(seriesId);
+        return new ResponseEntity<>(seasons, HttpStatus.OK);
+    }
+
     @GetMapping
-    public ResponseEntity<List<Seassons>> getAllEpisodes() {
+    public ResponseEntity<List<Seassons>> getAllSeasons() {
         List<Seassons> seassons = seassonsService.findAll();
         return new ResponseEntity<>(seassons, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Seassons> getEpisodeById(@PathVariable String id) {
+    public ResponseEntity<Seassons> getSeasonById(@PathVariable String id) {
         Optional<Seassons> seassons = seassonsService.findById(id);
         if (seassons.isPresent()) {
             return new ResponseEntity<>(seassons.get(), HttpStatus.OK);
@@ -52,7 +65,7 @@ public class SeassonsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Seassons> updateEpisode(@PathVariable String id, @RequestBody Seassons seassons) {
+    public ResponseEntity<Seassons> updateSeason(@PathVariable String id, @RequestBody Seassons seassons) {
         Seassons updatedSeassons = seassonsService.update(id, seassons);
         if (updatedSeassons != null) {
             return new ResponseEntity<>(updatedSeassons, HttpStatus.OK);
@@ -61,7 +74,7 @@ public class SeassonsController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEpisode(@PathVariable String id) {
+    public ResponseEntity<Void> deleteSeason(@PathVariable String id) {
         boolean deleted = seassonsService.deleteById(id);
         if (deleted) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -1,18 +1,10 @@
 package br.com.caio.plataform.entities;
 
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import br.com.caio.plataform.entities.enums.ContentCategory;
 import br.com.caio.plataform.entities.enums.ContentType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,9 +31,7 @@ public class Series {
     private String image2;
     private String image3;
 
-
-    @OneToMany
-    @JsonIgnore
-    private List<Seassons> episodesList;
-
+    // Modificar para mapeamento bidirecional
+    @OneToMany(mappedBy = "series", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Seassons> seassonsList;
 }
