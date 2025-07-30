@@ -9,6 +9,7 @@ import Movie from './pages/Movies'
 import Footer from './components/Footer'
 import Movies from './pages/MoviesPage'
 import MoviesPage from './pages/MoviesPage'
+import AdicionarTemporada from './pages/AdicionarTemporada'
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/series" element={<SeriesPage />} />
         <Route path="/movies" element={<MoviesPage />} />
+        <Route path="/AdicionarTemporadas" element={<AdicionarTemporada />} />
       </Routes>
     <Footer />
    </div>

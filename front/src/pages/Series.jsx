@@ -9,6 +9,28 @@ const Series = () => {
   const [selectedSeason, setSelectedSeason] = useState(null);
   const API_URL = "http://localhost:8080/api";
 
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [name, setName] = useState(false);
+  
+    useEffect(() => {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          setIsAuthenticated(true);
+          setIsAdmin(parsedUser.role === 'ADMIN');
+  
+          console.log("Dados do usuário carregados:", parsedUser);
+        } catch (error) {
+          console.error("Erro ao carregar dados do usuário:", error);
+        }
+      } else {
+        console.log("Nenhum usuário encontrado no localStorage");
+      }
+    
+    }, []);
+
   useEffect(() => {
     fetch(`${API_URL}/series`)
       .then(response => response.json())
@@ -20,7 +42,6 @@ const Series = () => {
         const seasonList = found?.seassonsList || [];
         setSeassons(seasonList);
 
-        // Seleciona automaticamente a primeira temporada (se houver)
         if (seasonList.length > 0) {
           setSelectedSeason(seasonList[0]);
           setEpisodes(seasonList[0].episodesList || []);
@@ -41,6 +62,11 @@ const Series = () => {
 
   return (
     <div>
+      {isAuthenticated && isAdmin && (
+      <div className="buttonsAdd">
+        <a href="/AdicionarTemporadas"><button>Adicionar Temporadas</button></a>
+      </div>
+      )}
       <div className="seriesIndividualContainer">
         <div className="serieIndividualBox">
           <div className="serieImage">

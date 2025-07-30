@@ -9,10 +9,6 @@ const Home = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [name, setName] = useState(false);
 
-  const navigate = useNavigate();
-
-
-
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
