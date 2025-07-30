@@ -32,8 +32,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdMovie = userService.insert(user);
-        return new ResponseEntity<>(createdMovie, HttpStatus.CREATED);
+        User createdUser = userService.insert(user);
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
     @GetMapping

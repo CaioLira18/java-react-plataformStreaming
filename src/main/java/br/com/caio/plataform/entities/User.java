@@ -3,6 +3,7 @@ package br.com.caio.plataform.entities;
 import java.util.Date;
 import java.util.List;
 
+import br.com.caio.plataform.entities.enums.UserRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +25,7 @@ public class User {
 
     private String name;
     private String email;
+    private UserRole role;
     private String password;
     private String cpf;
     private Date birthDate;

@@ -4,7 +4,28 @@ const Home = () => {
   const API_URL = "http://localhost:8080/api";
   const [series, setSeries] = useState([]);
   const [movies, setMovies] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setIsAuthenticated(true);
+        setIsAdmin(parsedUser.role === 'ADMIN');
+        setName(parsedUser.name);
+        setId(parsedUser.id);
+
+        console.log("Dados do usuário carregados:", parsedUser);
+      } catch (error) {
+        console.error("Erro ao carregar dados do usuário:", error);
+      }
+    } else {
+      console.log("Nenhum usuário encontrado no localStorage");
+    }
+  
+  }, []);
 
   useEffect(() => {
     fetch(`${API_URL}/series`)

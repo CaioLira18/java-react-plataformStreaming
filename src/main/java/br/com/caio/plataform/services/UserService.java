@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -13,14 +14,17 @@ import br.com.caio.plataform.repository.UserRepository;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User insert(@RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // Criptografa a senha
         return userRepository.save(user);
     }
 
@@ -39,8 +43,12 @@ public class UserService {
             userToUpdate.setName(user.getName());
             userToUpdate.setCpf(user.getCpf());
             userToUpdate.setEmail(user.getEmail());
-            userToUpdate.setPassword(user.getPassword());
             userToUpdate.setBirthDate(user.getBirthDate());
+
+            // Atualiza a senha se fornecida
+            if (user.getPassword() != null && !user.getPassword().isBlank()) {
+                userToUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
 
             return userRepository.save(userToUpdate);
         }
@@ -54,5 +62,4 @@ public class UserService {
         }
         return false;
     }
-
 }
