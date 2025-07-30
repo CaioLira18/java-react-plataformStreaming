@@ -32,8 +32,6 @@ const Home = () => {
   
   }, []);
 
- 
-
   useEffect(() => {
     fetch(`${API_URL}/series`)
       .then(response => response.json())
@@ -68,7 +66,7 @@ const Home = () => {
 
       <div className="genericContentBox">
         <h1>Series</h1>
-        <p>Mostrar Tudo</p>
+        <a href="/series">Mostrar Tudo</a>
         <div className="containerContent" >
           {series.map((series, i) => (
             <div className="boxContent" key={i}>
@@ -97,7 +95,7 @@ const Home = () => {
               {movies.type = "MOVIES" && (
                 <div className="boxInformation">
                   <img src={movies.image} alt="" />
-                  <p>{movies.name}</p>
+                  <a href={"/movies/" + movies.id}><p>{movies.name}</p></a>
                 </div>
               )}
             </div>

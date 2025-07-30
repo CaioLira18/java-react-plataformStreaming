@@ -61,6 +61,10 @@ ul, ol {
   margin: 0 auto;
 }
 
+.boxInformation img {
+  border-radius: 20px;
+}
+
 .boxContent {
   display: grid;
   grid-template-rows: 5fr;
@@ -196,6 +200,125 @@ ul, ol {
 .inputSeassons select:hover {
   background-color: white;
   color: black;
+}
+
+.serieImagesIndividual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.imagesSeries {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 50px;
+}
+
+.serieImagesIndividual img {
+  width: 400px;
+  transition: 0.3s all ease-in-out;
+}
+
+.serieImagesIndividual img:hover {
+  transform: scale(1.1);
+}
+
+/* Filmes */
+
+.moviesIndividualContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.moviesImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.moviesImage img {
+  width: 50%;
+  border-radius: 20px;
+}
+
+.moviesInformations {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 50%;
+  text-align: center;
+}
+
+.moviesInformations p {
+  margin-top: 40px;
+  font-weight: bold;
+}
+
+.optionsContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.optionsContent button {
+  width: 200px;
+  height: 50px;
+  background-color: rgb(99, 0, 0);
+  border-radius: 50px;
+  font-weight: bold;
+  transition: 0.3s all ease-in-out;
+}
+
+.optionsContent button:hover {
+  background-color: red;
+  cursor: pointer;
+}
+
+.optionsContent i {
+  cursor: pointer;
+}
+
+.moviesImagesIndividual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.imagesMovie {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 50px;
+}
+
+.moviesImagesIndividual img {
+  width: 400px;
+  transition: 0.3s all ease-in-out;
+}
+
+.moviesImagesIndividual img:hover {
+  transform: scale(1.1);
+}
+
+.movieDetails {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
 
 /* Login */
@@ -340,4 +463,19 @@ ul, ol {
   font-weight: lighter;
 
 }
+
+/* Footer */
+
+.footer {
+  background-color: #000000;
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+  font-size: 14px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  margin-top: 100px;
+}
+
 

@@ -2,6 +2,7 @@ package br.com.caio.plataform.entities;
 
 import br.com.caio.plataform.entities.enums.ContentCategory;
 import br.com.caio.plataform.entities.enums.ContentType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,8 +23,17 @@ public class Movie {
 
     private String name;
     private String image;
+    private String duration;
+    private String year;
+    
+   
+    @Column(columnDefinition = "TEXT")
     private String movieDescription;
+
     private ContentCategory category;
     private ContentType type;
 
+    private String image1;
+    private String image2;
+    private String image3;
 }

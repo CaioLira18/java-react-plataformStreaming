@@ -37,8 +37,13 @@ public class MovieService {
             Movie moviesToUpdate = existingMovie.get();
             moviesToUpdate.setName(movie.getName());
             moviesToUpdate.setCategory(movie.getCategory());
+            moviesToUpdate.setDuration(movie.getDuration());
+            moviesToUpdate.setYear(movie.getYear());
             moviesToUpdate.setType(movie.getType());
             moviesToUpdate.setImage(movie.getImage());
+            moviesToUpdate.setImage1(movie.getImage1());
+            moviesToUpdate.setImage2(movie.getImage2());
+            moviesToUpdate.setImage3(movie.getImage3());
 
             return movieRepository.save(moviesToUpdate);
         }

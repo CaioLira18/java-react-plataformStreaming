@@ -46,6 +46,14 @@ const Series = () => {
                 <option value="">Temporada 1</option>
               </select>
             </div>
+            <div className="serieImagesIndividual">
+              <h1>Images</h1>
+              <div className="imagesSerie">
+                <img src={serie.image1} alt="" />
+                <img src={serie.image2} alt="" />
+                <img src={serie.image3} alt="" />
+              </div>
+          </div> 
           </div>
 
           

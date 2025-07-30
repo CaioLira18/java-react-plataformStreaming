@@ -4,6 +4,9 @@ import Home from './pages/Home'
 import Header from './components/Header'
 import Series from './pages/Series'
 import Login from './pages/Login'
+import SeriesPage from './pages/SeriesPage'
+import Movie from './pages/Movies'
+import Footer from './components/Footer'
 
 
 function App() {
@@ -14,8 +17,11 @@ function App() {
      <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/series/:id" element={<Series />} />
+        <Route path="/movies/:id" element={<Movie />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/series" element={<SeriesPage />} />
       </Routes>
+    <Footer />
    </div>
   )
 }
