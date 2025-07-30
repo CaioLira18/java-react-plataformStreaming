@@ -1,14 +1,21 @@
 package br.com.caio.plataform.entities;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Getter
 @Setter
-@Table(name="tb_aulas")
+@Table(name="tb_episodes")
 public class Episodes {
 
     @Id
@@ -19,6 +26,7 @@ public class Episodes {
     private String episodeDescription;
     private String imageEpisode;
     private String duration;
+    private String year;
     
     // Adicionar referência à temporada
     @ManyToOne

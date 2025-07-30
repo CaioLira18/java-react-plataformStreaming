@@ -2,12 +2,13 @@ package br.com.caio.plataform.services;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.caio.plataform.dto.CreateEpisodeDTO;
 import br.com.caio.plataform.entities.Episodes;
 import br.com.caio.plataform.entities.Seassons;
-import br.com.caio.plataform.dto.CreateEpisodeDTO;
 import br.com.caio.plataform.repository.EpisodeRepository;
 import br.com.caio.plataform.repository.SeassonsRepository;
 
@@ -43,6 +44,8 @@ public class EpisodesService {
         newEpisode.setImageEpisode(episodeDTO.getImageEpisode());
         newEpisode.setDuration(episodeDTO.getDuration());
         newEpisode.setSeason(season);
+        newEpisode.setYear(episodeDTO.getYear());
+
         
         return episodeRepository.save(newEpisode);
     }

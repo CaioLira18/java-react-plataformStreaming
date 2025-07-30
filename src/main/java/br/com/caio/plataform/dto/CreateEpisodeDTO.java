@@ -10,5 +10,6 @@ public class CreateEpisodeDTO {
     private String episodeDescription;
     private String imageEpisode;
     private String duration;
+    private String year;
     private String seasonId;
 }

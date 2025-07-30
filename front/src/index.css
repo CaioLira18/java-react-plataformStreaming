@@ -232,6 +232,62 @@ ul, ol {
   transform: scale(1.1);
 }
 
+/* Episodes */
+
+.episodesContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.episodeItem {
+  width: 40%;
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.episodeItem img {
+  width: 200px;
+}
+
+.episodeInformations {
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.durationYear {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.optionsEpisode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.optionsEpisode i {
+  cursor: pointer;
+}
+
+.information {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(255, 255, 255);
+  margin-top: 50px;
+  opacity: 0.3;
+}
+
 /* Filmes */
 
 .moviesIndividualContainer {
