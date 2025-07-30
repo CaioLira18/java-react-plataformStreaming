@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const API_URL = "http://localhost:8080/api";
@@ -6,6 +7,11 @@ const Home = () => {
   const [movies, setMovies] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [name, setName] = useState(false);
+
+  const navigate = useNavigate();
+
+
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -15,7 +21,6 @@ const Home = () => {
         setIsAuthenticated(true);
         setIsAdmin(parsedUser.role === 'ADMIN');
         setName(parsedUser.name);
-        setId(parsedUser.id);
 
         console.log("Dados do usuário carregados:", parsedUser);
       } catch (error) {
@@ -26,6 +31,8 @@ const Home = () => {
     }
   
   }, []);
+
+ 
 
   useEffect(() => {
     fetch(`${API_URL}/series`)
@@ -55,6 +62,10 @@ const Home = () => {
 
   return (
     <div>
+      <div className="welcome">
+        <h1>Bem Vindo, <strong>{name}</strong></h1>
+      </div>
+
       <div className="genericContentBox">
         <h1>Series</h1>
         <p>Mostrar Tudo</p>

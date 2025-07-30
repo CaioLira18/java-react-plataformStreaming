@@ -10,6 +10,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 /* Reset básico e seguro */
 * {
   margin: 0;
@@ -132,6 +134,18 @@ ul, ol {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
+}
+
+.logOutBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.authenticatedBox {
+  display: flex;
   gap: 20px;
 }
 
@@ -315,4 +329,15 @@ ul, ol {
   margin-left: 10px;
 }
 
+/* Welcome */
+
+.welcome {
+  padding: 30px;
+}
+
+.welcome h1 {
+  font-family: sans-serif;
+  font-weight: lighter;
+
+}
 

@@ -10,11 +10,6 @@ const Login = () => {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
-
-  const API_URL = "http://localhost:8080"; // Altere se necessário
-
   const handleClickLogin = async () => {
     setLoading(true);
     setError("");
@@ -37,7 +32,6 @@ const Login = () => {
           token: response.data.token,
           authenticated: true,
         };
-        setUser(userData); // Só se usar contexto
         localStorage.setItem("user", JSON.stringify(userData));
         setSuccess("Login realizado com sucesso!");
         navigate('/');
@@ -59,6 +53,9 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  const navigate = useNavigate();
+  const API_URL = "http://localhost:8080"; // Altere se necessário
 
   return (
     <div className="login">
