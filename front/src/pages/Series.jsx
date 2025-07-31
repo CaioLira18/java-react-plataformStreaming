@@ -62,6 +62,11 @@ const Series = () => {
 
   return (
     <div>
+      {isAuthenticated && isAdmin && (
+          <div className="buttonsAdd">
+            <a href={`/AdicionarEpisodio/${serie.id}`}><button>Adicionar Episodio</button></a>
+          </div>
+        )}
       <div className="seriesIndividualContainer">
         <div className="serieIndividualBox">
           <div className="serieImage">
