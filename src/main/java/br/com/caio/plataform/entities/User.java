@@ -29,6 +29,7 @@ public class User {
     private String password;
     private String cpf;
     private Date birthDate;
+    private String profileImage;
 
     @OneToMany
     List<Movie> favoriteMovies;
