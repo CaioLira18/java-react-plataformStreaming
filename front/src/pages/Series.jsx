@@ -62,11 +62,6 @@ const Series = () => {
 
   return (
     <div>
-      {isAuthenticated && isAdmin && (
-      <div className="buttonsAdd">
-        <a href="/AdicionarTemporadas"><button>Adicionar Temporadas</button></a>
-      </div>
-      )}
       <div className="seriesIndividualContainer">
         <div className="serieIndividualBox">
           <div className="serieImage">

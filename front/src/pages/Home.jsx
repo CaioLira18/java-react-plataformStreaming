@@ -58,6 +58,12 @@ const Home = () => {
     <div>
       <div className="welcome">
         <h1>Bem Vindo, <strong>{name}</strong></h1>
+        {isAuthenticated && isAdmin && (
+          <div className="buttonsAdd">
+            <a href="/AdicionarTemporadas"><button>Adicionar Temporadas</button></a>
+            <a href="/AdicionarSerie"><button>Adicionar Serie</button></a>
+          </div>
+        )}
       </div>
 
       <div className="genericContentBox">
