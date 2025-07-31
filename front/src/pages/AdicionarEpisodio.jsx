@@ -86,7 +86,7 @@ const AdicionarEpisodio = () => {
             <div className="inputBox">
               <h2>Escolha a Temporada</h2>
               {seassons.length > 0 && (
-                <div className="inputSeassons">
+                <div>
                   <select
                     name="season"
                     id="season"
