@@ -655,3 +655,67 @@ ul, ol {
   background-color: red;
 }
 
+/* Edit */
+
+.edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.editContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editBox {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputEdit {
+  margin-top: 10px;
+}
+
+.inputEdit input {
+  width: 300px;
+  height: 40px;
+  background-color: white;
+  border: 2px solid white;
+  color: #000;
+  padding-left: 10px;
+  border-radius: 10px;
+}
+
+.iconEdit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.editAddContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.editAddContainer button {
+  width: 340px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: transparent;
+  transition: 0.3s all ease-in-out;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.editAddContainer button:hover {
+  background-color: white;
+  color: #000;
+}
