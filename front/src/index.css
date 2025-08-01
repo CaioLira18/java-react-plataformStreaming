@@ -416,12 +416,16 @@ ul, ol {
 }
 
 .optionsContent button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 200px;
   height: 50px;
   background-color: rgb(99, 0, 0);
   border-radius: 50px;
   font-weight: bold;
   transition: 0.3s all ease-in-out;
+  gap: 10px;
 }
 
 .optionsContent button:hover {

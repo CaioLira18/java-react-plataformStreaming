@@ -67,7 +67,7 @@ const Movie = () => {
             <p>{movie.description}</p>
           </div>
           <div className="optionsContent">
-            <button>ASSISTIR AGORA</button>
+            <button><i class="fa-solid fa-play"></i> ASSISTIR AGORA</button>
             <i className="fa-solid fa-plus"></i>
           </div>
         </div>
