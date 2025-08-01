@@ -8,6 +8,7 @@ const Home = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [name, setName] = useState(false);
+  
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -54,6 +55,12 @@ const Home = () => {
       .catch(error => console.error('Erro ao buscar Movies:', error));
   }, []);
 
+  const navigate = useNavigate();
+
+  {!isAuthenticated && (
+    navigate('/login')
+  )}
+
   return (
     <div>
       <div className="welcome">
@@ -75,7 +82,7 @@ const Home = () => {
               {series.type = "SERIES" && (
                 <div className="boxInformation">
                   <img src={series.image} alt="" />
-                  <a href={"/series/" + series.id}><p>{series.name}</p></a>
+                  <a href={"/series/" + series.id}>{series.name}</a>
                 </div>
               )}
             </div>

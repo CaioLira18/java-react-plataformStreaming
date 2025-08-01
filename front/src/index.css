@@ -53,13 +53,11 @@ ul, ol {
 }
 
 .boxInformation a {
-  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
 }
 
-.boxInformation p {
-  width: 80%;
-  margin: 0 auto;
-}
 
 .boxInformation img {
   border-radius: 20px;

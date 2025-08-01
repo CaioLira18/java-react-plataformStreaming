@@ -1,36 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Series = () => {
   const { id } = useParams(); 
+  const navigate = useNavigate(); // ✅ No topo
+
   const [serie, setSerie] = useState(null); 
   const [seassons, setSeassons] = useState([]); 
   const [episodes, setEpisodes] = useState([]); 
   const [selectedSeason, setSelectedSeason] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const API_URL = "http://localhost:8080/api";
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
-    const [name, setName] = useState(false);
-  
-    useEffect(() => {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        try {
-          const parsedUser = JSON.parse(storedUser);
-          setIsAuthenticated(true);
-          setIsAdmin(parsedUser.role === 'ADMIN');
-  
-          console.log("Dados do usuário carregados:", parsedUser);
-        } catch (error) {
-          console.error("Erro ao carregar dados do usuário:", error);
-        }
-      } else {
-        console.log("Nenhum usuário encontrado no localStorage");
+  // ✅ Autenticação
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setIsAuthenticated(true);
+        setIsAdmin(parsedUser.role === 'ADMIN');
+        console.log("Dados do usuário carregados:", parsedUser);
+      } catch (error) {
+        console.error("Erro ao carregar dados do usuário:", error);
       }
-    
-    }, []);
+    } else {
+      console.log("Nenhum usuário encontrado no localStorage");
+    }
+  }, []);
 
+  // ✅ Redirecionamento após verificar autenticação
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
+
+  // ✅ Buscar série
   useEffect(() => {
     fetch(`${API_URL}/series`)
       .then(response => response.json())
@@ -50,6 +58,7 @@ const Series = () => {
       .catch(err => console.error("Erro ao buscar dados:", err));
   }, [id]);
 
+  // ✅ Esperar os dados antes de renderizar
   if (!serie) {
     return (
       <div className="loading">
@@ -63,10 +72,12 @@ const Series = () => {
   return (
     <div>
       {isAuthenticated && isAdmin && (
-          <div className="buttonsAdd">
-            <a href={`/AdicionarEpisodio/${serie.id}`}><button>Adicionar Episodio</button></a>
-          </div>
-        )}
+        <div className="buttonsAdd">
+          <a href={`/AdicionarEpisodio/${serie.id}`}>
+            <button>Adicionar Episodio</button>
+          </a>
+        </div>
+      )}
       <div className="seriesIndividualContainer">
         <div className="serieIndividualBox">
           <div className="serieImage">
@@ -105,8 +116,8 @@ const Series = () => {
                 <div key={episode.id} className="episodeItem">
                   <img src={episode.imageEpisode} alt={episode.name} />
                   <div className="optionsEpisode">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                    <i class="fa-solid fa-play"></i>
+                    <i className="fa-solid fa-ellipsis-vertical"></i>
+                    <i className="fa-solid fa-play"></i>
                   </div>
                   <div className="episodeInformations">
                     <p><strong>{episode.name}</strong></p>
@@ -122,7 +133,7 @@ const Series = () => {
           )}
 
           <div className="information">
-            <p>* Os Episodios estão limitados e não estão disponiveis para assitir, devido aos direitos</p>
+            <p>* Os Episodios estão limitados e não estão disponíveis para assistir, devido aos direitos</p>
           </div>
 
           <div className="serieImagesIndividual">
