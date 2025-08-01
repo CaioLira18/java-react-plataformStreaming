@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-const AdicionarSerie = () => {
+const AdicionarConteudo = () => {
+
   const API_URL = "http://localhost:8080/api";
   const [series, setSeries] = useState([]);
   const [selectedSerie, setSelectedSerie] = useState(null);
@@ -228,4 +229,4 @@ const AdicionarSerie = () => {
   );
 };
 
-export default AdicionarSerie;
+export default AdicionarConteudo;

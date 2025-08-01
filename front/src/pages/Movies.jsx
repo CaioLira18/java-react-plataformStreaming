@@ -64,7 +64,7 @@ const Movie = () => {
               <p>Duração: {movie.duration}</p>
               <p>Ano: {movie.year}</p>
             </div>
-            <p>{movie.movieDescription}</p>
+            <p>{movie.description}</p>
           </div>
           <div className="optionsContent">
             <button>ASSISTIR AGORA</button>

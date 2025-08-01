@@ -70,7 +70,7 @@ const Home = () => {
         {isAdmin && (
           <div className="buttonsAdd">
             <a href="/AdicionarTemporadas"><button>Adicionar Temporadas</button></a>
-            <a href="/AdicionarSerie"><button>Adicionar Serie</button></a>
+            <a href="/AdicionarConteudo"><button>Adicionar Conteudo</button></a>
           </div>
         )}
       </div>
