@@ -38,8 +38,10 @@ public class MovieService {
             moviesToUpdate.setName(movie.getName());
             moviesToUpdate.setCategory(movie.getCategory());
             moviesToUpdate.setDuration(movie.getDuration());
+            moviesToUpdate.setDescription(movie.getDescription());
             moviesToUpdate.setYear(movie.getYear());
             moviesToUpdate.setType(movie.getType());
+            moviesToUpdate.setMarca(movie.getMarca());
             moviesToUpdate.setImage(movie.getImage());
             moviesToUpdate.setImage1(movie.getImage1());
             moviesToUpdate.setImage2(movie.getImage2());

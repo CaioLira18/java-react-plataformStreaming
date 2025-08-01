@@ -28,14 +28,6 @@ const Movie = () => {
     }
   }, []);
 
-  // ✅ Redireciona se não autenticado
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
-  }, [isAuthenticated, navigate]);
-
-  // ✅ Busca os dados do filme
   useEffect(() => {
     fetch(`${API_URL}/movie`)
       .then(response => response.json())
@@ -48,7 +40,7 @@ const Movie = () => {
       .catch(err => console.error("Erro ao buscar dados:", err));
   }, [id]);
 
-  // ✅ Apenas retorna o loader após todos os hooks
+
   if (!movie) {
     return (
       <div className="loading">

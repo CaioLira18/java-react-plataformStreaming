@@ -2,6 +2,7 @@ package br.com.caio.plataform.services;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +40,7 @@ public class SeriesService {
             seriesToUpdate.setDescription(series.getDescription());
             seriesToUpdate.setCategory(series.getCategory());
             seriesToUpdate.setType(series.getType());
+            seriesToUpdate.setMarca(series.getMarca());
             seriesToUpdate.setImage(series.getImage());
             seriesToUpdate.setImage1(series.getImage1());
             seriesToUpdate.setImage2(series.getImage2());

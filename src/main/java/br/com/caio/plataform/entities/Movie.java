@@ -28,10 +28,11 @@ public class Movie {
     
    
     @Column(columnDefinition = "TEXT")
-    private String movieDescription;
+    private String description;
 
     private ContentCategory category;
     private ContentType type;
+    private String marca;
 
     private String image1;
     private String image2;

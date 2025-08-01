@@ -92,7 +92,6 @@ const Home = () => {
             <i class="fa-solid fa-angle-right"></i>
           </div>
         </div>
-
       </div>
 
       <div className="genericContentBox">
@@ -102,6 +101,25 @@ const Home = () => {
           {movies.map((movies, i) => (
             <div className="boxContent" key={i}>
               {movies.type = "MOVIES" && (
+                <div className="boxInformation">
+                  <img src={movies.image} alt="" />
+                  <a href={"/movies/" + movies.id}><p>{movies.name}</p></a>
+                </div>
+              )}
+            </div>
+          ))}
+          <div className="rowAngle">
+            <i class="fa-solid fa-angle-right"></i>
+          </div>
+        </div>
+      </div>
+
+       <div className="genericContentBox">
+        <h1>Disney</h1>
+        <div className="containerContent" >
+          {movies.map((movies, i) => (
+            <div className="boxContent" key={i}>
+              {movies.type = "MOVIES" && movies.marca == "DISNEY" && (
                 <div className="boxInformation">
                   <img src={movies.image} alt="" />
                   <a href={"/movies/" + movies.id}><p>{movies.name}</p></a>

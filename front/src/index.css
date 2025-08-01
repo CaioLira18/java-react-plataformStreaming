@@ -724,6 +724,14 @@ ul, ol {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #000;
+}
+
+.registerContainer {
+  width: 500px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: white;
 }
 
 .registerBox {
@@ -752,4 +760,28 @@ ul, ol {
   height: 40px;
   background-color: white;
   color: #000;
+}
+
+.registerAddContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.registerAddContainer button {
+  width: 340px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: black;
+  transition: 0.3s all ease-in-out;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.registerCabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }

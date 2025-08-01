@@ -13,6 +13,9 @@ const AdicionarSerie = () => {
   const [image3, setImage3] = useState("");
   const [type, setType] = useState("MOVIE");
   const [category, setCategory] = useState("ACTION");
+  const [marca, setMarca] = useState("");
+  const [year, setYear] = useState("");
+  const [duration, setDuration] = useState("");
   const { id } = useParams();
 
   function addSeries() {
@@ -29,7 +32,8 @@ const AdicionarSerie = () => {
       image2,
       image3,
       category,
-      type
+      type,
+      marca
     };
 
     const endpoint = type === "SERIES" ? "series" : "movie";
@@ -57,6 +61,7 @@ const AdicionarSerie = () => {
         setImage3("");
         setCategory("ACTION");
         setType("MOVIE");
+        setMarca("");
       })
       .catch(error => {
         console.error(error);
@@ -83,7 +88,7 @@ const AdicionarSerie = () => {
         <div className="boxAddSeasson">
           <div className="addSeasson">
             <div className="inputBox">
-              <h2>Nome da Serie</h2>
+              <h2>Nome</h2>
               <input 
                 type="text" 
                 value={name} 
@@ -93,7 +98,7 @@ const AdicionarSerie = () => {
             </div>
 
             <div className="inputBox">
-              <h2>Descrição da Serie</h2>
+              <h2>Descrição</h2>
               <input 
                 type="text" 
                 value={description} 
@@ -103,7 +108,7 @@ const AdicionarSerie = () => {
             </div>
 
             <div className="inputBox">
-              <h2>Imagem da Serie</h2>
+              <h2>Imagem</h2>
               <input 
                 type="text" 
                 value={image} 
@@ -113,7 +118,7 @@ const AdicionarSerie = () => {
             </div>
 
             <div className="inputBox">
-              <h2>Categoria da Serie</h2>
+              <h2>Categoria</h2>
               <select value={category} onChange={(e) => setCategory(e.target.value)}>
                 <option value="ACTION">ACTION</option>
                 <option value="ADVENTURE">ADVENTURE</option>
@@ -125,11 +130,44 @@ const AdicionarSerie = () => {
             </div>
 
             <div className="inputBox">
-              <h2>Tipo da Serie</h2>
+              <h2>Tipo</h2>
               <select value={type} onChange={(e) => setType(e.target.value)}>
                 <option value="MOVIE">MOVIE</option>
                 <option value="SERIES">SERIES</option>
               </select>
+            </div>
+
+            {type == "MOVIE" && (
+              <div>
+                <div className="inputBox">
+                <h2>Ano do Filme</h2>
+                <input 
+                  type="text" 
+                  value={year} 
+                  onChange={(e) => setYear(e.target.value)} 
+                  placeholder="Marca"
+                />
+              </div>
+              <div className="inputBox">
+                <h2>Duração do Filme</h2>
+                <input 
+                  type="text" 
+                  value={duration} 
+                  onChange={(e) => setDuration(e.target.value)} 
+                  placeholder="Marca"
+                />
+              </div>
+            </div>
+            )}
+
+             <div className="inputBox">
+              <h2>Marca</h2>
+              <input 
+                type="text" 
+                value={marca} 
+                onChange={(e) => setMarca(e.target.value)} 
+                placeholder="Marca"
+              />
             </div>
 
             <div className="inputBox">

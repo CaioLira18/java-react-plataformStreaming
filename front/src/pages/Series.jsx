@@ -14,7 +14,6 @@ const Series = () => {
 
   const API_URL = "http://localhost:8080/api";
 
-  // ✅ Autenticação
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -31,14 +30,6 @@ const Series = () => {
     }
   }, []);
 
-  // ✅ Redirecionamento após verificar autenticação
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
-  }, [isAuthenticated, navigate]);
-
-  // ✅ Buscar série
   useEffect(() => {
     fetch(`${API_URL}/series`)
       .then(response => response.json())
@@ -58,7 +49,6 @@ const Series = () => {
       .catch(err => console.error("Erro ao buscar dados:", err));
   }, [id]);
 
-  // ✅ Esperar os dados antes de renderizar
   if (!serie) {
     return (
       <div className="loading">

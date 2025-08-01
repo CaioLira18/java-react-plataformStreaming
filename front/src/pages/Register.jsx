@@ -13,19 +13,16 @@ const Register = () => {
   const [adminPassword, setAdminPassword] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [profileImage, setProfileImage] = useState(null);
-
-  // Estado de UI
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
 
-  // Função para upload no Cloudinary
   async function uploadImage(file) {
     try {
       const data = new FormData();
       data.append("file", file);
       data.append("upload_preset", "react_upload");
-      data.append("folder", "streamingPlatform/profile"); // organiza em pasta
+      data.append("folder", "streamingPlatform/profile"); 
       
       const res = await axios.post(
         "https://api.cloudinary.com/v1_1/dthgw4q5d/image/upload",
@@ -43,25 +40,22 @@ const Register = () => {
     setMessage('');
 
     try {
-      // 1️⃣ Upload da imagem se existir
       let imageUrl = null;
       if (profileImage) {
         imageUrl = await uploadImage(profileImage);
       }
 
-      // 2️⃣ Cria objeto do usuário
       const newUser = {
         name,
         email,
         cpf,
         password,
-        role: type, // compatível com UserRole enum
+        role: type, 
         birthDate,
         adminPassword: type === "ADMIN" ? adminPassword : undefined,
         profileImage: imageUrl,
       };
 
-      // 3️⃣ Requisição ao backend
       const response = await fetch(API_URL, {
         method: 'POST',
         body: JSON.stringify(newUser),
@@ -76,7 +70,6 @@ const Register = () => {
       }
       await response.json();
 
-      // 4️⃣ Feedback e reset do formulário
       setMessage('Conta criada com sucesso!');
       setMessageType('success');
 
@@ -104,6 +97,10 @@ const Register = () => {
     <div>
       <div className="register">
         <div className="registerContainer">
+          <div className="registerCabecalho">
+            <h1>Cadastre-se Agora</h1>
+            <p>preencha os dados para se registrar</p>
+          </div>
           <div className="registerBox">
             <div className="inputRegister">
               <h2>Nome</h2>
@@ -152,7 +149,7 @@ const Register = () => {
             </div>
           </div>
 
-          <div className="editAddContainer">
+          <div className="registerAddContainer">
             <button
               onClick={handleCreate}
               disabled={loading}
