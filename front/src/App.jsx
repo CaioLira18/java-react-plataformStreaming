@@ -13,6 +13,7 @@ import AdicionarTemporada from './pages/AdicionarTemporada'
 import AdicionarSerie from './pages/AdicionarSerie'
 import AdicionarEpisodio from './pages/AdicionarEpisodio'
 import Edit from './pages/Edit'
+import Register from './pages/Register'
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/series" element={<SeriesPage />} />
         <Route path="/movies" element={<MoviesPage />} />
         <Route path="/Edit" element={<Edit />} />
+        <Route path="/Register" element={<Register />} />
         <Route path="/AdicionarTemporadas" element={<AdicionarTemporada />} />
         <Route path="/AdicionarSerie" element={<AdicionarSerie />} />
         <Route path="/AdicionarEpisodio/:id" element={<AdicionarEpisodio />} />
