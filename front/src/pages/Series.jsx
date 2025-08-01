@@ -63,7 +63,7 @@ const Series = () => {
     <div>
       {isAuthenticated && isAdmin && (
         <div className="buttonsAdd">
-          <a href={`/AdicionarEpisodio/${serie.id}`}>
+          <a className='addEpisode' href={`/AdicionarEpisodio/${serie.id}`}>
             <button>Adicionar Episodio</button>
           </a>
         </div>

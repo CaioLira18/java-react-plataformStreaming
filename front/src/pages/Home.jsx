@@ -108,9 +108,30 @@ const Home = () => {
       </div>
 
       <div className="genericContentBox">
-        <h1>Disney</h1>
+        <div className="specialSecction">
+          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070612/logoDisney_twejpl.png" alt="" />
+        </div>
+      
         <div className="containerContent">
           {movies.filter(item => item.marca === "DISNEY")
+            .map((movieItem, i) => (
+              <div className="boxContent" key={movieItem.id || i}>
+                <div className="boxInformation">
+                  <img src={movieItem.image} alt={movieItem.name} />
+                  <a href={"/movies/" + movieItem.id}>{movieItem.name}</a>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+
+      <div className="genericContentBox">
+        <div className="specialSecction">
+          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="" />
+        </div>
+      
+        <div className="containerContent">
+          {movies.filter(item => item.marca === "DC")
             .map((movieItem, i) => (
               <div className="boxContent" key={movieItem.id || i}>
                 <div className="boxInformation">
