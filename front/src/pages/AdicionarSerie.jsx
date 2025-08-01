@@ -24,6 +24,12 @@ const AdicionarSerie = () => {
       return;
     }
 
+    // Validação adicional para filmes
+    if (type === "MOVIE" && (!year.trim() || !duration.trim())) {
+      alert("Para filmes, ano e duração são obrigatórios.");
+      return;
+    }
+
     const payload = {
       name,
       description,
@@ -33,10 +39,14 @@ const AdicionarSerie = () => {
       image3,
       category,
       type,
-      marca
+      marca,
+      // Incluindo year e duration no payload
+      ...(type === "MOVIE" && { year, duration })
     };
 
     const endpoint = type === "SERIES" ? "series" : "movie";
+
+    console.log("Payload sendo enviado:", payload); // Para debug
 
     fetch(`${API_URL}/${endpoint}`, {
       method: "POST",
@@ -47,12 +57,14 @@ const AdicionarSerie = () => {
     })
       .then(response => {
         if (!response.ok) {
-          throw new Error("Erro ao adicionar.");
+          throw new Error(`Erro HTTP: ${response.status}`);
         }
         return response.json();
       })
       .then(data => {
+        console.log("Resposta da API:", data); // Para debug
         alert("Adicionado com sucesso!");
+        // Reset dos campos
         setName("");
         setDescription("");
         setImage("");
@@ -62,10 +74,12 @@ const AdicionarSerie = () => {
         setCategory("ACTION");
         setType("MOVIE");
         setMarca("");
+        setYear("");
+        setDuration("");
       })
       .catch(error => {
-        console.error(error);
-        alert("Erro ao adicionar.");
+        console.error("Erro detalhado:", error);
+        alert("Erro ao adicionar: " + error.message);
       });
   }
 
@@ -100,10 +114,11 @@ const AdicionarSerie = () => {
             <div className="inputBox">
               <h2>Descrição</h2>
               <input 
-                type="text" 
+                type='text'
                 value={description} 
                 onChange={(e) => setDescription(e.target.value)} 
                 placeholder="Digite a descrição da série"
+                rows="3"
               />
             </div>
 
@@ -137,30 +152,33 @@ const AdicionarSerie = () => {
               </select>
             </div>
 
-            {type == "MOVIE" && (
+            {type === "MOVIE" && (
               <div>
                 <div className="inputBox">
-                <h2>Ano do Filme</h2>
-                <input 
-                  type="text" 
-                  value={year} 
-                  onChange={(e) => setYear(e.target.value)} 
-                  placeholder="Marca"
-                />
+                  <h2>Ano do Filme</h2>
+                  <input 
+                    type="text" 
+                    value={year} 
+                    onChange={(e) => setYear(e.target.value)} 
+                    placeholder="Ex: 2024"
+                    min="1900"
+                    max="2030"
+                  />
+                </div>
+                <div className="inputBox">
+                  <h2>Duração do Filme</h2>
+                  <input 
+                    type="text" 
+                    value={duration} 
+                    onChange={(e) => setDuration(e.target.value)} 
+                    placeholder="Ex: 120"
+                    min="1"
+                  />
+                </div>
               </div>
-              <div className="inputBox">
-                <h2>Duração do Filme</h2>
-                <input 
-                  type="text" 
-                  value={duration} 
-                  onChange={(e) => setDuration(e.target.value)} 
-                  placeholder="Marca"
-                />
-              </div>
-            </div>
             )}
 
-             <div className="inputBox">
+            <div className="inputBox">
               <h2>Marca</h2>
               <input 
                 type="text" 

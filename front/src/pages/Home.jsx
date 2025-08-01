@@ -7,8 +7,8 @@ const Home = () => {
   const [movies, setMovies] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [name, setName] = useState(false);
-  
+  const [name, setName] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -18,31 +18,35 @@ const Home = () => {
         setIsAuthenticated(true);
         setIsAdmin(parsedUser.role === 'ADMIN');
         setName(parsedUser.name);
-
         console.log("Dados do usuário carregados:", parsedUser);
       } catch (error) {
         console.error("Erro ao carregar dados do usuário:", error);
+        navigate('/login');
       }
     } else {
       console.log("Nenhum usuário encontrado no localStorage");
+      navigate('/login');
     }
-  
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
+    if (!isAuthenticated) return;
+
     fetch(`${API_URL}/series`)
       .then(response => response.json())
       .then(data => {
         if (Array.isArray(data)) {
           setSeries(data);
         } else {
-          console.error('Formato inesperado para Movies:', data);
+          console.error('Formato inesperado para Series:', data);
         }
       })
-      .catch(error => console.error('Erro ao buscar Movies:', error));
-  }, []);
+      .catch(error => console.error('Erro ao buscar Series:', error));
+  }, [isAuthenticated]);
 
   useEffect(() => {
+    if (!isAuthenticated) return;
+
     fetch(`${API_URL}/movie`)
       .then(response => response.json())
       .then(data => {
@@ -53,19 +57,17 @@ const Home = () => {
         }
       })
       .catch(error => console.error('Erro ao buscar Movies:', error));
-  }, []);
+  }, [isAuthenticated]);
 
-  const navigate = useNavigate();
-
-  {!isAuthenticated && (
-    navigate('/login')
-  )}
+  if (!isAuthenticated) {
+    return null; // ou um loading spinner
+  }
 
   return (
     <div>
       <div className="welcome">
         <h1>Bem Vindo, <strong>{name}</strong></h1>
-        {isAuthenticated && isAdmin && (
+        {isAdmin && (
           <div className="buttonsAdd">
             <a href="/AdicionarTemporadas"><button>Adicionar Temporadas</button></a>
             <a href="/AdicionarSerie"><button>Adicionar Serie</button></a>
@@ -76,63 +78,49 @@ const Home = () => {
       <div className="genericContentBox">
         <h1>Series</h1>
         <a href="/series">Mostrar Tudo</a>
-        <div className="containerContent" >
-          {series.map((series, i) => (
-            <div className="boxContent" key={i}>
-              {series.type = "SERIES" && (
+        <div className="containerContent">
+          {series
+            .filter(item => item.type === "SERIES")
+            .map((serieItem, i) => (
+              <div className="boxContent" key={serieItem.id || i}>
                 <div className="boxInformation">
-                  <img src={series.image} alt="" />
-                  <a href={"/series/" + series.id}>{series.name}</a>
+                  <img src={serieItem.image} alt={serieItem.name} />
+                  <a href={"/series/" + serieItem.id}>{serieItem.name}</a>
                 </div>
-              )}
-            </div>
-
-          ))}
-          <div className="rowAngle">
-            <i class="fa-solid fa-angle-right"></i>
-          </div>
+              </div>
+            ))}
         </div>
       </div>
 
       <div className="genericContentBox">
         <h1>Filmes</h1>
         <a href="/movies">Mostrar tudo</a>
-        <div className="containerContent" >
-          {movies.map((movies, i) => (
-            <div className="boxContent" key={i}>
-              {movies.type = "MOVIES" && (
+        <div className="containerContent">
+          {movies.map((movieItem, i) => (
+              <div className="boxContent" key={movieItem.id || i}>
                 <div className="boxInformation">
-                  <img src={movies.image} alt="" />
-                  <a href={"/movies/" + movies.id}><p>{movies.name}</p></a>
+                  <img src={movieItem.image} alt={movieItem.name} />
+                  <a href={"/movies/" + movieItem.id}>{movieItem.name}</a>
                 </div>
-              )}
-            </div>
-          ))}
-          <div className="rowAngle">
-            <i class="fa-solid fa-angle-right"></i>
-          </div>
+              </div>
+            ))}
         </div>
       </div>
 
-       <div className="genericContentBox">
+      <div className="genericContentBox">
         <h1>Disney</h1>
-        <div className="containerContent" >
-          {movies.map((movies, i) => (
-            <div className="boxContent" key={i}>
-              {movies.type = "MOVIES" && movies.marca == "DISNEY" && (
+        <div className="containerContent">
+          {movies.filter(item => item.marca === "DISNEY")
+            .map((movieItem, i) => (
+              <div className="boxContent" key={movieItem.id || i}>
                 <div className="boxInformation">
-                  <img src={movies.image} alt="" />
-                  <a href={"/movies/" + movies.id}><p>{movies.name}</p></a>
+                  <img src={movieItem.image} alt={movieItem.name} />
+                  <a href={"/movies/" + movieItem.id}>{movieItem.name}</a>
                 </div>
-              )}
-            </div>
-          ))}
-          <div className="rowAngle">
-            <i class="fa-solid fa-angle-right"></i>
-          </div>
+              </div>
+            ))}
         </div>
       </div>
-
     </div>
   );
 }

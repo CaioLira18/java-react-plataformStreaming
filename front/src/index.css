@@ -38,56 +38,70 @@ ul, ol {
 
 .containerContent {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   flex-direction: row;
-  gap: 20px;
+  flex-wrap: wrap; /* Permite quebra de linha */
+  gap: 20px; /* Gap consistente entre itens */
+  margin-top: 20px;
+  padding: 0 20px; /* Padding nas laterais em vez de margin 0 auto */
+}
+
+.boxContent {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  min-width: 250px; /* Largura mínima consistente */
+  max-width: 300px; /* Largura máxima para controle */
 }
 
 .boxInformation {
   display: flex;
   align-items: center;
-  justify-content: left;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
+  width: 100%; /* Usa toda a largura do boxContent */
+  padding: 20px;
+  text-align: center;
 }
 
 .boxInformation a {
   text-align: center;
-  margin: 0 auto;
   cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
 }
-
 
 .boxInformation img {
-  border-radius: 20px;
-}
-
-.boxContent {
-  display: grid;
-  grid-template-rows: 5fr;
-}
-
-.boxContent img {
   width: 250px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 20px;
   transition: 0.3s all ease-in-out;
 }
 
-.boxContent img:hover {
-  transform: scale(1.1);
-}
-
-.boxContent p {
-  text-align: center;
-}
-
-.boxContent h1 {
-  font-size: 20px;
+.boxInformation img:hover {
+  transform: scale(1.05);
 }
 
 .genericContentBox {
-  margin-top: 100px;
+  margin-top: 60px;
   padding: 30px;
+}
+
+.genericContentBox h1 {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.genericContentBox > a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.genericContentBox > a:hover {
+  text-decoration: underline;
 }
 
 .liProfile {
@@ -100,7 +114,6 @@ ul, ol {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 10px;
   background-color: white;
   width: 30px;
   height: 30px;
@@ -755,7 +768,7 @@ ul, ol {
   padding-left: 10px;
 }
 
-.inputRegister select, input[type="date"], input[type="password"] {
+.inputRegister select, input[type="date"], input[type="password"], input[type="textarea"] {
   width: 100%;
   height: 40px;
   background-color: white;
