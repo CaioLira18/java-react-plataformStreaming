@@ -145,7 +145,7 @@ const Series = () => {
       {/* Seção de Episódios */}
       {episodes.length > 0 && (
         <div className="episodesSection">
-          <h2>Episódios - {selectedSeason?.name}</h2>
+          <h2>{selectedSeason?.name}</h2>
           <div className="episodesGrid">
             {episodes.map(episode => (
               <div key={episode.id} className="episodeCard">

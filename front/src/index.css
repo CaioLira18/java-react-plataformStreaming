@@ -55,6 +55,32 @@ ul, ol {
   padding: 0 20px; /* Padding nas laterais em vez de margin 0 auto */
 }
 
+/* Buttons Home */
+
+.buttonsAdd {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  margin: 0 auto;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+.buttonsAdd button {
+  width: 200px;
+  height: 50px;
+  border: 1px solid white;
+  background-color: transparent;
+  border-radius: 30px;
+  transition: 0.3s all ease-in-out;
+}
+
+.buttonsAdd button:hover {
+  background-color: white;
+  color: #000;
+  cursor: pointer;
+}
+
 .boxContent {
   display: flex;
   flex-direction: column;
@@ -229,7 +255,6 @@ ul, ol {
   margin-top: 20px;
 }
 
-/* Brand/Logo */
 .serieBrand {
   display: flex;
   align-items: center;
@@ -676,7 +701,7 @@ ul, ol {
   right: 0;
   bottom: 0;
   background: linear-gradient(
-    180deg,
+    400deg,
     rgba(0, 0, 0, 0.1) 0%,
     rgba(0, 0, 0, 0.3) 40%,
     rgba(0, 0, 0, 0.8) 100%
@@ -1389,6 +1414,40 @@ ul, ol {
   font-size: 40px;
 }
 
+/* Input Box */
+
+.inputBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 10px;
+}
+
+.containerAddSeasson {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputBox input {
+  width: 300px;
+  height: 40px;
+}
+
+.inputSeassons select {
+  width: 300px;
+  height: 30px;
+  background-color: white;
+  color: #000;
+}
+
+.inputBox select {
+  width: 300px;
+  height: 30px;
+  background-color: white;
+  color: #000;
+}
+
 /* Responsividade */
 
 @media (max-width: 480px) {
@@ -1489,7 +1548,6 @@ ul, ol {
   }
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .movieHeroOverlay {
     padding: 0 20px 40px 20px;

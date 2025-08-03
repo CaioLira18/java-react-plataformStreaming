@@ -84,7 +84,7 @@ const Home = () => {
             .map((serieItem, i) => (
               <div className="boxContent" key={serieItem.id || i}>
                 <div className="boxInformation">
-                  <img src={serieItem.image} alt={serieItem.name} />
+                  <a href={"/series/" + serieItem.id}><img src={serieItem.image} alt={serieItem.name} /></a>
                   <a href={"/series/" + serieItem.id}>{serieItem.name}</a>
                 </div>
               </div>
