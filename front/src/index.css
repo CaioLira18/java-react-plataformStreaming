@@ -234,7 +234,7 @@ ul, ol {
   right: 0;
   bottom: 0;
   background: linear-gradient(
-    180deg,
+    200deg,
     rgba(0, 0, 0, 0.1) 0%,
     rgba(0, 0, 0, 0.3) 40%,
     rgba(0, 0, 0, 0.8) 100%
@@ -701,7 +701,7 @@ ul, ol {
   right: 0;
   bottom: 0;
   background: linear-gradient(
-    400deg,
+    200deg,
     rgba(0, 0, 0, 0.1) 0%,
     rgba(0, 0, 0, 0.3) 40%,
     rgba(0, 0, 0, 0.8) 100%
