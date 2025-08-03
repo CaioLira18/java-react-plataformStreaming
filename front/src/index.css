@@ -12,11 +12,19 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
+@font-face {
+  font-family: 'FullerSans';
+  src: url('/font/font.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* Reset básico e seguro */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "FullerSans";
 }
 
 html, body {
@@ -824,4 +832,114 @@ ul, ol {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+/* loading */
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+/* Responsividade */
+
+@media (max-width: 480px) {
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-top: 100px;
+  }
+
+  .headerContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    color: white;
+  }
+
+  .serieImage img {
+    width: 400px;
+  }
+
+  .serieInformations h1 {
+    font-size: 20px;
+  }
+
+  .serieInformations {
+    width: 80%;
+  }
+
+  .serieInformations p {
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .imagesSerie {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .imagesSerie img {
+    width: 300px;
+  }
+
+  .episodeItem {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    padding: 10px;
+  }
+
+  .episodeItem {
+    font-size: 12px;
+  }
+
+  .episodeItem img {
+    width: 130px;
+  }
+
+  .information {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .moviesInformations {
+    width: 100%;
+  }
+
+  .moviesInformations h1 {
+    font-size: 20px;
+  }
+
+   .moviesInformations p {
+    font-size: 15px;
+  }
+
+  .moviesIndividualBox img {
+    width: 400px;
+  }
+
+  .imagesMovie {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .imagesMovie img {
+    width: 300px;
+  }
+
+  .buttonsAdd {
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+
 }

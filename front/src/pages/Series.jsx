@@ -53,7 +53,7 @@ const Series = () => {
     return (
       <div className="loading">
         <div className="loadingText">
-          <p>Carregando...</p>
+          <p>Carregando Conteudo...</p>
         </div>
       </div>
     );

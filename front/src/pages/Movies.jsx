@@ -45,7 +45,7 @@ const Movie = () => {
     return (
       <div className="loading">
         <div className="loadingText">
-          <p>Carregando...</p>
+          <p>Carregando Conteudo...</p>
         </div>
       </div>
     );
@@ -72,7 +72,7 @@ const Movie = () => {
           </div>
         </div>
         <div className="moviesImagesIndividual">
-          <h1>Images</h1>
+          <h1>Imagens</h1>
           <div className="imagesMovie">
             <img src={movie.image1} alt="Imagem 1" />
             <img src={movie.image2} alt="Imagem 2" />
