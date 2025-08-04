@@ -1,8 +1,10 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react';
 
 const Edit = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [favoriteMovieList, setFavoriteMovieList] = useState([]);
+    const [favoriteSeassonList, setFavoriteSeassonList] = useState([]);
     const [userId, setUserId] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -12,34 +14,38 @@ const Edit = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
-    const [messageType, setMessageType] = useState(''); 
+    const [messageType, setMessageType] = useState('');
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
             const parsedUser = JSON.parse(storedUser);
             setUserId(parsedUser.id);
-            
+
             fetch(`http://localhost:8080/api/users/${parsedUser.id}`)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Erro ao carregar dados do usuário');
-                }
-                return res.json();
-            })
-            .then(fullUser => {
-                setIsAuthenticated(true);
-                setIsAdmin(fullUser.role === 'ADMIN');
-                setName(fullUser.name || '');
-                setEmail(fullUser.email || '');
-                setCpf(fullUser.cpf || '');
-                console.log("Usuário completo:", fullUser);
-            })
-            .catch(error => {
-                console.error('Erro ao carregar usuário:', error);
-                setMessage('Erro ao carregar dados do usuário');
-                setMessageType('error');
-            });
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Erro ao carregar dados do usuário');
+                    }
+                    return res.json();
+                })
+                .then(fullUser => {
+                    console.log("Usuário completo:", fullUser);
+                    setIsAuthenticated(true);
+                    setIsAdmin(fullUser.role === 'ADMIN');
+                    setName(fullUser.name || '');
+                    setEmail(fullUser.email || '');
+                    setCpf(fullUser.cpf || '');
+                    
+                    // Separar listas de favoritos por tipo
+                    setFavoriteMovieList(fullUser.favoriteMovieList || []);
+                    setFavoriteSeassonList(fullUser.favoriteSeassonList || []);
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar usuário:', error);
+                    setMessage('Erro ao carregar dados do usuário');
+                    setMessageType('error');
+                });
         }
     }, []);
 
@@ -138,7 +144,7 @@ const Edit = () => {
 
             setMessage('Informações atualizadas com sucesso!');
             setMessageType('success');
-            
+
             setCurrentPassword('');
             setNewPassword('');
             setConfirmPassword('');
@@ -162,6 +168,12 @@ const Edit = () => {
         setCpf(formattedCPF);
     };
 
+    // Combinar listas de favoritos para exibição
+    const allFavorites = [
+        ...favoriteMovieList.map(item => ({...item, type: 'MOVIE'})),
+        ...favoriteSeassonList.map(item => ({...item, type: 'SERIE'}))
+    ];
+
     if (!isAuthenticated) {
         return (
             <div className="edit">
@@ -180,8 +192,8 @@ const Edit = () => {
                         <div className="inputEdit">
                             <h2>Nome</h2>
                             <div className="iconEdit">
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     placeholder="Digite seu nome"
@@ -193,8 +205,8 @@ const Edit = () => {
                         <div className="inputEdit">
                             <h2>Email</h2>
                             <div className="iconEdit">
-                                <input 
-                                    type="email" 
+                                <input
+                                    type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Digite seu email"
@@ -206,8 +218,8 @@ const Edit = () => {
                         <div className="inputEdit">
                             <h2>CPF</h2>
                             <div className="iconEdit">
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     value={cpf}
                                     onChange={handleCPFChange}
                                     placeholder="000.000.000-00"
@@ -220,8 +232,8 @@ const Edit = () => {
                         <div className="inputEdit">
                             <h2>Senha Atual</h2>
                             <div className="iconEdit">
-                                <input 
-                                    type="password" 
+                                <input
+                                    type="password"
                                     value={currentPassword}
                                     onChange={(e) => setCurrentPassword(e.target.value)}
                                     placeholder="Digite sua senha atual"
@@ -233,8 +245,8 @@ const Edit = () => {
                         <div className="inputEdit">
                             <h2>Nova Senha</h2>
                             <div className="iconEdit">
-                                <input 
-                                    type="password" 
+                                <input
+                                    type="password"
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
                                     placeholder="Digite a nova senha"
@@ -246,8 +258,8 @@ const Edit = () => {
                         <div className="inputEdit">
                             <h2>Confirmar Nova Senha</h2>
                             <div className="iconEdit">
-                                <input 
-                                    type="password" 
+                                <input
+                                    type="password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     placeholder="Confirme a nova senha"
@@ -259,7 +271,7 @@ const Edit = () => {
                 </div>
 
                 <div className="editAddContainer">
-                    <button 
+                    <button
                         onClick={handleSave}
                         disabled={loading}
                         style={{
@@ -269,16 +281,50 @@ const Edit = () => {
                     >
                         {loading ? 'Salvando...' : 'Salvar Informações'}
                     </button>
-                    
                 </div>
-                 {message && (
+
+                {message && (
                     <div className={`message ${messageType}`}>
                         {message}
                     </div>
                 )}
             </div>
-        </div>
-    )
-}
 
-export default Edit
+            {allFavorites.length > 0 && (
+                <div className="myList">
+                    <div className="myListContainer">
+                        <div className="boxMyList">
+                            <h1>Minha Lista</h1>
+                            <div className="favoritesGrid">
+                                {allFavorites.map((item) => (
+                                    <div key={`${item.type}-${item.id}`} className="favoriteContainer">
+                                        {item.type === "MOVIE" && (
+                                            <a href={`/movies/${item.id}`}>
+                                                <img src={item.imageVertical || item.image} alt={item.name} />
+                                                <div className="favoriteInfo">
+                                                    <h3>{item.name}</h3>
+                                                    <span className="favoriteType">Filme</span>
+                                                </div>
+                                            </a>
+                                        )}
+                                        {item.type === "SERIE" && (
+                                            <a href={`/series/${item.serieId || item.id}`}>
+                                                <img src={item.imageVertical || item.image} alt={item.name} />
+                                                <div className="favoriteInfo">
+                                                    <h3>{item.name}</h3>
+                                                    <span className="favoriteType">Série</span>
+                                                </div>
+                                            </a>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default Edit;

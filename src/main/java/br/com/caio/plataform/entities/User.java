@@ -8,7 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.Getter;
@@ -17,7 +19,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="tb_users")
+@Table(name = "tb_users")
 public class User {
 
     @Id
@@ -32,13 +34,22 @@ public class User {
     private Date birthDate;
     private String profileImage;
 
-    @OneToMany
-    List<Movie> favoriteMovies;
+    @ManyToMany
+    @JoinTable(
+        name = "user_favorite_movies",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "movie_id")
+    )
+    private List<Movie> favoriteMovieList;
 
-    @OneToMany
-    List<Series> favoriteSeries;
+    @ManyToMany
+    @JoinTable(
+        name = "user_favorite_series",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "seasson_id")
+    )
+    private List<Seassons> favoriteSeassonList;
 
-    // Campo temporário para validação de admin, não vai para o banco
     @Transient
     private String adminPassword;
 }

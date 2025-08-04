@@ -11,17 +11,31 @@ const Series = () => {
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [favoriteList, setFavoriteList] = useState([]);
+  const [user, setUser] = useState(null);
 
   const API_URL = "http://localhost:8080/api";
 
+  // Carregar dados do usuário do localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
         setIsAuthenticated(true);
         setIsAdmin(parsedUser.role === 'ADMIN');
         console.log("Dados do usuário carregados:", parsedUser);
+        
+        // Buscar dados completos do usuário da API para pegar a lista de favoritos
+        fetch(`${API_URL}/users/${parsedUser.id}`)
+          .then(response => response.json())
+          .then(userData => {
+            console.log("Dados completos do usuário:", userData);
+            // Para séries, usar favoriteSeassonList
+            setFavoriteList(userData.favoriteSeassonList || []);
+          })
+          .catch(err => console.error("Erro ao buscar dados do usuário:", err));
       } catch (error) {
         console.error("Erro ao carregar dados do usuário:", error);
       }
@@ -30,6 +44,7 @@ const Series = () => {
     }
   }, []);
 
+  // Carregar série específica
   useEffect(() => {
     fetch(`${API_URL}/series`)
       .then(response => response.json())
@@ -38,7 +53,7 @@ const Series = () => {
         const found = data.find(g => g.id === id);
         console.log("Série encontrada:", found);
         setSerie(found);
-        const seasonList = found?.seassonsList || [];
+        const seasonList = found?.favoriteSeassonList || [];
         setSeassons(seasonList);
 
         if (seasonList.length > 0) {
@@ -48,6 +63,51 @@ const Series = () => {
       })
       .catch(err => console.error("Erro ao buscar dados:", err));
   }, [id]);
+
+  const handleAddToFavorites = async () => {
+    if (!user) {
+      alert("Você precisa estar logado para adicionar aos favoritos.");
+      return;
+    }
+
+    try {
+      // Para séries, precisamos enviar seassonId, não serieId
+      // Assumindo que queremos adicionar a primeira temporada
+      const seasonToAdd = seassons[0];
+      if (!seasonToAdd) {
+        alert("Nenhuma temporada disponível para adicionar.");
+        return;
+      }
+
+      const response = await fetch(`${API_URL}/users/${user.id}/favorites`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ seassonId: seasonToAdd.id })
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao adicionar aos favoritos.");
+      }
+
+      const updatedUser = await response.json();
+      console.log("Usuário atualizado:", updatedUser);
+      
+      // Atualizar a lista de favoritos local
+      setFavoriteList(updatedUser.favoriteSeassonList || []);
+      
+      alert("Série adicionada à sua lista!");
+    } catch (error) {
+      console.error("Erro ao adicionar aos favoritos:", error);
+      alert("Erro ao adicionar série à lista.");
+    }
+  };
+
+  // Verificar se alguma temporada da série está nos favoritos
+  const isInFavorites = favoriteList.some(item => 
+    seassons.some(season => season.id === item.id)
+  );
 
   if (!serie) {
     return (
@@ -67,7 +127,7 @@ const Series = () => {
           <div className="serieHeroContent">
             {/* Logo/Brand */}
             <div className="movieBrand">
-              {serie.marca == "DC" && (
+              {serie.marca === "DC" && (
                 <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="" />
               )}
             </div>
@@ -94,7 +154,7 @@ const Series = () => {
                     setSelectedSeason(season);
                     setEpisodes(season?.episodesList || []);
                   }}
-                  value={selectedSeason?.name}
+                  value={selectedSeason?.name || ''}
                 >
                   {seassons.map(season => (
                     <option key={season.id} value={season.name}>
@@ -113,14 +173,20 @@ const Series = () => {
             
             {/* Ações secundárias */}
             <div className="secondaryActions">
-              <button className="actionButton">
-                <i className="fa-solid fa-plus"></i>
-                <span>Minha lista</span>
+              <button onClick={handleAddToFavorites} className="actionButton">
+                {isInFavorites ? (
+                  <i className="fa-solid fa-check"></i>
+                ) : (
+                  <i className="fa-solid fa-plus"></i>
+                )}
+                <span>{isInFavorites ? 'Na lista' : 'Minha lista'}</span>
               </button>
+              
               <button className="actionButton">
                 <i className="fa-solid fa-bookmark"></i>
                 <span>Trailer</span>
               </button>
+              
               {isAuthenticated && isAdmin && (
                 <button className="actionButton" onClick={() => navigate(`/AdicionarEpisodio/${serie.id}`)}>
                   <i className="fa-solid fa-plus-circle"></i>
