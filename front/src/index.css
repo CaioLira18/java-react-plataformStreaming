@@ -24,7 +24,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "FullerSans";
 }
 
 html, body {
@@ -55,7 +54,7 @@ ul, ol {
   padding: 0 20px; /* Padding nas laterais em vez de margin 0 auto */
 }
 
-/* Buttons Home */
+/* Home */
 
 .buttonsAdd {
   display: flex;
@@ -79,6 +78,89 @@ ul, ol {
   background-color: white;
   color: #000;
   cursor: pointer;
+}
+
+.containerContent {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto; /* scroll horizontal */
+  scroll-behavior: smooth;
+  padding: 10px 0;
+}
+
+.containerContent::-webkit-scrollbar {
+  display: none; /* esconde a barra */
+}
+
+.slideWrapper {
+  position: relative;
+}
+
+.rowAngle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #000;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+}
+
+.rowAngle.left {
+  left: 5px;
+}
+
+.rowAngle.right {
+  right: 5px;
+}
+
+.containerContent {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;      /* scroll horizontal */
+  overflow-y: hidden;    /* esconde barra vertical */
+  scroll-behavior: smooth;
+  padding: 20px 0;
+  flex-wrap: nowrap;     /* ❗ Garante que fique em uma linha só */
+}
+
+.containerContent::-webkit-scrollbar {
+  display: none; /* esconde a barra */
+}
+
+.boxContent {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;      /* ❗ Impede que diminua e quebre linha */
+  min-width: 200px;
+  max-width: 200px;
+}
+
+.boxInformation {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  text-align: center;
+}
+
+.boxInformation img {
+  width: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+  transition: 0.3s all ease-in-out;
+}
+
+.boxInformation img:hover {
+  transform: scale(1.05);
 }
 
 .boxContent {

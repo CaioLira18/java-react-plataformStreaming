@@ -12,6 +12,7 @@ const AdicionarConteudo = () => {
   const [image1, setImage1] = useState("");
   const [image2, setImage2] = useState("");
   const [image3, setImage3] = useState("");
+  const [verticalImage, setVerticalImage] = useState("");
   const [type, setType] = useState("MOVIE");
   const [category, setCategory] = useState("ACTION");
   const [marca, setMarca] = useState("");
@@ -38,10 +39,10 @@ const AdicionarConteudo = () => {
       image1,
       image2,
       image3,
+      verticalImage,
       category,
       type,
       marca,
-      // Incluindo year e duration no payload
       ...(type === "MOVIE" && { year, duration })
     };
 
@@ -72,6 +73,7 @@ const AdicionarConteudo = () => {
         setImage1("");
         setImage2("");
         setImage3("");
+        setVerticalImage("");
         setCategory("ACTION");
         setType("MOVIE");
         setMarca("");
@@ -130,6 +132,16 @@ const AdicionarConteudo = () => {
                 value={image} 
                 onChange={(e) => setImage(e.target.value)} 
                 placeholder="URL principal da imagem"
+              />
+            </div>
+
+            <div className="inputBox">
+              <h2>Vertical Imagem</h2>
+              <input 
+                type="text" 
+                value={verticalImage} 
+                onChange={(e) => setVerticalImage(e.target.value)} 
+                placeholder="URL da imagem vertical"
               />
             </div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
@@ -10,6 +10,21 @@ const Home = () => {
   const [name, setName] = useState('');
   const navigate = useNavigate();
 
+  // Refs para slides
+  const seriesRef = useRef(null);
+  const moviesRef = useRef(null);
+  const disneyRef = useRef(null);
+  const dcRef = useRef(null);
+
+  const scroll = (ref, direction) => {
+    if (!ref.current) return;
+    const scrollAmount = 300; // distância que vai deslizar
+    ref.current.scrollBy({ 
+      left: direction === 'left' ? -scrollAmount : scrollAmount, 
+      behavior: 'smooth' 
+    });
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -18,13 +33,11 @@ const Home = () => {
         setIsAuthenticated(true);
         setIsAdmin(parsedUser.role === 'ADMIN');
         setName(parsedUser.name);
-        console.log("Dados do usuário carregados:", parsedUser);
       } catch (error) {
         console.error("Erro ao carregar dados do usuário:", error);
         navigate('/login');
       }
     } else {
-      console.log("Nenhum usuário encontrado no localStorage");
       navigate('/login');
     }
   }, [navigate]);
@@ -34,34 +47,16 @@ const Home = () => {
 
     fetch(`${API_URL}/series`)
       .then(response => response.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setSeries(data);
-        } else {
-          console.error('Formato inesperado para Series:', data);
-        }
-      })
+      .then(data => Array.isArray(data) && setSeries(data))
       .catch(error => console.error('Erro ao buscar Series:', error));
-  }, [isAuthenticated]);
-
-  useEffect(() => {
-    if (!isAuthenticated) return;
 
     fetch(`${API_URL}/movie`)
       .then(response => response.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setMovies(data);
-        } else {
-          console.error('Formato inesperado para Movies:', data);
-        }
-      })
+      .then(data => Array.isArray(data) && setMovies(data))
       .catch(error => console.error('Erro ao buscar Movies:', error));
   }, [isAuthenticated]);
 
-  if (!isAuthenticated) {
-    return null; // ou um loading spinner
-  }
+  if (!isAuthenticated) return null;
 
   return (
     <div>
@@ -75,72 +70,97 @@ const Home = () => {
         )}
       </div>
 
+      {/* SERIES */}
       <div className="genericContentBox">
         <h1>Series</h1>
         <a href="/series">Mostrar Tudo</a>
-        <div className="containerContent">
-          {series
-            .filter(item => item.type === "SERIES")
-            .map((serieItem, i) => (
-              <div className="boxContent" key={serieItem.id || i}>
-                <div className="boxInformation">
-                  <a href={"/series/" + serieItem.id}><img src={serieItem.imageVertical} alt={serieItem.name} /></a>
+        <div className="slideWrapper">
+          <div className="rowAngle left" onClick={() => scroll(seriesRef, 'left')}>◀</div>
+          <div className="rowAngle right" onClick={() => scroll(seriesRef, 'right')}>▶</div>
+          <div className="containerContent" ref={seriesRef}>
+            {series
+              .filter(item => item.type === "SERIES")
+              .map((serieItem, i) => (
+                <div className="boxContent" key={serieItem.id || i}>
+                  <div className="boxInformation">
+                    <a href={"/series/" + serieItem.id}>
+                      <img src={serieItem.imageVertical} alt={serieItem.name} />
+                    </a>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+          </div>
         </div>
       </div>
 
+      {/* FILMES */}
       <div className="genericContentBox">
         <h1>Filmes</h1>
         <a href="/movies">Mostrar tudo</a>
-        <div className="containerContent">
-          {movies.map((movieItem, i) => (
+        <div className="slideWrapper">
+          <div className="rowAngle left" onClick={() => scroll(moviesRef, 'left')}>◀</div>
+          <div className="rowAngle right" onClick={() => scroll(moviesRef, 'right')}>▶</div>
+          <div className="containerContent" ref={moviesRef}>
+            {movies.map((movieItem, i) => (
               <div className="boxContent" key={movieItem.id || i}>
                 <div className="boxInformation">
-                  <a href={"/movies/" + movieItem.id}><img src={movieItem.imageVertical} alt={movieItem.name} /></a>
+                  <a href={"/movies/" + movieItem.id}>
+                    <img src={movieItem.imageVertical} alt={movieItem.name} />
+                  </a>
                 </div>
               </div>
             ))}
+          </div>
         </div>
       </div>
 
+      {/* DISNEY */}
       <div className="genericContentBox">
         <div className="specialSecction">
           <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070612/logoDisney_twejpl.png" alt="" />
         </div>
-      
-        <div className="containerContent">
-          {movies.filter(item => item.marca === "DISNEY")
-            .map((movieItem, i) => (
-              <div className="boxContent" key={movieItem.id || i}>
-                <div className="boxInformation">
-                  <a href={"/movies/" + movieItem.id}><img src={movieItem.imageVertical} alt={movieItem.name} /></a>
-                
+        <div className="slideWrapper">
+          <div className="rowAngle left" onClick={() => scroll(disneyRef, 'left')}>◀</div>
+          <div className="rowAngle right" onClick={() => scroll(disneyRef, 'right')}>▶</div>
+          <div className="containerContent" ref={disneyRef}>
+            {movies.filter(item => item.marca === "DISNEY")
+              .map((movieItem, i) => (
+                <div className="boxContent" key={movieItem.id || i}>
+                  <div className="boxInformation">
+                    <a href={"/movies/" + movieItem.id}>
+                      <img src={movieItem.imageVertical} alt={movieItem.name} />
+                    </a>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+          </div>
         </div>
       </div>
 
+      {/* DC */}
       <div className="genericContentBox">
         <div className="specialSecction">
           <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="" />
         </div>
-      
-        <div className="containerContent">
-          {movies.filter(item => item.marca === "DC")
-            .map((movieItem, i) => (
-              <div className="boxContent" key={movieItem.id || i}>
-                <div className="boxInformation">
-                  <a href={"/movies/" + movieItem.id}><img src={movieItem.imageVertical} alt={movieItem.name} /></a>
+        <div className="slideWrapper">
+          <div className="rowAngle left" onClick={() => scroll(dcRef, 'left')}>◀</div>
+          <div className="rowAngle right" onClick={() => scroll(dcRef, 'right')}>▶</div>
+          <div className="containerContent" ref={dcRef}>
+            {movies.filter(item => item.marca === "DC")
+              .map((movieItem, i) => (
+                <div className="boxContent" key={movieItem.id || i}>
+                  <div className="boxInformation">
+                    <a href={"/movies/" + movieItem.id}>
+                      <img src={movieItem.imageVertical} alt={movieItem.name} />
+                    </a>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+          </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Home;
