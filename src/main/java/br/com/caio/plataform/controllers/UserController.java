@@ -7,7 +7,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.caio.plataform.entities.Movie;
 import br.com.caio.plataform.entities.Seassons;
@@ -109,20 +117,40 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/{userId}/favorites/{seassonId}")
-    public ResponseEntity<User> removeFavorite(@PathVariable String userId, @PathVariable String seassonId) {
+    // REMOVER FILME DOS FAVORITOS
+    @DeleteMapping("/{userId}/favorites/{movieId}")
+    public ResponseEntity<User> removeFavoriteMovie(@PathVariable String userId, @PathVariable String movieId) {
         Optional<User> userOpt = userService.findById(userId);
-        Optional<Seassons> seassonOpt = seassonService.findById(seassonId);
+        Optional<Movie> movieOpt = movieService.findById(movieId);
 
-        if (userOpt.isPresent() && seassonOpt.isPresent()) {
+        if (userOpt.isPresent() && movieOpt.isPresent()) {
             User user = userOpt.get();
-            Seassons seasson = seassonOpt.get();
+            Movie movie = movieOpt.get();
 
-            user.getFavoriteSeassonList().remove(seasson);
+            // CORRIGIDO: era getFavoriteSeassonList().remove(movie), agora é getFavoriteMovieList().remove(movie)
+            user.getFavoriteMovieList().remove(movie);
             User updatedUser = userService.update(userId, user);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         }
 
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    // NOVA ROTA: REMOVER SÉRIE DOS FAVORITOS
+    @DeleteMapping("/{userId}/favorites-seasson/{seassonId}")
+    public ResponseEntity<User> removeFavoriteSeasson(@PathVariable String userId, @PathVariable String seassonId) {
+        Optional<User> userOpt = userService.findById(userId);
+        Optional<Seassons> seassonOpt = seassonService.findById(seassonId);
+        
+        if (userOpt.isPresent() && seassonOpt.isPresent()) {
+            User user = userOpt.get();
+            Seassons seasson = seassonOpt.get();
+            
+            user.getFavoriteSeassonList().remove(seasson);
+            User updatedUser = userService.update(userId, user);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        }
+        
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
