@@ -25,6 +25,7 @@ public class Movie {
     private String image;
     private String duration;
     private String year;
+    private String imageVertical;
     
    
     @Column(columnDefinition = "TEXT")

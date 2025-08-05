@@ -1,34 +1,38 @@
 package br.com.caio.plataform.controllers;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import br.com.caio.plataform.entities.Movie;
+import br.com.caio.plataform.entities.Seassons;
 import br.com.caio.plataform.entities.User;
+import br.com.caio.plataform.services.MovieService;
+import br.com.caio.plataform.services.SeassonsService;
 import br.com.caio.plataform.services.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") // Your Vite dev server
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/users")
 public class UserController {
+
     private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
+    @Autowired
+    private MovieService movieService;
+
+    @Autowired
+    private SeassonsService seassonService;
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -38,24 +42,22 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> user = userService.findAll();
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        List<User> users = userService.findAll();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id) {
         Optional<User> user = userService.findById(id);
-        if (user.isPresent()) {
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
-        User updatedSerie = userService.update(id, user);
-        if (updatedSerie != null) {
-            return new ResponseEntity<>(updatedSerie, HttpStatus.OK);
+        User updatedUser = userService.update(id, user);
+        if (updatedUser != null) {
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -63,9 +65,64 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable String id) {
         boolean deleted = userService.deleteById(id);
-        if (deleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+                       : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/{userId}/favorites")
+    public ResponseEntity<User> addFavorite(@PathVariable String userId, @RequestBody Map<String, String> body) {
+        Optional<User> userOpt = userService.findById(userId);
+        if (!userOpt.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        User user = userOpt.get();
+        String movieId = body.get("movieId");
+        String seassonId = body.get("seassonId");
+
+        if (movieId != null) {
+            Optional<Movie> movieOpt = movieService.findById(movieId);
+            if (movieOpt.isPresent()) {
+                Movie movie = movieOpt.get();
+                if (!user.getFavoriteMovieList().contains(movie)) {
+                    user.getFavoriteMovieList().add(movie);
+                    User updatedUser = userService.update(userId, user);
+                    return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(user, HttpStatus.OK); // já está na lista
+                }
+            }
         }
+
+        if (seassonId != null) {
+            Optional<Seassons> seassonOpt = seassonService.findById(seassonId);
+            if (seassonOpt.isPresent()) {
+                Seassons seasson = seassonOpt.get();
+                if (!user.getFavoriteSeassonList().contains(seasson)) {
+                    user.getFavoriteSeassonList().add(seasson);
+                    User updatedUser = userService.update(userId, user);
+                    return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(user, HttpStatus.OK); // já está na lista
+                }
+            }
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{userId}/favorites/{seassonId}")
+    public ResponseEntity<User> removeFavorite(@PathVariable String userId, @PathVariable String seassonId) {
+        Optional<User> userOpt = userService.findById(userId);
+        Optional<Seassons> seassonOpt = seassonService.findById(seassonId);
+
+        if (userOpt.isPresent() && seassonOpt.isPresent()) {
+            User user = userOpt.get();
+            Seassons seasson = seassonOpt.get();
+
+            user.getFavoriteSeassonList().remove(seasson);
+            User updatedUser = userService.update(userId, user);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        }
+
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

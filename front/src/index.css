@@ -1267,15 +1267,13 @@ ul, ol {
 
 .edit {
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  margin-left: 100px;
 }
 
 .editContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 .editBox {
@@ -1318,7 +1316,6 @@ ul, ol {
 .editAddContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
   margin-top: 20px;
 }
 
@@ -1335,6 +1332,25 @@ ul, ol {
 .editAddContainer button:hover {
   background-color: white;
   color: #000;
+}
+
+.boxMyList {
+  margin-left: 100px;
+  margin-top: 100px;
+}
+
+.favoriteContainer {
+  margin-top: 50px;
+}
+
+.favoriteContainer img {
+  width: 150px;
+  border-radius: 10px;
+  transition: 0.3s all ease-in-out;
+}
+
+.favoriteContainer img:hover {
+  transform: scale(1.1);
 }
 
 /* Register */

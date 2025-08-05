@@ -7,19 +7,32 @@ const Movie = () => {
 
   const [movie, setMovie] = useState(null);
   const [movies, setMovies] = useState(null);
+  const [favoriteList, setFavoriteList] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [user, setUser] = useState(null);
 
   const API_URL = "http://localhost:8080/api";
 
+  // Carregar dados do usuário do localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
         setIsAuthenticated(true);
         setIsAdmin(parsedUser.role === 'ADMIN');
         console.log("Dados do usuário carregados:", parsedUser);
+        
+        // Buscar dados completos do usuário da API para pegar a lista de favoritos
+        fetch(`${API_URL}/users/${parsedUser.id}`)
+          .then(response => response.json())
+          .then(userData => {
+            console.log("Dados completos do usuário:", userData);
+            setFavoriteList(userData.favoriteMovieList || []);
+          })
+          .catch(err => console.error("Erro ao buscar dados do usuário:", err));
       } catch (error) {
         console.error("Erro ao carregar dados do usuário:", error);
       }
@@ -28,6 +41,7 @@ const Movie = () => {
     }
   }, []);
 
+  // Carregar filme específico e lista de filmes
   useEffect(() => {
     fetch(`${API_URL}/movie`)
       .then(response => response.json())
@@ -41,6 +55,41 @@ const Movie = () => {
       .catch(err => console.error("Erro ao buscar dados:", err));
   }, [id]);
 
+  const handleAddToFavorites = async () => {
+    if (!user) {
+      alert("Você precisa estar logado para adicionar aos favoritos.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/users/${user.id}/favorites`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ movieId: movie.id })
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao adicionar aos favoritos.");
+      }
+
+      const updatedUser = await response.json();
+      console.log("Usuário atualizado:", updatedUser);
+      
+      // Atualizar a lista de favoritos local
+      setFavoriteList(updatedUser.favoriteMovieList || []);
+      
+      alert("Filme adicionado à sua lista!");
+    } catch (error) {
+      console.error("Erro ao adicionar aos favoritos:", error);
+      alert("Erro ao adicionar filme à lista.");
+    }
+  };
+
+  // Verificar se o filme atual está nos favoritos
+  const isInFavorites = favoriteList.some(item => item.id === movie?.id);
+
   if (!movie) {
     return (
       <div className="loading">
@@ -53,8 +102,6 @@ const Movie = () => {
 
   return (
     <div>
-      
-
       {/* Hero Section com Background */}
       <div className="movieHeroSection" style={{backgroundImage: `url(${movie.image})`}}>
         <div className="movieHeroOverlay">
@@ -88,10 +135,15 @@ const Movie = () => {
             
             {/* Ações secundárias */}
             <div className="secondaryActions">
-              <button className="actionButton">
-                <i className="fa-solid fa-plus"></i>
-                <span>Minha lista</span>
+              <button onClick={handleAddToFavorites} className="actionButton">
+                {isInFavorites ? (
+                  <i className="fa-solid fa-check"></i>
+                ) : (
+                  <i className="fa-solid fa-plus"></i>
+                )}
+                <span>{isInFavorites ? 'Na lista' : 'Minha lista'}</span>
               </button>
+              
               <button className="actionButton">
                 <i className="fa-solid fa-bookmark"></i>
                 <span>Trailer</span>
@@ -111,7 +163,7 @@ const Movie = () => {
             
             {/* Informações técnicas */}
             <div className="movieTechInfo">
-              <p>A disponibilidade de 4K UHD, HDR e Dolby Atmos varia de acordo com o dispositivo e o plano.</p>
+              <p>A disponibilidade de 4K UHD, HDR e Dolby Atmos varia de acordo with o dispositivo e o plano.</p>
             </div>
           </div>
         </div>
@@ -127,12 +179,11 @@ const Movie = () => {
         </div>
       </div>
 
-
       <div className="othersMovies">
         <h2>Coisas que você pode gostar</h2>
         <div className="othersMoviesContent">
           {movies
-            .filter(movieItem => movieItem.marca === movie.marca && movieItem.id !== movie.id)
+            ?.filter(movieItem => movieItem.marca === movie.marca && movieItem.id !== movie.id)
             .map((movieItem, i) => (
               <div className="movieCard" key={movieItem.id || i}>
                 <img src={movieItem.image} alt={movieItem.name} />
