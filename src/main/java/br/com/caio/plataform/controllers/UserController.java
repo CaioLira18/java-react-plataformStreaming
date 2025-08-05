@@ -109,16 +109,16 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/{userId}/favorites/{seassonId}")
-    public ResponseEntity<User> removeFavorite(@PathVariable String userId, @PathVariable String seassonId) {
+    @DeleteMapping("/{userId}/favorites/{movieId}")
+    public ResponseEntity<User> removeFavorite(@PathVariable String userId, @PathVariable String movieId) {
         Optional<User> userOpt = userService.findById(userId);
-        Optional<Seassons> seassonOpt = seassonService.findById(seassonId);
+        Optional<Movie> movieOpt = movieService.findById(movieId);
 
-        if (userOpt.isPresent() && seassonOpt.isPresent()) {
+        if (userOpt.isPresent() && movieOpt.isPresent()) {
             User user = userOpt.get();
-            Seassons seasson = seassonOpt.get();
+            Movie movie = movieOpt.get();
 
-            user.getFavoriteSeassonList().remove(seasson);
+            user.getFavoriteSeassonList().remove(movie);
             User updatedUser = userService.update(userId, user);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         }
