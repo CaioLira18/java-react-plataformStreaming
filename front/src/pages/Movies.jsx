@@ -103,7 +103,11 @@ const Movie = () => {
   return (
     <div>
       {/* Hero Section com Background */}
-      <div className="movieHeroSection" style={{backgroundImage: `url(${movie.image})`}}>
+      {/* Sé max-widt: 768px, troca por verticalImage */}
+      <div className="movieHeroSection"  style={{
+    '--desktop-image': `url(${movie.image})`,
+    '--mobile-image': `url(${movie.imageVertical})`
+  }}>
         <div className="movieHeroOverlay">
           <div className="movieHeroContent">
             {/* Logo/Brand */}
@@ -122,7 +126,7 @@ const Movie = () => {
             {/* Tags/Badges */}
             <div className="movieTags">
               <span className="movieTag movieTagNew">Novo</span>
-              <span className="movieTag movieTagRating">16</span>
+              <span className="movieTag movieTagRating">{movie.age}</span>
               <span className="movieTag movieTagYear">{movie.year}</span>
               <span className="movieTag movieTagQuality">4K UHD</span>
             </div>

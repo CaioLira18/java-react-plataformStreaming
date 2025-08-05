@@ -52,11 +52,11 @@ const SeriesPage = () => {
 
   return (
     <div>
-      <div className="containerContent" >
+      <div className="containerContentPage" >
         {series.map((series, i) => (
-          <div className="boxContent" key={i}>
+          <div className="boxContentPage" key={i}>
             {series.type = "SERIES" && (
-              <div className="boxInformation">
+              <div className="boxInformationPage">
                 <img src={series.image} alt="" />
                 <a href={"/series/" + series.id}><p>{series.name}</p></a>
               </div>

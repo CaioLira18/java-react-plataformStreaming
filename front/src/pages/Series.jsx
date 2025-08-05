@@ -141,8 +141,7 @@ const Series = () => {
             {/* Tags/Badges */}
             <div className="serieTags">
               <span className="serieTag serieTagNew">Novo</span>
-              <span className="serieTag serieTagRating">16</span>
-              <span className="serieTag serieTagYear">2024</span>
+              <span className="serieTag serieTagRating">{serie.age}</span>
               <span className="serieTag serieTagQuality">4K UHD</span>
             </div>
             

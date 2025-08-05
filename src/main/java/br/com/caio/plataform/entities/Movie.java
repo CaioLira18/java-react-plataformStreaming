@@ -34,6 +34,7 @@ public class Movie {
     private ContentCategory category;
     private ContentType type;
     private String marca;
+    private String age;
 
     private String image1;
     private String image2;

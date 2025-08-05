@@ -12,10 +12,11 @@ const AdicionarConteudo = () => {
   const [image1, setImage1] = useState("");
   const [image2, setImage2] = useState("");
   const [image3, setImage3] = useState("");
-  const [verticalImage, setVerticalImage] = useState("");
+  const [imageVertical, setImageVertical] = useState("");
   const [type, setType] = useState("MOVIE");
   const [category, setCategory] = useState("ACTION");
   const [marca, setMarca] = useState("");
+  const [age, setAge] = useState("");
   const [year, setYear] = useState("");
   const [duration, setDuration] = useState("");
   const { id } = useParams();
@@ -39,7 +40,8 @@ const AdicionarConteudo = () => {
       image1,
       image2,
       image3,
-      verticalImage,
+      age,
+      imageVertical,
       category,
       type,
       marca,
@@ -73,10 +75,11 @@ const AdicionarConteudo = () => {
         setImage1("");
         setImage2("");
         setImage3("");
-        setVerticalImage("");
+        setImageVertical("");
         setCategory("ACTION");
         setType("MOVIE");
         setMarca("");
+        setAge("");
         setYear("");
         setDuration("");
       })
@@ -139,9 +142,19 @@ const AdicionarConteudo = () => {
               <h2>Vertical Imagem</h2>
               <input 
                 type="text" 
-                value={verticalImage} 
-                onChange={(e) => setVerticalImage(e.target.value)} 
+                value={imageVertical} 
+                onChange={(e) => setImageVertical(e.target.value)} 
                 placeholder="URL da imagem vertical"
+              />
+            </div>
+
+             <div className="inputBox">
+              <h2>Idade Recomendada</h2>
+              <input 
+                type="text" 
+                value={age} 
+                onChange={(e) => setAge(e.target.value)} 
+                placeholder="Idade Recomendada"
               />
             </div>
 
@@ -184,7 +197,7 @@ const AdicionarConteudo = () => {
                     type="text" 
                     value={duration} 
                     onChange={(e) => setDuration(e.target.value)} 
-                    placeholder="Ex: 120"
+                    placeholder="Ex: 2h21"
                     min="1"
                   />
                 </div>

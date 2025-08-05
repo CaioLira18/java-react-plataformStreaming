@@ -41,6 +41,7 @@ public class MovieService {
             moviesToUpdate.setDescription(movie.getDescription());
             moviesToUpdate.setYear(movie.getYear());
             moviesToUpdate.setType(movie.getType());
+            moviesToUpdate.setAge(movie.getAge());
             moviesToUpdate.setMarca(movie.getMarca());
             moviesToUpdate.setImage(movie.getImage());
             moviesToUpdate.setImage1(movie.getImage1());

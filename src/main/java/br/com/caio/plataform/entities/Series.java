@@ -36,6 +36,7 @@ public class Series {
     private ContentType type;
     private String marca;
     private String imageVertical;
+    private String age;
     
 
     private String image1;
