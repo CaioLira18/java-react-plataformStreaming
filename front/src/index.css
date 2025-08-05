@@ -1353,6 +1353,70 @@ ul, ol {
   transform: scale(1.1);
 }
 
+.favoriteContainer {
+  position: relative;
+  display: inline-block;
+  margin: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.favoriteImage {
+  width: 160px;
+  height: 240px;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+/* botão flutuante sobre a imagem */
+.menuButton {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+}
+
+.menuButton button {
+  width: 30px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  border-radius: 50%;
+  padding: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.menuButton button:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.dropdownMenu {
+  position: absolute;
+  z-index: 4;
+  background: white;
+  border-radius: 8px;
+  padding: 6px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dropdownMenu button {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.dropdownMenu button:hover {
+  background-color: #f3f3f3;
+}
+
+
 /* Register */
 
 .register {
