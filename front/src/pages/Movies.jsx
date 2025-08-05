@@ -20,19 +20,20 @@ const Movie = () => {
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
+        console.log("Dados do usuário do localStorage:", parsedUser);
+        
+        // Validar se o usuário tem ID válido
+        if (!parsedUser.id) {
+          console.error("ID do usuário não encontrado");
+          return;
+        }
+        
         setUser(parsedUser);
         setIsAuthenticated(true);
         setIsAdmin(parsedUser.role === 'ADMIN');
-        console.log("Dados do usuário carregados:", parsedUser);
         
         // Buscar dados completos do usuário da API para pegar a lista de favoritos
-        fetch(`${API_URL}/users/${parsedUser.id}`)
-          .then(response => response.json())
-          .then(userData => {
-            console.log("Dados completos do usuário:", userData);
-            setFavoriteList(userData.favoriteMovieList || []);
-          })
-          .catch(err => console.error("Erro ao buscar dados do usuário:", err));
+        fetchUserData(parsedUser.id);
       } catch (error) {
         console.error("Erro ao carregar dados do usuário:", error);
       }
@@ -41,27 +42,91 @@ const Movie = () => {
     }
   }, []);
 
+  // Função separada para buscar dados do usuário
+  const fetchUserData = async (userId) => {
+    try {
+      console.log("Buscando dados do usuário ID:", userId);
+      
+      const response = await fetch(`${API_URL}/users/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      console.log("Status da resposta:", response.status);
+
+      if (!response.ok) {
+        throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
+      }
+
+      const userData = await response.json();
+      console.log("Dados completos do usuário:", userData);
+      
+      // Verificar se favoriteMovieList existe e é um array
+      const favoriteMovies = Array.isArray(userData.favoriteMovieList) 
+        ? userData.favoriteMovieList 
+        : [];
+      
+      setFavoriteList(favoriteMovies);
+      
+    } catch (error) {
+      console.error("Erro detalhado ao buscar dados do usuário:", error);
+      
+      // Se for erro 404, o usuário pode não existir mais
+      if (error.message.includes('404')) {
+        console.warn("Usuário não encontrado, limpando localStorage");
+        localStorage.removeItem("user");
+        setUser(null);
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+      }
+    }
+  };
+
   // Carregar filme específico e lista de filmes
   useEffect(() => {
-    fetch(`${API_URL}/movie`)
-      .then(response => response.json())
-      .then(data => {
+    const fetchMovies = async () => {
+      try {
+        const response = await fetch(`${API_URL}/movie`);
+        
+        if (!response.ok) {
+          throw new Error(`Erro ao buscar filmes: ${response.status}`);
+        }
+        
+        const data = await response.json();
         console.log("Dados recebidos da API:", data);
+        
         const found = data.find(g => g.id === id);
         console.log("Movie encontrado:", found);
+        
         setMovie(found);
         setMovies(data);
-      })
-      .catch(err => console.error("Erro ao buscar dados:", err));
+      } catch (error) {
+        console.error("Erro ao buscar dados dos filmes:", error);
+      }
+    };
+
+    fetchMovies();
   }, [id]);
 
   const handleAddToFavorites = async () => {
-    if (!user) {
+    if (!user || !user.id) {
       alert("Você precisa estar logado para adicionar aos favoritos.");
       return;
     }
 
+    if (!movie || !movie.id) {
+      alert("Filme não encontrado.");
+      return;
+    }
+
     try {
+      console.log("Adicionando filme aos favoritos:", {
+        userId: user.id,
+        movieId: movie.id
+      });
+
       const response = await fetch(`${API_URL}/users/${user.id}/favorites`, {
         method: "POST",
         headers: {
@@ -70,25 +135,35 @@ const Movie = () => {
         body: JSON.stringify({ movieId: movie.id })
       });
 
+      console.log("Status da resposta (favoritos):", response.status);
+
       if (!response.ok) {
-        throw new Error("Erro ao adicionar aos favoritos.");
+        const errorText = await response.text();
+        console.error("Erro da API:", errorText);
+        throw new Error(`Erro ao adicionar aos favoritos: ${response.status}`);
       }
 
       const updatedUser = await response.json();
       console.log("Usuário atualizado:", updatedUser);
       
       // Atualizar a lista de favoritos local
-      setFavoriteList(updatedUser.favoriteMovieList || []);
+      const favoriteMovies = Array.isArray(updatedUser.favoriteMovieList) 
+        ? updatedUser.favoriteMovieList 
+        : [];
+      
+      setFavoriteList(favoriteMovies);
       
       alert("Filme adicionado à sua lista!");
     } catch (error) {
       console.error("Erro ao adicionar aos favoritos:", error);
-      alert("Erro ao adicionar filme à lista.");
+      alert(`Erro ao adicionar filme à lista: ${error.message}`);
     }
   };
 
   // Verificar se o filme atual está nos favoritos
-  const isInFavorites = favoriteList.some(item => item.id === movie?.id);
+  const isInFavorites = Array.isArray(favoriteList) && movie 
+    ? favoriteList.some(item => item.id === movie.id)
+    : false;
 
   if (!movie) {
     return (
@@ -103,11 +178,7 @@ const Movie = () => {
   return (
     <div>
       {/* Hero Section com Background */}
-      {/* Sé max-widt: 768px, troca por verticalImage */}
-      <div className="movieHeroSection"  style={{
-    '--desktop-image': `url(${movie.image})`,
-    '--mobile-image': `url(${movie.imageVertical})`
-  }}>
+      <div className="movieHeroSection" style={{backgroundImage: `url(${movie.image})`}}>
         <div className="movieHeroOverlay">
           <div className="movieHeroContent">
             {/* Logo/Brand */}
@@ -126,7 +197,7 @@ const Movie = () => {
             {/* Tags/Badges */}
             <div className="movieTags">
               <span className="movieTag movieTagNew">Novo</span>
-              <span className="movieTag movieTagRating">{movie.age}</span>
+              <span className="movieTag movieTagRating">16</span>
               <span className="movieTag movieTagYear">{movie.year}</span>
               <span className="movieTag movieTagQuality">4K UHD</span>
             </div>
@@ -161,8 +232,8 @@ const Movie = () => {
             
             {/* Gêneros e informações */}
             <div className="movieMetadata">
-              <span>Crime</span>
-              <span>Documentários</span>
+              <span>{movie.category}</span>
+              <span>{movie.type}</span>
             </div>
             
             {/* Informações técnicas */}
@@ -186,8 +257,8 @@ const Movie = () => {
       <div className="othersMovies">
         <h2>Coisas que você pode gostar</h2>
         <div className="othersMoviesContent">
-          {movies
-            ?.filter(movieItem => movieItem.marca === movie.marca && movieItem.id !== movie.id)
+          {Array.isArray(movies) && movies
+            .filter(movieItem => movieItem.marca === movie.marca && movieItem.id !== movie.id)
             .map((movieItem, i) => (
               <div className="movieCard" key={movieItem.id || i}>
                 <img src={movieItem.image} alt={movieItem.name} />

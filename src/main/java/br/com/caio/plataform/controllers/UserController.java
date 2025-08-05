@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import br.com.caio.plataform.entities.User;
 import br.com.caio.plataform.services.MovieService;
 import br.com.caio.plataform.services.SeriesService;
 import br.com.caio.plataform.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -42,8 +44,9 @@ public class UserController {
     @Autowired
     private SeriesService seriesService; // Mudança: SerieService em vez de SeassonsService
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> createUser(@RequestBody User user, HttpServletRequest request) {
+        System.out.println("Content-Type: " + request.getContentType());
         User createdUser = userService.insert(user);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
@@ -84,7 +87,7 @@ public class UserController {
 
         User user = userOpt.get();
         String movieId = body.get("movieId");
-        String serieId = body.get("serieId"); // Mudança: serieId em vez de seassonId
+        String serieId = body.get("serieId"); 
 
         if (movieId != null) {
             Optional<Movie> movieOpt = movieService.findById(movieId);
@@ -95,7 +98,7 @@ public class UserController {
                     User updatedUser = userService.update(userId, user);
                     return new ResponseEntity<>(updatedUser, HttpStatus.OK);
                 } else {
-                    return new ResponseEntity<>(user, HttpStatus.OK); // já está na lista
+                    return new ResponseEntity<>(user, HttpStatus.OK); 
                 }
             }
         }
@@ -109,7 +112,7 @@ public class UserController {
                     User updatedUser = userService.update(userId, user);
                     return new ResponseEntity<>(updatedUser, HttpStatus.OK);
                 } else {
-                    return new ResponseEntity<>(user, HttpStatus.OK); // já está na lista
+                    return new ResponseEntity<>(user, HttpStatus.OK); 
                 }
             }
         }
@@ -117,7 +120,6 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // REMOVER FILME DOS FAVORITOS
     @DeleteMapping("/{userId}/favorites/{movieId}")
     public ResponseEntity<User> removeFavoriteMovie(@PathVariable String userId, @PathVariable String movieId) {
         Optional<User> userOpt = userService.findById(userId);
@@ -135,7 +137,6 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // ALTERADO: REMOVER SÉRIE DOS FAVORITOS
     @DeleteMapping("/{userId}/favorites-serie/{serieId}")
     public ResponseEntity<User> removeFavoriteSerie(@PathVariable String userId, @PathVariable String serieId) {
         Optional<User> userOpt = userService.findById(userId);

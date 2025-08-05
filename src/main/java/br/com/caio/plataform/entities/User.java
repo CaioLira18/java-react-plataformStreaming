@@ -5,6 +5,8 @@ import java.util.List;
 
 import br.com.caio.plataform.entities.enums.UserRole;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,10 +30,12 @@ public class User {
     
     private String name;
     private String email;
+
+    @Enumerated(EnumType.STRING)
     private UserRole role;
+    
     private String password;
     private String cpf;
-    private Date birthDate;
     private String profileImage;
     
     @ManyToMany

@@ -125,7 +125,10 @@ const Series = () => {
   return (
     <div>
       {/* Hero Section com Background */}
-      <div className="serieHeroSection" style={{backgroundImage: `url(${serie.image})`}}>
+      <div className="serieHeroSection" style={{
+        '--desktop-image': `url(${serie.image})`,
+        '--mobile-image': `url(${serie.imageVertical})`
+      }}>
         <div className="serieHeroOverlay">
           <div className="serieHeroContent">
             {/* Logo/Brand */}

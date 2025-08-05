@@ -11,7 +11,6 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [type, setType] = useState('USER'); // role
   const [adminPassword, setAdminPassword] = useState('');
-  const [birthDate, setBirthDate] = useState('');
   const [profileImage, setProfileImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -35,61 +34,69 @@ const Register = () => {
     }
   }
 
-  async function handleCreate() {
-    setLoading(true);
-    setMessage('');
+  async function handleCreateUser() {
+  setLoading(true);
+  setMessage('');
+  setMessageType('');
 
-    try {
-      let imageUrl = null;
-      if (profileImage) {
-        imageUrl = await uploadImage(profileImage);
-      }
+  try {
+    let imageUrl = null;
 
-      const newUser = {
-        name,
-        email,
-        cpf,
-        password,
-        role: type, 
-        birthDate,
-        adminPassword: type === "ADMIN" ? adminPassword : undefined,
-        profileImage: imageUrl,
-      };
-
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        body: JSON.stringify(newUser),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        const errorData = await response.text();
-        throw new Error(`Erro ao criar usuário: ${errorData}`);
-      }
-      await response.json();
-
-      setMessage('Conta criada com sucesso!');
-      setMessageType('success');
-
-      setName('');
-      setEmail('');
-      setCpf('');
-      setPassword('');
-      setType('USER');
-      setAdminPassword('');
-      setBirthDate('');
-      setProfileImage(null);
-
-    } catch (error) {
-      console.error("Erro:", error);
-      setMessage(error.message);
-      setMessageType('error');
-    } finally {
-      setLoading(false);
+    // Upload da imagem, se houver
+    if (profileImage) {
+      imageUrl = await uploadImage(profileImage);
     }
+
+    // Validação da senha de admin (opcional)
+    if (type === "ADMIN" && adminPassword !== "admin123") {
+      setMessage("Senha de administrador incorreta.");
+      setMessageType("error");
+      setLoading(false);
+      return;
+    }
+
+    const userData = {
+      name,
+      email,
+      cpf,
+      password,
+      type,
+      profileImage: imageUrl
+    };
+
+    // Envio dos dados para o backend
+    const response = await axios.post(API_URL, userData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    setMessage("Usuário criado com sucesso!");
+    setMessageType("success");
+
+    // Limpa o formulário
+    setName('');
+    setEmail('');
+    setCpf('');
+    setPassword('');
+    setType('USER');
+    setAdminPassword('');
+    setProfileImage(null);
+  } catch (error) {
+    console.error(error);
+
+    if (error.response && error.response.data && error.response.data.message) {
+      setMessage(`Erro: ${error.response.data.message}`);
+    } else {
+      setMessage("Erro ao criar o usuário.");
+    }
+
+    setMessageType("error");
+  } finally {
+    setLoading(false);
   }
+}
+
 
  
 
@@ -136,10 +143,6 @@ const Register = () => {
               )}
             </div>
             <div className="inputRegister">
-              <h2>Data da Nascimento</h2>
-              <input type="date" value={birthDate} onChange={e => setBirthDate(e.target.value)} />
-            </div>
-            <div className="inputRegister">
               <h2>Escolha a Foto de Perfil</h2>
               <input 
                 type="file" 
@@ -151,7 +154,7 @@ const Register = () => {
 
           <div className="registerAddContainer">
             <button
-              onClick={handleCreate}
+              onClick={handleCreateUser}
               disabled={loading}
               style={{
                 opacity: loading ? 0.6 : 1,

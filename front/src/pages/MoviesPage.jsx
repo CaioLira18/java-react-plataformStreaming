@@ -50,11 +50,11 @@ const MoviesPage = () => {
 
   return (
     <div>
-      <div className="containerContent" >
+      <div className="containerContentPage" >
         {movie.map((movie, i) => (
-          <div className="boxContent" key={i}>
+          <div className="boxContentPage" key={i}>
             {movie.type = "SERIES" && (
-              <div className="boxInformation">
+              <div className="boxInformationPage">
                 <img src={movie.image} alt="" />
                 <a href={"/movies/" + movie.id}><p>{movie.name}</p></a>
               </div>

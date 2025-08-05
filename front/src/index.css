@@ -152,12 +152,6 @@ ul, ol {
   text-align: center;
 }
 
-.boxInformation img {
-  width: 150px;
-  object-fit: cover;
-  border-radius: 5px;
-  transition: 0.3s all ease-in-out;
-}
 
 .boxInformation img:hover {
   transform: scale(1.05);
@@ -189,7 +183,7 @@ ul, ol {
 }
 
 .boxInformation img {
-  width: 150px;
+  width: 170px;
   height: auto;
   object-fit: cover;
   border-radius: 5px;
@@ -242,8 +236,11 @@ ul, ol {
 
 .containerContentPage {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 20px;
   padding: 20px 0;
+  flex-wrap: wrap;
 }
 
 .boxContentPage {
@@ -259,7 +256,7 @@ ul, ol {
   align-items: center;
   flex-direction: column;
   gap: 15px;
-  width: 100%; /* Usa toda a largura do boxContent */
+  width: 100%;
   padding: 20px;
   text-align: center;
 }
@@ -269,12 +266,16 @@ ul, ol {
   cursor: pointer;
   text-decoration: none;
   font-weight: 500;
+  height: 40px; /* Altura fixa para o texto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
 }
 
 .boxInformationPage img {
   width: 250px;
-  height: auto;
-  object-fit: cover;
+  object-fit: cover; /* Mantém proporção e corta se necessário */
   border-radius: 5px;
   transition: 0.3s all ease-in-out;
 }
@@ -838,6 +839,10 @@ ul, ol {
 }
 
 .movieHeroSection {
+  background-image: var(--desktop-image);
+}
+
+.serieHeroSection {
   background-image: var(--desktop-image);
 }
 
@@ -1866,6 +1871,10 @@ ul, ol {
 /* Responsividade aprimorada */
 @media (max-width: 768px) {
   .movieHeroSection {
+    background-image: var(--mobile-image);
+  }
+
+  .serieHeroSection {
     background-image: var(--mobile-image);
   }
 
