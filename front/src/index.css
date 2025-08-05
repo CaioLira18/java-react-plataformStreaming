@@ -1378,10 +1378,12 @@ ul, ol {
 }
 
 .menuButton button {
+  width: 30px;
+  height: 30px;
   background: rgba(0, 0, 0, 0.6);
   border: none;
   border-radius: 50%;
-  padding: 8px;
+  padding: 5px;
   color: white;
   cursor: pointer;
 }
@@ -1392,8 +1394,6 @@ ul, ol {
 
 .dropdownMenu {
   position: absolute;
-  top: 45px;
-  left: 10px;
   z-index: 4;
   background: white;
   border-radius: 8px;
