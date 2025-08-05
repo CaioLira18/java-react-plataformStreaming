@@ -21,11 +21,11 @@ import lombok.Setter;
 @Setter
 @Table(name = "tb_users")
 public class User {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
+    
     private String name;
     private String email;
     private UserRole role;
@@ -33,7 +33,7 @@ public class User {
     private String cpf;
     private Date birthDate;
     private String profileImage;
-
+    
     @ManyToMany
     @JoinTable(
         name = "user_favorite_movies",
@@ -41,15 +41,16 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "movie_id")
     )
     private List<Movie> favoriteMovieList;
-
+    
+    // ALTERADO: Agora salva Series em vez de Seassons
     @ManyToMany
     @JoinTable(
         name = "user_favorite_series",
         joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "seasson_id")
+        inverseJoinColumns = @JoinColumn(name = "serie_id") // Mudança aqui
     )
-    private List<Seassons> favoriteSeassonList;
-
+    private List<Series> favoriteSerieList; // Nome mais claro
+    
     @Transient
     private String adminPassword;
 }

@@ -4,7 +4,7 @@ const Edit = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [favoriteMovieList, setFavoriteMovieList] = useState([]);
-  const [favoriteSeassonList, setFavoriteSeassonList] = useState([]);
+  const [favoriteSerieList, setFavoriteSerieList] = useState([]);
   const [userId, setUserId] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -26,13 +26,19 @@ const Edit = () => {
       fetch(`http://localhost:8080/api/users/${parsedUser.id}`)
         .then((res) => res.json())
         .then((fullUser) => {
+          console.log('Dados completos do usuário:', fullUser); // DEBUG
+          
           setIsAuthenticated(true);
           setIsAdmin(fullUser.role === 'ADMIN');
           setName(fullUser.name || '');
           setEmail(fullUser.email || '');
           setCpf(fullUser.cpf || '');
           setFavoriteMovieList(fullUser.favoriteMovieList || []);
-          setFavoriteSeassonList(fullUser.favoriteSeassonList || []);
+          
+          // CORREÇÃO: O backend está retornando favoriteSeassonList
+          const seriesList = fullUser.favoriteSeassonList || [];
+          console.log('Lista de temporadas favoritas:', seriesList); // DEBUG
+          setFavoriteSerieList(seriesList);
         })
         .catch((error) => {
           console.error('Erro ao carregar dados:', error);
@@ -164,9 +170,12 @@ const Edit = () => {
   const handleRemoveToFavorites = async (item) => {
     if (!userId) return alert('Você precisa estar logado.');
 
+    // CORREÇÃO: Usar a rota correta baseada no que realmente existe no backend
     const url = item.type === 'MOVIE'
-      ? `http://localhost:8080/api/users/${userId}/remove-movie/${item.id}`
-      : `http://localhost:8080/api/users/${userId}/remove-seasson/${item.id}`;
+      ? `http://localhost:8080/api/users/${userId}/favorites/${item.id}`
+      : `http://localhost:8080/api/users/${userId}/favorites-seasson/${item.id}`; // Use a rota que existe
+
+    console.log('URL de remoção:', url); // DEBUG
 
     try {
       const res = await fetch(url, { method: 'DELETE' });
@@ -175,7 +184,7 @@ const Edit = () => {
       if (item.type === 'MOVIE')
         setFavoriteMovieList((prev) => prev.filter((m) => m.id !== item.id));
       else
-        setFavoriteSeassonList((prev) => prev.filter((s) => s.id !== item.id));
+        setFavoriteSerieList((prev) => prev.filter((s) => s.id !== item.id));
 
       // Fechar o menu após remover
       setMenuOpenId(null);
@@ -194,13 +203,20 @@ const Edit = () => {
       type: 'MOVIE',
       uniqueKey: `movie-${item.id || item.movieId}` 
     })),
-    ...favoriteSeassonList.map((item) => ({ 
-      ...item, 
-      id: item.id || item.seassonId, 
-      type: 'SERIE',
-      uniqueKey: `serie-${item.id || item.seassonId}` 
-    })),
+    ...favoriteSerieList.map((item) => {
+      console.log('Item da temporada:', item); // DEBUG
+      return {
+        ...item, 
+        id: item.id, // Usar o ID da temporada
+        type: 'SERIE',
+        uniqueKey: `seasson-${item.id}`, // Usar prefixo seasson para diferenciar
+        // Garantir que tem nome para exibir - usar o nome da temporada
+        name: item.name || 'Temporada sem nome'
+      };
+    }),
   ];
+
+  console.log('All favorites:', allFavorites); // DEBUG
 
   // Função para fechar menu quando clicar fora
   useEffect(() => {
@@ -323,6 +339,11 @@ const Edit = () => {
                 )}
       </div>
 
+      {/* DEBUG: Mostrar quantos favoritos temos */}
+      <div style={{padding: '10px', background: '#f0f0f0', margin: '10px'}}>
+        <p>Debug: {favoriteMovieList.length} filmes, {favoriteSerieList.length} temporadas favoritas</p>
+      </div>
+
       {allFavorites.length > 0 && (
         <div className="myList">
           <div className="boxMyList">
@@ -351,7 +372,7 @@ const Edit = () => {
                     </div>
                   )}
 
-                  <a className="favoriteLink" href={item.type === 'MOVIE' ? `/movies/${item.id}` : `/series/${item.serieId || item.id}`}></a>
+                  <a className="favoriteLink" href={item.type === 'MOVIE' ? `/movies/${item.id}` : `/series/${item.id}`}></a>
                 </div>
               ))}
             </div>

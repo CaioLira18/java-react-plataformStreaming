@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.caio.plataform.entities.Movie;
-import br.com.caio.plataform.entities.Seassons;
+import br.com.caio.plataform.entities.Series;
 import br.com.caio.plataform.entities.User;
 import br.com.caio.plataform.services.MovieService;
-import br.com.caio.plataform.services.SeassonsService;
+import br.com.caio.plataform.services.SeriesService;
 import br.com.caio.plataform.services.UserService;
 
 @RestController
@@ -40,7 +40,7 @@ public class UserController {
     private MovieService movieService;
 
     @Autowired
-    private SeassonsService seassonService;
+    private SeriesService seriesService; // Mudança: SerieService em vez de SeassonsService
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -84,7 +84,7 @@ public class UserController {
 
         User user = userOpt.get();
         String movieId = body.get("movieId");
-        String seassonId = body.get("seassonId");
+        String serieId = body.get("serieId"); // Mudança: serieId em vez de seassonId
 
         if (movieId != null) {
             Optional<Movie> movieOpt = movieService.findById(movieId);
@@ -100,12 +100,12 @@ public class UserController {
             }
         }
 
-        if (seassonId != null) {
-            Optional<Seassons> seassonOpt = seassonService.findById(seassonId);
-            if (seassonOpt.isPresent()) {
-                Seassons seasson = seassonOpt.get();
-                if (!user.getFavoriteSeassonList().contains(seasson)) {
-                    user.getFavoriteSeassonList().add(seasson);
+        if (serieId != null) {
+            Optional<Series> serieOpt = seriesService.findById(serieId);
+            if (serieOpt.isPresent()) {
+                Series serie = serieOpt.get();
+                if (!user.getFavoriteSerieList().contains(serie)) {
+                    user.getFavoriteSerieList().add(serie);
                     User updatedUser = userService.update(userId, user);
                     return new ResponseEntity<>(updatedUser, HttpStatus.OK);
                 } else {
@@ -127,7 +127,6 @@ public class UserController {
             User user = userOpt.get();
             Movie movie = movieOpt.get();
 
-            // CORRIGIDO: era getFavoriteSeassonList().remove(movie), agora é getFavoriteMovieList().remove(movie)
             user.getFavoriteMovieList().remove(movie);
             User updatedUser = userService.update(userId, user);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
@@ -136,17 +135,17 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // NOVA ROTA: REMOVER SÉRIE DOS FAVORITOS
-    @DeleteMapping("/{userId}/favorites-seasson/{seassonId}")
-    public ResponseEntity<User> removeFavoriteSeasson(@PathVariable String userId, @PathVariable String seassonId) {
+    // ALTERADO: REMOVER SÉRIE DOS FAVORITOS
+    @DeleteMapping("/{userId}/favorites-serie/{serieId}")
+    public ResponseEntity<User> removeFavoriteSerie(@PathVariable String userId, @PathVariable String serieId) {
         Optional<User> userOpt = userService.findById(userId);
-        Optional<Seassons> seassonOpt = seassonService.findById(seassonId);
+        Optional<Series> serieOpt = seriesService.findById(serieId);
         
-        if (userOpt.isPresent() && seassonOpt.isPresent()) {
+        if (userOpt.isPresent() && serieOpt.isPresent()) {
             User user = userOpt.get();
-            Seassons seasson = seassonOpt.get();
+            Series serie = serieOpt.get();
             
-            user.getFavoriteSeassonList().remove(seasson);
+            user.getFavoriteSerieList().remove(serie);
             User updatedUser = userService.update(userId, user);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         }

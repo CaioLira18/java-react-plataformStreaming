@@ -32,7 +32,7 @@ const Series = () => {
           .then(response => response.json())
           .then(userData => {
             console.log("Dados completos do usuário:", userData);
-            // Para séries, usar favoriteSeassonList
+            // O backend retorna favoriteSeassonList
             setFavoriteList(userData.favoriteSeassonList || []);
           })
           .catch(err => console.error("Erro ao buscar dados do usuário:", err));
@@ -53,7 +53,7 @@ const Series = () => {
         const found = data.find(g => g.id === id);
         console.log("Série encontrada:", found);
         setSerie(found);
-        const seasonList = found?.favoriteSeassonList || [];
+        const seasonList = found?.seassonsList || [];
         setSeassons(seasonList);
 
         if (seasonList.length > 0) {
@@ -71,19 +71,22 @@ const Series = () => {
     }
 
     try {
-      // Para séries, precisamos enviar seassonId, não serieId
-      // Assumindo que queremos adicionar a primeira temporada
+      // Como o backend salva temporadas, vamos adicionar a primeira temporada
       const seasonToAdd = seassons[0];
       if (!seasonToAdd) {
         alert("Nenhuma temporada disponível para adicionar.");
         return;
       }
 
+      console.log("User ID:", user.id);
+      console.log("Season ID:", seasonToAdd.id);
+
       const response = await fetch(`${API_URL}/users/${user.id}/favorites`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
+        // Usar seassonId porque é o que o backend espera
         body: JSON.stringify({ seassonId: seasonToAdd.id })
       });
 
@@ -94,7 +97,7 @@ const Series = () => {
       const updatedUser = await response.json();
       console.log("Usuário atualizado:", updatedUser);
       
-      // Atualizar a lista de favoritos local
+      // Atualizar a lista de favoritos local com temporadas
       setFavoriteList(updatedUser.favoriteSeassonList || []);
       
       alert("Série adicionada à sua lista!");
