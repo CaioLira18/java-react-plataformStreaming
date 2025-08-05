@@ -41,6 +41,7 @@ public class SeriesService {
             seriesToUpdate.setCategory(series.getCategory());
             seriesToUpdate.setType(series.getType());
             seriesToUpdate.setMarca(series.getMarca());
+            seriesToUpdate.setImageVertical(series.getImageVertical());
             seriesToUpdate.setImage(series.getImage());
             seriesToUpdate.setImage1(series.getImage1());
             seriesToUpdate.setImage2(series.getImage2());

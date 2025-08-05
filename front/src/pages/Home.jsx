@@ -84,8 +84,7 @@ const Home = () => {
             .map((serieItem, i) => (
               <div className="boxContent" key={serieItem.id || i}>
                 <div className="boxInformation">
-                  <a href={"/series/" + serieItem.id}><img src={serieItem.image} alt={serieItem.name} /></a>
-                  <a href={"/series/" + serieItem.id}>{serieItem.name}</a>
+                  <a href={"/series/" + serieItem.id}><img src={serieItem.imageVertical} alt={serieItem.name} /></a>
                 </div>
               </div>
             ))}
@@ -99,8 +98,7 @@ const Home = () => {
           {movies.map((movieItem, i) => (
               <div className="boxContent" key={movieItem.id || i}>
                 <div className="boxInformation">
-                  <img src={movieItem.image} alt={movieItem.name} />
-                  <a href={"/movies/" + movieItem.id}>{movieItem.name}</a>
+                  <a href={"/movies/" + movieItem.id}><img src={movieItem.imageVertical} alt={movieItem.name} /></a>
                 </div>
               </div>
             ))}
@@ -117,8 +115,8 @@ const Home = () => {
             .map((movieItem, i) => (
               <div className="boxContent" key={movieItem.id || i}>
                 <div className="boxInformation">
-                  <img src={movieItem.image} alt={movieItem.name} />
-                  <a href={"/movies/" + movieItem.id}>{movieItem.name}</a>
+                  <a href={"/movies/" + movieItem.id}><img src={movieItem.imageVertical} alt={movieItem.name} /></a>
+                
                 </div>
               </div>
             ))}
@@ -135,8 +133,7 @@ const Home = () => {
             .map((movieItem, i) => (
               <div className="boxContent" key={movieItem.id || i}>
                 <div className="boxInformation">
-                  <img src={movieItem.image} alt={movieItem.name} />
-                  <a href={"/movies/" + movieItem.id}>{movieItem.name}</a>
+                  <a href={"/movies/" + movieItem.id}><img src={movieItem.imageVertical} alt={movieItem.name} /></a>
                 </div>
               </div>
             ))}

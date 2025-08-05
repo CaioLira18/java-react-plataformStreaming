@@ -107,10 +107,10 @@ ul, ol {
 }
 
 .boxInformation img {
-  width: 250px;
+  width: 150px;
   height: auto;
   object-fit: cover;
-  border-radius: 20px;
+  border-radius: 5px;
   transition: 0.3s all ease-in-out;
 }
 
@@ -1562,6 +1562,19 @@ ul, ol {
 /* Responsividade */
 
 @media (max-width: 480px) {
+
+  .boxInformation {
+    display: grid;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    grid-template-rows: 2fr;
+  }
+
+  .boxInformation img {
+    width: 150px;
+  }
+
   .loading {
     display: flex;
     align-items: center;

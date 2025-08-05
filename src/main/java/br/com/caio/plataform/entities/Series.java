@@ -35,6 +35,8 @@ public class Series {
     private ContentCategory category;
     private ContentType type;
     private String marca;
+    private String imageVertical;
+    
 
     private String image1;
     private String image2;
