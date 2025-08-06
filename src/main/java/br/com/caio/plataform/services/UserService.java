@@ -61,6 +61,7 @@ public class UserService {
             userToUpdate.setCpf(user.getCpf());
             userToUpdate.setEmail(user.getEmail());
             userToUpdate.setProfileImage(user.getProfileImage());
+            userToUpdate.setBirthDate(user.getBirthDate());
 
             // Atualiza a senha se fornecida
             if (user.getPassword() != null && !user.getPassword().isBlank()) {

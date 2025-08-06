@@ -39,4 +39,8 @@ public class Movie {
     private String image1;
     private String image2;
     private String image3;
+
+    public String getId() {
+        return id;
+    }
 }

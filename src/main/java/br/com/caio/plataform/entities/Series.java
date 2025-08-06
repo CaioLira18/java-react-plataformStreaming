@@ -52,7 +52,11 @@ public class Series {
     private List<Seassons> seassonsList;
     
     // Relacionamento com usuários que favoritaram esta série
-    @ManyToMany(mappedBy = "favoriteSerieList")
+    @ManyToMany(mappedBy = "favoriteSeries")
     @JsonBackReference("user-series")
     private List<User> users;
+
+    public String getId(){
+        return id;
+    }
 }

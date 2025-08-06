@@ -4,18 +4,37 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Embeddable
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserMovieId implements Serializable {
 
     private String userId;
     private String movieId;
 
+    // Constructors
+    public UserMovieId() {}
 
+    public UserMovieId(String userId, String movieId) {
+        this.userId = userId;
+        this.movieId = movieId;
+    }
+
+    // Getters and Setters
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
+    }
 
     @Override
     public boolean equals(Object o) {
