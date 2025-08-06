@@ -4,17 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import br.com.caio.plataform.entities.enums.UserRole;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,38 +13,22 @@ import lombok.Setter;
 @Setter
 @Table(name = "tb_users")
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    
+
     private String name;
     private String email;
-
-    @Enumerated(EnumType.STRING)
     private UserRole role;
-    
     private String password;
     private String cpf;
+    private Date birthDate;
     private String profileImage;
-    
-    @ManyToMany
-    @JoinTable(
-        name = "user_favorite_movies",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "movie_id")
-    )
-    private List<Movie> favoriteMovieList;
-    
-    // ALTERADO: Agora salva Series em vez de Seassons
-    @ManyToMany
-    @JoinTable(
-        name = "user_favorite_series",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "serie_id") // Mudança aqui
-    )
-    private List<Series> favoriteSerieList; // Nome mais claro
-    
-    @Transient
-    private String adminPassword;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserFavoriteMovie> favoriteMovies;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserFavoriteSeries> favoriteSeries;
 }
