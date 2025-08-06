@@ -68,6 +68,7 @@ const Login = () => {
         </div>
 
         <div className="cabecalhoLogin">
+          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1753825253/logo_wzqgvp.png" alt="" />
           <h1>Bem-vindo</h1>
           <p>Preencha as informações para fazer login</p>
         </div>

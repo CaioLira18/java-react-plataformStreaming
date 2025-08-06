@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.caio.plataform.dto.UserRegisterDTO;
 import br.com.caio.plataform.entities.Movie;
 import br.com.caio.plataform.entities.Series;
 import br.com.caio.plataform.entities.User;
@@ -44,12 +45,27 @@ public class UserController {
     private MovieService movieService;
 
     @Autowired
-    private SeriesService seriesService; // Mudança: SerieService em vez de SeassonsService
+    private SeriesService seriesService;
 
+    // ✅ MÉTODO ATUALIZADO: Agora usa DTO
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.insert(user);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    public ResponseEntity<User> createUser(@RequestBody UserRegisterDTO userDTO) {
+        try {
+            // Converte DTO para entidade
+            User user = new User();
+            user.setName(userDTO.getName());
+            user.setEmail(userDTO.getEmail());
+            user.setCpf(userDTO.getCpf());
+            user.setPassword(userDTO.getPassword());
+            user.setRole(userDTO.getRole());
+
+            User createdUser = userService.insert(user);
+            return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+        } catch (Exception e) {
+            System.err.println("Erro ao criar usuário: " + e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping
@@ -88,7 +104,7 @@ public class UserController {
 
         User user = userOpt.get();
         String movieId = body.get("movieId");
-        String serieId = body.get("serieId"); // Mudança: serieId em vez de seassonId
+        String serieId = body.get("serieId");
 
         if (movieId != null) {
             Optional<Movie> movieOpt = movieService.findById(movieId);
@@ -104,7 +120,7 @@ public class UserController {
                     User updatedUser = userService.update(userId, user);
                     return new ResponseEntity<>(updatedUser, HttpStatus.OK);
                 } else {
-                    return new ResponseEntity<>(user, HttpStatus.OK); // já está na lista
+                    return new ResponseEntity<>(user, HttpStatus.OK);
                 }
             }
         }
@@ -131,7 +147,6 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // REMOVER FILME DOS FAVORITOS
     @DeleteMapping("/{userId}/favorites/{movieId}")
     public ResponseEntity<User> removeFavoriteMovie(@PathVariable String userId, @PathVariable String movieId) {
         Optional<User> userOpt = userService.findById(userId);
@@ -149,7 +164,6 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // ALTERADO: REMOVER SÉRIE DOS FAVORITOS
     @DeleteMapping("/{userId}/favorites-serie/{serieId}")
     public ResponseEntity<User> removeFavoriteSerie(@PathVariable String userId, @PathVariable String serieId) {
         Optional<User> userOpt = userService.findById(userId);

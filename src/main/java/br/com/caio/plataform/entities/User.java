@@ -3,6 +3,8 @@ package br.com.caio.plataform.entities;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import br.com.caio.plataform.entities.enums.UserRole;
 import jakarta.persistence.*;
 
@@ -16,21 +18,32 @@ public class User {
 
     private String name;
     private String email;
+    
+    @Enumerated(EnumType.STRING) // 👈 importante!
+    @Column(nullable = false)
     private UserRole role;
+    
     private String password;
     private String cpf;
-    private Date birthDate;
-    private String profileImage;
 
-    // Relação com filmes favoritos
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore 
     private List<UserFavoriteMovie> favoriteMovies;
 
-    // Relação com séries favoritas
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore 
     private List<UserFavoriteSeries> favoriteSeries;
 
-    // Getters e Setters
+    public User() {}
+
+    public User(String name, String email, UserRole role, String password, String cpf) {
+        this.name = name;
+        this.email = email;
+        this.role = role;
+        this.password = password;
+        this.cpf = cpf;
+    }
+
     public String getId() {
         return id;
     }
@@ -77,22 +90,6 @@ public class User {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }
-
-    public Date getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
     }
 
     public List<UserFavoriteMovie> getFavoriteMovies() {
