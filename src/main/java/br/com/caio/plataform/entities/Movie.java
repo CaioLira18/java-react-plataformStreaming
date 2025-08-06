@@ -40,7 +40,7 @@ public class Movie {
     private String image2;
     private String image3;
 
-    public String getId() {
+    public String getId(){
         return id;
     }
 }

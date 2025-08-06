@@ -1,10 +1,10 @@
 package br.com.caio.plataform.entities;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
 
 @Entity
-public class UserFavoriteSeries implements Serializable {
+@Table(name = "user_favorite_series")
+public class UserFavoriteSeries {
 
     @EmbeddedId
     private UserSeriesId id;
@@ -19,14 +19,7 @@ public class UserFavoriteSeries implements Serializable {
     @JoinColumn(name = "series_id")
     private Series series;
 
-    public UserFavoriteSeries() {}
-
-    public UserFavoriteSeries(User user, Series series) {
-        this.user = user;
-        this.series = series;
-        this.id = new UserSeriesId(user.getId(), series.getId());
-    }
-
+    // Getters e Setters
     public UserSeriesId getId() {
         return id;
     }

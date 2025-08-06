@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Embeddable
 public class UserSeriesId implements Serializable {
@@ -11,15 +13,13 @@ public class UserSeriesId implements Serializable {
     private String userId;
     private String seriesId;
 
-    // Constructors
-    public UserSeriesId() {}
+    public UserSeriesId() {} // construtor vazio
 
     public UserSeriesId(String userId, String seriesId) {
         this.userId = userId;
         this.seriesId = seriesId;
     }
 
-    // Getters and Setters
     public String getUserId() {
         return userId;
     }

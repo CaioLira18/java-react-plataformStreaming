@@ -44,7 +44,7 @@ public class UserController {
     private MovieService movieService;
 
     @Autowired
-    private SeriesService seriesService;
+    private SeriesService seriesService; // Mudança: SerieService em vez de SeassonsService
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -84,31 +84,23 @@ public class UserController {
     @PostMapping("/{userId}/favorites")
     public ResponseEntity<User> addFavorite(@PathVariable String userId, @RequestBody Map<String, String> body) {
         Optional<User> userOpt = userService.findById(userId);
-        if (!userOpt.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        if (!userOpt.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         User user = userOpt.get();
         String movieId = body.get("movieId");
-        String serieId = body.get("serieId");
+        String serieId = body.get("serieId"); // Mudança: serieId em vez de seassonId
 
-        // Adicionar filme aos favoritos
         if (movieId != null) {
             Optional<Movie> movieOpt = movieService.findById(movieId);
             if (movieOpt.isPresent()) {
                 Movie movie = movieOpt.get();
-                
-                // Verifica se já existe na lista de favoritos
-                boolean alreadyExists = user.getFavoriteMovies().stream()
-                    .anyMatch(fav -> fav.getMovie().getId().equals(movieId));
-                
-                if (!alreadyExists) {
+                if (!user.getFavoriteMovies().contains(movie)) {
                     UserFavoriteMovie fav = new UserFavoriteMovie();
+                    fav.setId(new UserMovieId(user.getId(), movie.getId()));
                     fav.setUser(user);
                     fav.setMovie(movie);
-                    fav.setId(new UserMovieId(user.getId(), movie.getId()));
                     user.getFavoriteMovies().add(fav);
-                    
+
                     User updatedUser = userService.update(userId, user);
                     return new ResponseEntity<>(updatedUser, HttpStatus.OK);
                 } else {
@@ -117,27 +109,21 @@ public class UserController {
             }
         }
 
-        // Adicionar série aos favoritos
         if (serieId != null) {
             Optional<Series> serieOpt = seriesService.findById(serieId);
             if (serieOpt.isPresent()) {
                 Series serie = serieOpt.get();
-                
-                // Verifica se já existe na lista de favoritos
-                boolean alreadyExists = user.getFavoriteSeries().stream()
-                    .anyMatch(fav -> fav.getSeries().getId().equals(serieId));
-                
-                if (!alreadyExists) {
+                if (!user.getFavoriteSeries().contains(serie)) {
                     UserFavoriteSeries fav = new UserFavoriteSeries();
+                    fav.setId(new UserSeriesId(user.getId(), serie.getId()));
                     fav.setUser(user);
                     fav.setSeries(serie);
-                    fav.setId(new UserSeriesId(user.getId(), serie.getId()));
                     user.getFavoriteSeries().add(fav);
-                    
+
                     User updatedUser = userService.update(userId, user);
                     return new ResponseEntity<>(updatedUser, HttpStatus.OK);
                 } else {
-                    return new ResponseEntity<>(user, HttpStatus.OK);
+                    return new ResponseEntity<>(user, HttpStatus.OK); 
                 }
             }
         }
@@ -149,41 +135,33 @@ public class UserController {
     @DeleteMapping("/{userId}/favorites/{movieId}")
     public ResponseEntity<User> removeFavoriteMovie(@PathVariable String userId, @PathVariable String movieId) {
         Optional<User> userOpt = userService.findById(userId);
+        Optional<Movie> movieOpt = movieService.findById(movieId);
 
-        if (userOpt.isPresent()) {
+        if (userOpt.isPresent() && movieOpt.isPresent()) {
             User user = userOpt.get();
-            
-            // Remove o filme da lista de favoritos
-            boolean removed = user.getFavoriteMovies().removeIf(
-                fav -> fav.getMovie().getId().equals(movieId)
-            );
-            
-            if (removed) {
-                User updatedUser = userService.update(userId, user);
-                return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-            }
+            Movie movie = movieOpt.get();
+
+            user.getFavoriteMovies().remove(movie);
+            User updatedUser = userService.update(userId, user);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // REMOVER SÉRIE DOS FAVORITOS
+    // ALTERADO: REMOVER SÉRIE DOS FAVORITOS
     @DeleteMapping("/{userId}/favorites-serie/{serieId}")
     public ResponseEntity<User> removeFavoriteSerie(@PathVariable String userId, @PathVariable String serieId) {
         Optional<User> userOpt = userService.findById(userId);
+        Optional<Series> serieOpt = seriesService.findById(serieId);
         
-        if (userOpt.isPresent()) {
+        if (userOpt.isPresent() && serieOpt.isPresent()) {
             User user = userOpt.get();
+            Series serie = serieOpt.get();
             
-            // Remove a série da lista de favoritos
-            boolean removed = user.getFavoriteSeries().removeIf(
-                fav -> fav.getSeries().getId().equals(serieId)
-            );
-            
-            if (removed) {
-                User updatedUser = userService.update(userId, user);
-                return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-            }
+            user.getFavoriteSeries().remove(serie);
+            User updatedUser = userService.update(userId, user);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         }
         
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

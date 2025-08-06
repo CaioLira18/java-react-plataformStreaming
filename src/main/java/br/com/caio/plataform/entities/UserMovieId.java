@@ -11,15 +11,14 @@ public class UserMovieId implements Serializable {
     private String userId;
     private String movieId;
 
-    // Constructors
-    public UserMovieId() {}
+    public UserMovieId() {
+    }
 
     public UserMovieId(String userId, String movieId) {
         this.userId = userId;
         this.movieId = movieId;
     }
 
-    // Getters and Setters
     public String getUserId() {
         return userId;
     }

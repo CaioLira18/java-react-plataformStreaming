@@ -1,10 +1,10 @@
 package br.com.caio.plataform.entities;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
 
 @Entity
-public class UserFavoriteMovie implements Serializable {
+@Table(name = "user_favorite_movies")
+public class UserFavoriteMovie {
 
     @EmbeddedId
     private UserMovieId id;
@@ -19,14 +19,7 @@ public class UserFavoriteMovie implements Serializable {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    public UserFavoriteMovie() {}
-
-    public UserFavoriteMovie(User user, Movie movie) {
-        this.user = user;
-        this.movie = movie;
-        this.id = new UserMovieId(user.getId(), movie.getId());
-    }
-
+    // Getters e Setters
     public UserMovieId getId() {
         return id;
     }
