@@ -12,7 +12,6 @@ import br.com.caio.plataform.services.UserService;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
