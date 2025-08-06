@@ -4,67 +4,55 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.caio.plataform.entities.User;
-import br.com.caio.plataform.entities.enums.UserRole; // IMPORTANTE
 import br.com.caio.plataform.repository.UserRepository;
 
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    // injeta senha de admin do application.properties ou .env
-    @Value("${ADMIN_PASSWORD}")
-    private String adminPassword;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private PasswordEncoder passwordEncoder;
 
-    public User insert(User user) {
-        // Criptografa a senha antes de salvar
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
-    }
-
-    public Optional<User> findById(String id){
-        return userRepository.findById(id);
-    }
-
-    public List<User> findAll(){
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    public User update(String id, User user){
-        Optional<User> existingUser = userRepository.findById(id);
-        if(existingUser.isPresent()){
-            User userToUpdate = existingUser.get();
-            userToUpdate.setName(user.getName());
-            userToUpdate.setCpf(user.getCpf());
-            userToUpdate.setEmail(user.getEmail());
-
-            // Atualiza a senha se fornecida
-            if (user.getPassword() != null && !user.getPassword().isBlank()) {
-                userToUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
-            }
-
-            return userRepository.save(userToUpdate);
-        }
-        return null;
+    public Optional<User> findById(String id) {
+        return userRepository.findById(id);
     }
 
-    public boolean deleteById(String id){
-        if(userRepository.existsById(id)){
-            userRepository.deleteById(id);
+    public User createUser(User user) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        return userRepository.save(user);
+    }
+
+    public Optional<User> updateUser(String id, User updatedUser) {
+        return userRepository.findById(id).map(user -> {
+            user.setName(updatedUser.getName());
+            user.setEmail(updatedUser.getEmail());
+            user.setCpf(updatedUser.getCpf());
+            user.setRole(updatedUser.getRole());
+
+            // Criptografa a senha apenas se ela for diferente
+            if (!updatedUser.getPassword().equals(user.getPassword())) {
+                user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+            }
+
+            return userRepository.save(user);
+        });
+    }
+
+    public boolean deleteUser(String id) {
+        return userRepository.findById(id).map(user -> {
+            userRepository.delete(user);
             return true;
-        }
-        return false;
+        }).orElse(false);
     }
 }

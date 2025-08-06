@@ -1,8 +1,12 @@
 package br.com.caio.plataform.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "user_favorite_series")
 public class UserFavoriteSeries {
 
@@ -19,28 +23,5 @@ public class UserFavoriteSeries {
     @JoinColumn(name = "series_id")
     private Series series;
 
-    // Getters e Setters
-    public UserSeriesId getId() {
-        return id;
-    }
-
-    public void setId(UserSeriesId id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Series getSeries() {
-        return series;
-    }
-
-    public void setSeries(Series series) {
-        this.series = series;
-    }
+   
 }
