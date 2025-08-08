@@ -18,6 +18,7 @@ const AdicionarConteudo = () => {
   const [marca, setMarca] = useState("");
   const [age, setAge] = useState("");
   const [year, setYear] = useState("");
+  const [franquia, setFranquia] = useState("");
   const [duration, setDuration] = useState("");
   const { id } = useParams();
 
@@ -45,6 +46,7 @@ const AdicionarConteudo = () => {
       category,
       type,
       marca,
+      franquia,
       ...(type === "MOVIE" && { year, duration })
     };
 
@@ -82,6 +84,7 @@ const AdicionarConteudo = () => {
         setAge("");
         setYear("");
         setDuration("");
+        setFranquia("");
       })
       .catch(error => {
         console.error("Erro detalhado:", error);
@@ -155,6 +158,16 @@ const AdicionarConteudo = () => {
                 value={age} 
                 onChange={(e) => setAge(e.target.value)} 
                 placeholder="Idade Recomendada"
+              />
+            </div>
+
+            <div className="inputBox">
+              <h2>Franquia</h2>
+              <input 
+                type="text" 
+                value={franquia} 
+                onChange={(e) => setFranquia(e.target.value)} 
+                placeholder="Franquia"
               />
             </div>
 
