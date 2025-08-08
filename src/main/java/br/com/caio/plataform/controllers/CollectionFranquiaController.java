@@ -40,7 +40,7 @@ public class CollectionFranquiaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CollectionFranquia> updateFranquia(@PathVariable String id, @RequestBody CollectionFranquia collectionFranquia) {
-        Optional<CollectionFranquia> updatedFranquias = collectionFranquiaService.updateFranquia(id, collectionFranquia);
+        Optional<CollectionFranquia> updatedFranquias = collectionFranquiaService.update(id, collectionFranquia);
         return updatedFranquias.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 

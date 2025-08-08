@@ -37,9 +37,8 @@ public class Series {
     @JsonManagedReference("series-seasons")
     private List<Seassons> seassonsList;
     
-    // Relacionamento com usuários que favoritaram esta série (via tabela intermediária)
-    @OneToMany(mappedBy = "series", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserFavoriteSeries> usersWhoFavorited;
+    @ManyToMany(mappedBy = "favoriteSeriesList")
+    private List<User> usersWhoFavorited;
 
     public String getId() {
         return id;
@@ -145,11 +144,13 @@ public class Series {
         this.seassonsList = seassonsList;
     }
 
-    public List<UserFavoriteSeries> getUsersWhoFavorited() {
+    public List<User> getUsersWhoFavorited() {
         return usersWhoFavorited;
     }
 
-    public void setUsersWhoFavorited(List<UserFavoriteSeries> usersWhoFavorited) {
+    public void setUsersWhoFavorited(List<User> usersWhoFavorited) {
         this.usersWhoFavorited = usersWhoFavorited;
     }
+
+    
 }

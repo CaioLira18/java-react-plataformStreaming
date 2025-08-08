@@ -6,10 +6,14 @@ const Home = () => {
   const API_URL = "http://localhost:8080/api";
   const [series, setSeries] = useState([]);
   const [movies, setMovies] = useState([]);
+  const [favoriteMovieList, setFavoriteMovieList] = useState([]);
+  const [favoriteSerieList, setFavoriteSerieList] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userId, setUserId] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
   const [name, setName] = useState('');
   const seriesRef = useRef(null);
+  const favRef = useRef(null);
   const moviesRef = useRef(null);
   const disneyRef = useRef(null);
   const dcRef = useRef(null);
@@ -26,21 +30,32 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        setIsAuthenticated(true);
-        setIsAdmin(parsedUser.role === 'ADMIN');
-        setName(parsedUser.name);
-      } catch (error) {
-        console.error("Erro ao carregar dados do usuário:", error);
-        navigate('/login');
-      }
-    } else {
-      navigate('/login');
+      const parsedUser = JSON.parse(storedUser);
+      setUserId(parsedUser.id);
+
+      fetch(`http://localhost:8080/api/users/${parsedUser.id}`)
+        .then((res) => res.json())
+        .then((fullUser) => {
+          console.log('Dados completos do usuário:', fullUser); // DEBUG
+
+          setIsAuthenticated(true);
+          setIsAdmin(fullUser.role === 'ADMIN');
+          setName(fullUser.name || '');
+          setFavoriteMovieList(fullUser.favoriteMovieList || []);
+
+          const seriesList = fullUser.favoriteSeassonList || [];
+          console.log('Lista de temporadas favoritas:', seriesList); // DEBUG
+          setFavoriteSerieList(seriesList);
+        })
+        .catch((error) => {
+          console.error('Erro ao carregar dados:', error);
+          setMessage('Erro ao carregar dados');
+          setMessageType('error');
+        });
     }
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -58,6 +73,28 @@ const Home = () => {
 
   if (!isAuthenticated) return null;
 
+
+  const allFavorites = [
+    ...favoriteMovieList.map((item) => ({
+      ...item,
+      id: item.id || item.movieId,
+      type: 'MOVIE',
+      uniqueKey: `movie-${item.id || item.movieId}`
+    })),
+    ...favoriteSerieList.map((item) => {
+      console.log('Item da temporada:', item); // DEBUG
+      return {
+        ...item,
+        id: item.id, // Usar o ID da temporada
+        type: 'SERIE',
+        uniqueKey: `seasson-${item.id}`, // Usar prefixo seasson para diferenciar
+        // Garantir que tem nome para exibir - usar o nome da temporada
+        name: item.name || 'Temporada sem nome'
+      };
+    }),
+  ];
+
+
   return (
     <div className='home'>
       <Slide />
@@ -70,6 +107,38 @@ const Home = () => {
           </div>
         )}
       </div>
+
+      {allFavorites.length > 0 && (
+        <div className="genericContentBox">
+          <h1>Minha Lista</h1>
+          <div className="slideWrapper">
+            <div className="sliderControls left">
+              <div className="rowAngle" onClick={() => scroll(favRef, 'left')}>
+                <i className="fa-solid fa-angle-left"></i>
+              </div>
+            </div>
+
+            <div className="containerContent" ref={favRef}>
+              {allFavorites.map((item) => (
+                <div className="boxContent" key={item.uniqueKey}>
+                  <div className="boxInformation">
+                    <a href={`/${item.type === 'MOVIE' ? 'movies' : 'series'}/${item.id}`}>
+                      <img src={item.imageVertical || '/imagem-padrao.jpg'} alt={item.name} />
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="sliderControls right">
+              <div className="rowAngle" onClick={() => scroll(favRef, 'right')}>
+                <i className="fa-solid fa-angle-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
 
       {/* SERIES */}
       <div className="genericContentBox">

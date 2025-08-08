@@ -31,19 +31,20 @@ public class CollectionFranquiaService {
         return collectionFranquiaRepository.findAll();
     }
 
-    public CollectionFranquia update(String id, CollectionFranquia collectionFranquia){
-        Optional<CollectionFranquia> existingCollectionFranquia = collectionFranquiaRepository.findById(id);
-        if(existingCollectionFranquia.isPresent()){
-            CollectionFranquia collectionToUpdate = existingCollectionFranquia.get();
-            collectionToUpdate.setFranquia(collectionFranquia.getFranquia());
-            collectionToUpdate.setBackgroundFranquia(collectionFranquia.getBackgroundFranquia());
-            collectionToUpdate.setDescricaoFranquia(collectionFranquia.getDescricaoFranquia());
-            collectionToUpdate.setLogoFranquia(collectionFranquia.getLogoFranquia());
+    public Optional<CollectionFranquia> update(String id, CollectionFranquia collectionFranquia){
+    Optional<CollectionFranquia> existingCollectionFranquia = collectionFranquiaRepository.findById(id);
+    if(existingCollectionFranquia.isPresent()){
+        CollectionFranquia collectionToUpdate = existingCollectionFranquia.get();
+        collectionToUpdate.setFranquia(collectionFranquia.getFranquia());
+        collectionToUpdate.setBackgroundFranquia(collectionFranquia.getBackgroundFranquia());
+        collectionToUpdate.setDescricaoFranquia(collectionFranquia.getDescricaoFranquia());
+        collectionToUpdate.setLogoFranquia(collectionFranquia.getLogoFranquia());
 
-            return collectionFranquiaRepository.save(collectionToUpdate);
-        }
-        return null;
+        return Optional.of(collectionFranquiaRepository.save(collectionToUpdate));
     }
+    return Optional.empty();
+}
+
 
     public boolean deleteById(String id){
         if(collectionFranquiaRepository.existsById(id)){

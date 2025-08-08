@@ -1,5 +1,6 @@
 package br.com.caio.plataform.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import br.com.caio.plataform.entities.enums.UserRole;
@@ -29,13 +30,21 @@ public class User {
     @Column(unique = true)
     private String cpf;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore 
-    private List<UserFavoriteMovie> favoriteMovies;
+    @ManyToMany
+    @JoinTable(
+        name = "user_favorite_movies",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "movie_id")
+    )
+    private List<Movie> favoriteMovieList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore 
-    private List<UserFavoriteSeries> favoriteSeries;
+    @ManyToMany
+    @JoinTable(
+        name = "user_favorite_series",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "series_id")
+    )
+    private List<Series> favoriteSeriesList = new ArrayList<>();
 
     // Construtor padrão
     public User() {}
@@ -73,13 +82,6 @@ public class User {
         return cpf;
     }
 
-    public List<UserFavoriteMovie> getFavoriteMovies() {
-        return favoriteMovies;
-    }
-
-    public List<UserFavoriteSeries> getFavoriteSeries() {
-        return favoriteSeries;
-    }
 
     // Setters
     public void setId(String id) {
@@ -106,16 +108,26 @@ public class User {
         this.cpf = cpf;
     }
 
-    public void setFavoriteMovies(List<UserFavoriteMovie> favoriteMovies) {
-        this.favoriteMovies = favoriteMovies;
-    }
-
-    public void setFavoriteSeries(List<UserFavoriteSeries> favoriteSeries) {
-        this.favoriteSeries = favoriteSeries;
-    }
-
     // Método utilitário para verificar se é admin
     public boolean isAdmin() {
         return UserRole.ADMIN.equals(this.role);
     }
+
+    public List<Movie> getFavoriteMovieList() {
+        return favoriteMovieList;
+    }
+
+    public void setFavoriteMovieList(List<Movie> favoriteMovieList) {
+        this.favoriteMovieList = favoriteMovieList;
+    }
+
+    public List<Series> getFavoriteSeriesList() {
+        return favoriteSeriesList;
+    }
+
+    public void setFavoriteSeriesList(List<Series> favoriteSeriesList) {
+        this.favoriteSeriesList = favoriteSeriesList;
+    }
+
+    
 }

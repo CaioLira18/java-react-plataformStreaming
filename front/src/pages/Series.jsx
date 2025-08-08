@@ -183,15 +183,6 @@ const Series = () => {
             
             {/* Ações secundárias */}
             <div className="secondaryActions">
-              <button onClick={handleAddToFavorites} className="actionButton">
-                {isInFavorites ? (
-                  <i className="fa-solid fa-check"></i>
-                ) : (
-                  <i className="fa-solid fa-plus"></i>
-                )}
-                <span>{isInFavorites ? 'Na lista' : 'Minha lista'}</span>
-              </button>
-              
               <button className="actionButton">
                 <i className="fa-solid fa-bookmark"></i>
                 <span>Trailer</span>

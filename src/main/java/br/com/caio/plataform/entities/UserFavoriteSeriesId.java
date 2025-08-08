@@ -4,22 +4,23 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Embeddable
-public class UserSeriesId implements Serializable {
-
+public class UserFavoriteSeriesId implements Serializable {
+    
     private String userId;
     private String seriesId;
 
-    public UserSeriesId() {} // construtor vazio
+    // Construtores
+    public UserFavoriteSeriesId() {
+    }
 
-    public UserSeriesId(String userId, String seriesId) {
+    public UserFavoriteSeriesId(String userId, String seriesId) {
         this.userId = userId;
         this.seriesId = seriesId;
     }
 
+    // Getters e Setters
     public String getUserId() {
         return userId;
     }
@@ -36,12 +37,13 @@ public class UserSeriesId implements Serializable {
         this.seriesId = seriesId;
     }
 
+    // equals e hashCode (necessários para chaves compostas)
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserSeriesId)) return false;
-        UserSeriesId that = (UserSeriesId) o;
-        return Objects.equals(userId, that.userId) &&
+        if (o == null || getClass() != o.getClass()) return false;
+        UserFavoriteSeriesId that = (UserFavoriteSeriesId) o;
+        return Objects.equals(userId, that.userId) && 
                Objects.equals(seriesId, that.seriesId);
     }
 

@@ -9,39 +9,39 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_user_favorite_series")
-public class UserFavoriteSeries {
+@Table(name = "tb_user_favorite_movies")
+public class UserFavoriteMovies {
 
     @EmbeddedId
-    private UserFavoriteSeriesId id = new UserFavoriteSeriesId();
+    private UserFavoriteMoviesId id = new UserFavoriteMoviesId();
 
     @ManyToOne
     @MapsId("userId")
     private User user;
 
     @ManyToOne
-    @MapsId("seriesId")
-    private Series series;
+    @MapsId("moviesId") 
+    private Movie movie; 
 
     private Date favoritedAt = new Date();
 
     // Construtores
-    public UserFavoriteSeries() {
+    public UserFavoriteMovies() {
     }
 
-    public UserFavoriteSeries(UserFavoriteSeriesId id, User user, Series series, Date favoritedAt) {
+    public UserFavoriteMovies(UserFavoriteMoviesId id, User user, Movie movie, Date favoritedAt) {
         this.id = id;
         this.user = user;
-        this.series = series;
+        this.movie = movie;
         this.favoritedAt = favoritedAt;
     }
 
     // Getters e Setters
-    public UserFavoriteSeriesId getId() {
+    public UserFavoriteMoviesId getId() {
         return id;
     }
 
-    public void setId(UserFavoriteSeriesId id) {
+    public void setId(UserFavoriteMoviesId id) {
         this.id = id;
     }
 
@@ -53,12 +53,12 @@ public class UserFavoriteSeries {
         this.user = user;
     }
 
-    public Series getSeries() {
-        return series;
+    public Movie getMovies() {
+        return movie;
     }
 
-    public void setSeries(Series series) {
-        this.series = series;
+    public void setMovies(Movie movies) {
+        this.movie = movies;
     }
 
     public Date getFavoritedAt() {

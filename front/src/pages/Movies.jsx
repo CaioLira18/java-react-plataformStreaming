@@ -114,60 +114,68 @@ const Movie = () => {
   const handleAddToFavorites = async () => {
   if (!isAuthenticated || !user || !movie) {
     console.warn("Usuário não autenticado ou dados incompletos.");
+    alert("Você precisa estar logado para adicionar aos favoritos!");
     return;
   }
 
   const isAlreadyFavorite = favoriteList.some(item => item.id === movie.id);
+  
+  console.log("Estado atual:", {
+    userId: user.id,
+    movieId: movie.id,
+    isAlreadyFavorite,
+    favoriteListSize: favoriteList.length
+  });
 
   try {
+    let response;
+    
     if (isAlreadyFavorite) {
-      // 🔴 REMOVER dos favoritos
-      const response = await fetch(`${API_URL}/favorite-movie`, {
+      // ❌ REMOVER dos favoritos
+      console.log("Removendo filme dos favoritos...");
+      
+      response = await fetch(`${API_URL}/favorites/movie/${movie.id}/${user.id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          userId: user.id,
-          movieId: movie.id,
-        }),
       });
 
       if (!response.ok) {
-        throw new Error(`Erro ao remover favorito: ${response.status}`);
+        const errorText = await response.text();
+        throw new Error(`Erro ao remover favorito: ${response.status} - ${errorText}`);
       }
 
-      console.log("Filme removido dos favoritos");
+      console.log("✅ Filme removido dos favoritos com sucesso");
+      alert("Filme removido dos favoritos!");
+      
     } else {
       // ✅ ADICIONAR aos favoritos
-      const response = await fetch(`${API_URL}/favorite-movie`, {
+      console.log("Adicionando filme aos favoritos...");
+      
+      response = await fetch(`${API_URL}/favorites/movie/${movie.id}/${user.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          userId: user.id,
-          movieId: movie.id,
-        }),
       });
 
       if (!response.ok) {
-        throw new Error(`Erro ao adicionar favorito: ${response.status}`);
+        const errorText = await response.text();
+        throw new Error(`Erro ao adicionar favorito: ${response.status} - ${errorText}`);
       }
 
-      console.log("Filme adicionado aos favoritos");
+      console.log("✅ Filme adicionado aos favoritos com sucesso");
     }
 
     // 🔄 Atualiza lista de favoritos depois da mudança
-    fetchUserData(user.id);
+    console.log("Atualizando lista de favoritos...");
+    await fetchUserData(user.id);
+    
   } catch (error) {
-    console.error("Erro ao atualizar favoritos:", error);
+    console.error("❌ Erro detalhado ao atualizar favoritos:", error);
   }
 };
-
-
-
-
 
   // Verificar se o filme atual está nos favoritos
   const isInFavorites = Array.isArray(favoriteList) && movie 
