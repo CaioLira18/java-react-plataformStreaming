@@ -9,7 +9,6 @@ const Home = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [name, setName] = useState('');
-
   const seriesRef = useRef(null);
   const moviesRef = useRef(null);
   const disneyRef = useRef(null);
@@ -59,41 +58,8 @@ const Home = () => {
 
   if (!isAuthenticated) return null;
 
-  const renderCarousel = (title, href, ref, items) => (
-    <div className="genericContentBox">
-      {title && <h1>{title}</h1>}
-      {href && <a href={href}>Mostrar Tudo</a>}
-
-      <div className="slideWrapper">
-        <div className="sliderControls left">
-          <div className="rowAngle" onClick={() => scroll(ref, 'left')}>
-            <i className="fa-solid fa-angle-left"></i>
-          </div>
-        </div>
-
-        <div className="containerContent" ref={ref}>
-          {items.map((item, i) => (
-            <div className="boxContent" key={item.id || i}>
-              <div className="boxInformation">
-                <a href={`/${item.type === 'SERIES' ? 'series' : 'movies'}/${item.id}`}>
-                  <img src={item.imageVertical} alt={item.name} />
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="sliderControls right">
-          <div className="rowAngle" onClick={() => scroll(ref, 'right')}>
-            <i className="fa-solid fa-angle-right"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
   return (
-    <div>
+    <div className='home'>
       <Slide />
 
       <div className="welcome">
@@ -105,42 +71,137 @@ const Home = () => {
         )}
       </div>
 
-      {/* Carrossel Series */}
-      {renderCarousel(
-        'Séries',
-        '/series',
-        seriesRef,
-        series.filter(item => item.type === "SERIES")
-      )}
-
-      {/* Carrossel Filmes */}
-      {renderCarousel(
-        'Filmes',
-        '/movies',
-        moviesRef,
-        movies
-      )}
-
-      {/* Carrossel Disney */}
+      {/* SERIES */}
       <div className="genericContentBox">
-        <div className="specialSecction">
-          <img
-            src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070612/logoDisney_twejpl.png"
-            alt="logo disney"
-          />
+        <h1>Series</h1>
+        <a href="/series">Mostrar Tudo</a>
+
+        <div className="slideWrapper">
+          <div className="sliderControls left">
+            <div className="rowAngle" onClick={() => scroll(seriesRef, 'left')}>
+              <i className="fa-solid fa-angle-left"></i>
+            </div>
+          </div>
+
+          <div className="containerContent" ref={seriesRef}>
+            {series.filter(item => item.type === "SERIES")
+              .map((serieItem, i) => (
+                <div className="boxContent" key={serieItem.id || i}>
+                  <div className="boxInformation">
+                    <a href={`/series/${serieItem.id}`}>
+                      <img src={serieItem.imageVertical} alt={serieItem.name} />
+                    </a>
+                  </div>
+                </div>
+              ))}
+          </div>
+
+          <div className="sliderControls right">
+            <div className="rowAngle" onClick={() => scroll(seriesRef, 'right')}>
+              <i className="fa-solid fa-angle-right"></i>
+            </div>
+          </div>
         </div>
-        {renderCarousel(null, null, disneyRef, movies.filter(item => item.marca === "DISNEY"))}
       </div>
 
-      {/* Carrossel DC */}
+      {/* FILMES */}
+      <div className="genericContentBox">
+        <h1>Filmes</h1>
+        <a href="/movies">Mostrar tudo</a>
+
+        <div className="slideWrapper">
+          <div className="sliderControls left">
+            <div className="rowAngle" onClick={() => scroll(moviesRef, 'left')}>
+              <i className="fa-solid fa-angle-left"></i>
+            </div>
+          </div>
+
+          <div className="containerContent" ref={moviesRef}>
+            {movies.map((movieItem, i) => (
+              <div className="boxContent" key={movieItem.id || i}>
+                <div className="boxInformation">
+                  <a href={`/movies/${movieItem.id}`}>
+                    <img src={movieItem.imageVertical} alt={movieItem.name} />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="sliderControls right">
+            <div className="rowAngle" onClick={() => scroll(moviesRef, 'right')}>
+              <i className="fa-solid fa-angle-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* DISNEY */}
       <div className="genericContentBox">
         <div className="specialSecction">
-          <img
-            src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png"
-            alt="logo dc"
-          />
+          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070612/logoDisney_twejpl.png" alt="logo disney" />
         </div>
-        {renderCarousel(null, null, dcRef, movies.filter(item => item.marca === "DC"))}
+
+        <div className="slideWrapper">
+          <div className="sliderControls left">
+            <div className="rowAngle" onClick={() => scroll(disneyRef, 'left')}>
+              <i className="fa-solid fa-angle-left"></i>
+            </div>
+          </div>
+
+          <div className="containerContent" ref={disneyRef}>
+            {movies.filter(item => item.marca === "DISNEY")
+              .map((movieItem, i) => (
+                <div className="boxContent" key={movieItem.id || i}>
+                  <div className="boxInformation">
+                    <a href={`/movies/${movieItem.id}`}>
+                      <img src={movieItem.imageVertical} alt={movieItem.name} />
+                    </a>
+                  </div>
+                </div>
+              ))}
+          </div>
+
+          <div className="sliderControls right">
+            <div className="rowAngle" onClick={() => scroll(disneyRef, 'right')}>
+              <i className="fa-solid fa-angle-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* DC */}
+      <div className="genericContentBox">
+        <div className="specialSecction">
+          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="logo dc" />
+        </div>
+
+        <div className="slideWrapper">
+          <div className="sliderControls left">
+            <div className="rowAngle" onClick={() => scroll(dcRef, 'left')}>
+              <i className="fa-solid fa-angle-left"></i>
+            </div>
+          </div>
+
+          <div className="containerContent" ref={dcRef}>
+            {movies.filter(item => item.marca === "DC")
+              .map((movieItem, i) => (
+                <div className="boxContent" key={movieItem.id || i}>
+                  <div className="boxInformation">
+                    <a href={`/movies/${movieItem.id}`}>
+                      <img src={movieItem.imageVertical} alt={movieItem.name} />
+                    </a>
+                  </div>
+                </div>
+              ))}
+          </div>
+
+          <div className="sliderControls right">
+            <div className="rowAngle" onClick={() => scroll(dcRef, 'right')}>
+              <i className="fa-solid fa-angle-right"></i>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
