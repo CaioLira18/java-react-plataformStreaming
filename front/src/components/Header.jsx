@@ -1,3 +1,4 @@
+// Header.jsx
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,29 +7,41 @@ const Header = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [name, setName] = useState('');
   const [image, setImage] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
 
- useEffect(() => {
-  const storedUser = localStorage.getItem("user");
-  if (storedUser) {
-    try {
-      const parsedUser = JSON.parse(storedUser);
-      const userData = Array.isArray(parsedUser) ? parsedUser[0] : parsedUser; 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        const userData = Array.isArray(parsedUser) ? parsedUser[0] : parsedUser; 
 
-      setIsAuthenticated(true);
-      setName(userData.name);
-      setIsAdmin(userData.role === 'ADMIN');
-      setImage(userData.profileImage);
+        setIsAuthenticated(true);
+        setName(userData.name);
+        setIsAdmin(userData.role === 'ADMIN');
+        setImage(userData.profileImage);
 
-      console.log("Dados do usuário carregados:", userData);
-    } catch (error) {
-      console.error("Erro ao carregar dados do usuário:", error);
+        console.log("Dados do usuário carregados:", userData);
+      } catch (error) {
+        console.error("Erro ao carregar dados do usuário:", error);
+      }
+    } else {
+      console.log("Nenhum usuário encontrado no localStorage");
     }
-  } else {
-    console.log("Nenhum usuário encontrado no localStorage");
-  }
-}, []);
+  }, []);
 
+  // Fechar menu ao redimensionar para desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   function removeProfile() {
     localStorage.removeItem("user");
@@ -36,36 +49,65 @@ const Header = () => {
     setIsAdmin(false);
     setName('');
     setImage('');
+    setIsMenuOpen(false); // Fechar menu ao sair
     navigate('/login');
   }
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
 
   return (
     <div>
       <div className="header">
         <div className="headerContainer">
+          {/* Logo */}
           <div className="logoHeader">
             <img
               src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1753825253/logo_wzqgvp.png"
               alt="Logo"
             />
           </div>
-          <div className="optionsHeader">
-            <ul>
-              <li><a href="/">Home</a></li>
-              <li><a href="/movies">Filmes</a></li>
-              <li><a href="/series">Séries</a></li>
+
+          {/* Menu Hamburger - Apenas Mobile */}
+          <div className="mobileMenuIcon" onClick={toggleMenu}>
+            <i className={isMenuOpen ? "fa-solid fa-times" : "fa-solid fa-bars"}></i>
+          </div>
+
+          {/* Overlay para fechar menu mobile */}
+          {isMenuOpen && <div className="mobileOverlay" onClick={closeMenu}></div>}
+
+          {/* Navegação */}
+          <div className={`optionsHeader ${isMenuOpen ? 'mobileMenuOpen' : ''}`}>
+            <ul className="navigationMenu">
+              <li><a href="/" onClick={closeMenu}>Home</a></li>
+              <li><a href="/movies" onClick={closeMenu}>Filmes</a></li>
+              <li><a href="/series" onClick={closeMenu}>Séries</a></li>
+            </ul>
+
+            <ul className="profileMenu">
               <li className='liProfile'>
                 {!isAuthenticated ? (
-                  <a href="/login">Perfil</a>
+                  <a href="/login" className="loginBtn" onClick={closeMenu}>
+                    <i className="fa-solid fa-user"></i>
+                    <span>Perfil</span>
+                  </a>
                 ) : (
                   <div className='authenticatedBox'>
                     <div className="iconName">
-                      <img src={image || "https://res.cloudinary.com/dthgw4q5d/image/upload/v1753994647/icon_fzzpew.png"}  alt="Perfil" />
-                      <a href="/Edit">{name}</a>
+                      <img 
+                        src={image || "https://res.cloudinary.com/dthgw4q5d/image/upload/v1753994647/icon_fzzpew.png"} 
+                        alt="Perfil" 
+                      />
+                      <a href="/Edit" onClick={closeMenu}>{name}</a>
                     </div>
-                    <div className="logOutBox">
+                    <div className="logOutBox" onClick={removeProfile}>
                       <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                      <a onClick={removeProfile} href="#">Sair</a>
+                      <span>Sair</span>
                     </div>
                   </div>
                 )}

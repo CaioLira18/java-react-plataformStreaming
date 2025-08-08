@@ -306,58 +306,272 @@ ul, ol {
 
 /* Header */
 
-.logoHeader img {
-  width: 100px;
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(20,20,20,0.98) 100%);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
 }
 
 .headerContainer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
+  padding: 18px 40px;
   color: white;
-}
-
-.optionsHeader ul li a {
-  transition: 0.3s all ease-in-out;
+  max-width: 1400px;
   margin: 0 auto;
+  position: relative;
 }
 
-.optionsHeader ul li a:hover {
-  border-bottom: 1px solid white;
+/* === LOGO === */
+.logoHeader img {
+  width: 110px;
+  height: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }
 
-.optionsHeader ul  {
+.logoHeader img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* === MENU HAMBURGER (MOBILE) === */
+.mobileMenuIcon {
+  display: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: white;
+  z-index: 1002;
+  transition: all 0.3s ease;
+  padding: 8px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.mobileMenuIcon:hover {
+  color: #007bff;
+  background: rgba(0,123,255,0.1);
+  transform: scale(1.1);
+}
+
+.mobileMenuIcon:active {
+  transform: scale(0.95);
+}
+
+/* === OVERLAY MOBILE === */
+.mobileOverlay {
+  display: none;
+}
+
+/* === NAVEGAÇÃO DESKTOP === */
+.optionsHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 80px;
+}
+
+.navigationMenu,
+.profileMenu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navigationMenu {
+  gap: 40px;
+}
+
+.profileMenu {
   gap: 20px;
 }
 
-.logOutBox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
+/* === LINKS DE NAVEGAÇÃO === */
+.navigationMenu li a {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 12px 20px;
+  border-radius: 10px;
+  position: relative;
+  background: linear-gradient(135deg, transparent 0%, transparent 100%);
 }
 
+.navigationMenu li a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #007bff, #00d4ff);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navigationMenu li a:hover {
+  color: #007bff;
+  background: rgba(0,123,255,0.1);
+  transform: translateY(-2px);
+}
+
+.navigationMenu li a:hover::before {
+  width: 80%;
+}
+
+/* === BOTÃO LOGIN === */
+.loginBtn {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+  color: white !important;
+  padding: 12px 24px !important;
+  border-radius: 25px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.loginBtn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.loginBtn:hover {
+  background: linear-gradient(135deg, #0056b3 0%, #004085 100%) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,123,255,0.4);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.loginBtn:hover::before {
+  left: 100%;
+}
+
+.loginBtn i {
+  font-size: 0.9rem;
+}
+
+/* === USUÁRIO AUTENTICADO === */
 .authenticatedBox {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 20px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-.authenticatedBox img {
-  width: 35px;
-  border-radius: 40px;
+.authenticatedBox::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  transition: left 0.8s;
+}
+
+.authenticatedBox:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(0,123,255,0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0,123,255,0.2);
+}
+
+.authenticatedBox:hover::before {
+  left: 100%;
 }
 
 .iconName {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 12px;
+}
+
+.authenticatedBox img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.authenticatedBox img:hover {
+  border-color: #007bff;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(0,123,255,0.5);
+}
+
+.iconName a {
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.iconName a:hover {
+  color: #007bff;
+}
+
+.logOutBox {
+  display: flex;
+  align-items: center;
   gap: 8px;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(220,53,69,0.1);
+  border: 1px solid rgba(220,53,69,0.2);
+}
+
+.logOutBox:hover {
+  background: rgba(220,53,69,0.2);
+  color: #dc3545;
+  transform: translateX(3px);
+  box-shadow: 0 3px 10px rgba(220,53,69,0.3);
+}
+
+.logOutBox i {
+  font-size: 0.9rem;
+  transition: transform 0.3s ease;
+}
+
+.logOutBox:hover i {
+  transform: translateX(2px);
+}
+
+.logOutBox span {
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 /* Series */
@@ -1508,7 +1722,6 @@ ul, ol {
   position: relative;
   bottom: 0;
   width: 100%;
-  margin-top: 100px;
 }
 
 /* Adicionar Temporadas */
@@ -1927,10 +2140,14 @@ ul, ol {
 .container-slider {
   display: flex;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* Remove o gap que pode estar causando problemas */
+  gap: 0;
 }
 
 .container-images {
@@ -1939,22 +2156,29 @@ ul, ol {
   align-items: center;
   justify-content: center;
   width: 100%;
-}
-
-.slide-container {
-  position: relative;
-  width: 100%;
   height: 100%;
 }
 
-.container-images img {
+.slide-container {
+  position: absolute; /* Muda para absolute */
   width: 100%;
-  display: block;
+  height: 100%;
+  top: 0;
+  left: 0;
 }
 
 .slider {
+  width: 100%; /* Força largura total */
+  height: 100%; /* Força altura total */
+  object-fit: cover;
+  object-position: center; /* Centraliza a imagem */
   opacity: 0;
   transition: opacity 0.2s;
+}
+
+.slider.on {
+  opacity: 1;
+  box-shadow: 0px 80px 60px -40px rgba(0, 0, 0, 0.7);
 }
 
 .franquiaInformations {
@@ -2002,8 +2226,42 @@ ul, ol {
   margin: 0;
 }
 
+.slider.on {
+  opacity: 1;
+  box-shadow: 0px 80px 60px -40px rgba(0, 0, 0, 0.7); /* sombra inferior */
+}
+
 .on {
   opacity: 1;
+}
+
+/* Indicadores de slide */
+.slide-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator.active {
+    background: white;
+}
+
+.indicator:hover {
+    transform: scale(1.2);
 }
 
 #prev-button, #next-button {
@@ -2035,6 +2293,7 @@ ul, ol {
 }
 
 /* Responsividade */
+
 @media (max-width: 768px) {
   .register {
     padding: 10px;
@@ -2183,319 +2442,418 @@ ul, ol {
 }
 
 
-/* Responsividade */
-
-@media (max-width: 480px) {
-
-  .boxInformation {
-    display: grid;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    grid-template-rows: 2fr;
-  }
-
-  .boxInformation img {
-    width: 150px;
-  }
-
-  .loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    margin-top: 100px;
-  }
-
+@media (min-width: 1440px) {
   .headerContainer {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    padding: 20px;
-    color: white;
+    padding: 20px 60px;
   }
-
-  .serieImage img {
-    width: 400px;
+  
+  .optionsHeader {
+    gap: 100px;
   }
-
-  .serieInformations h1 {
-    font-size: 20px;
-  }
-
-  .serieInformations {
-    width: 80%;
-  }
-
-  .serieInformations p {
-    font-size: 15px;
-    text-align: center;
-  }
-
-  .imagesSerie {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .imagesSerie img {
-    width: 300px;
-  }
-
-  .episodeItem {
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    padding: 10px;
-  }
-
-  .episodeItem {
-    font-size: 12px;
-  }
-
-  .episodeItem img {
-    width: 130px;
-  }
-
-  .information {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .moviesInformations {
-    width: 100%;
-  }
-
-  .moviesInformations h1 {
-    font-size: 20px;
-  }
-
-   .moviesInformations p {
-    font-size: 15px;
-  }
-
-  .moviesIndividualBox img {
-    width: 400px;
-  }
-
-  .imagesMovie {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .imagesMovie img {
-    width: 300px;
-  }
-
-  .buttonsAdd {
-    display: flex;
-    margin: 0 auto;
-    flex-direction: column;
-    margin-top: 20px;
+  
+  .navigationMenu {
+    gap: 50px;
   }
 }
 
-@media (max-width: 768px) {
+/* === DESKTOP MÉDIO === */
+@media (max-width: 1200px) {
+  .headerContainer {
+    padding: 18px 30px;
+  }
+  
+  .optionsHeader {
+    gap: 60px;
+  }
+  
+  .navigationMenu {
+    gap: 30px;
+  }
+}
 
-  .boxFranquia {
+/* === TABLET LARGE === */
+@media (max-width: 1024px) {
+  .headerContainer {
+    padding: 16px 25px;
+  }
+  
+  .logoHeader img {
+    width: 95px;
+  }
+  
+  .optionsHeader {
+    gap: 40px;
+  }
+  
+  .navigationMenu {
+    gap: 25px;
+  }
+  
+  .navigationMenu li a {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+  }
+}
+
+/* === TABLET/MOBILE === */
+@media (max-width: 768px) {
+  .headerContainer {
+    padding: 15px 20px;
+  }
+
+  .logoHeader img {
+    width: 85px;
+  }
+
+  .mobileMenuIcon {
+    display: block;
+  }
+
+  /* Botão fechar dentro do menu mobile */
+  .mobileCloseBtn {
+    display: none;
+  }
+
+  .mobileOverlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .mobileMenuOpen + .mobileOverlay {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .optionsHeader {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    width: 320px;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(0,0,0,0.98) 0%, rgba(20,20,20,0.98) 100%);
+    backdrop-filter: blur(25px);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 20px 0 30px 0;
+    gap: 30px;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 1px solid rgba(255,255,255,0.1);
+    z-index: 1001;
+    overflow-y: auto;
+  }
+
+  .optionsHeader.mobileMenuOpen {
+    right: 0;
+  }
+
+  /* Botão fechar dentro do menu mobile */
+  .mobileCloseBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    width: 40px;
+    height: 40px;
+    background: rgba(220,53,69,0.8);
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    z-index: 1002;
+  }
+
+  .mobileCloseBtn:hover {
+    background: rgba(220,53,69,1);
+    transform: scale(1.1);
+  }
+
+  .navigationMenu,
+  .profileMenu {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0;
+    padding: 0 25px;
+    margin-top: 60px; /* Espaço para o botão fechar */
+  }
+
+  .navigationMenu {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+  }
+
+  .navigationMenu li,
+  .profileMenu li {
     width: 100%;
   }
 
-  .boxInformationPageFranquia {
-    display: grid;
+  .navigationMenu li a {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    grid-template-columns: 1fr 1fr; /* Duas colunas iguais */
-    gap: 20px; /* (opcional) espaço entre os itens */
+    width: 100%;
+    padding: 18px 20px;
+    margin-bottom: 8px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    border-left: 4px solid transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
   }
 
-  .movieHeroOverlay {
-    padding: 0 20px 40px 20px;
+  .navigationMenu li a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0,123,255,0.1), transparent);
+    transition: left 0.5s;
   }
-  
-  .movieMainTitle {
-    font-size: 2.5rem;
+
+  .navigationMenu li a:hover {
+    background: rgba(0,123,255,0.15);
+    border-left-color: #007bff;
+    transform: translateX(8px);
+    color: #007bff;
   }
-  
-  .movieHeroContent {
-    max-width: 100%;
+
+  .navigationMenu li a:hover::before {
+    left: 100%;
   }
-  
-  .secondaryActions {
-    flex-wrap: wrap;
+
+  .authenticatedBox {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    padding: 25px 20px;
+    border-radius: 15px;
     gap: 20px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
   }
-  
-  .moviesImagesIndividual {
+
+  .iconName {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .iconName a {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .authenticatedBox img {
+    width: 45px;
+    height: 45px;
+  }
+
+  .logOutBox {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 15px 20px;
+    border-radius: 10px;
+    background: rgba(220,53,69,0.15);
+    border: 1px solid rgba(220,53,69,0.3);
+    margin-top: 5px;
+  }
+
+  .logOutBox:hover {
+    background: rgba(220,53,69,0.25);
+    transform: translateX(5px);
+  }
+
+  .logOutBox span {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .loginBtn {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 18px 25px !important;
+    font-size: 1.2rem !important;
+    margin-top: 10px !important;
+    border-radius: 15px !important;
+  }
+
+  .loginBtn span {
+    font-weight: 700;
+  }
+
+  /* Animações de entrada mobile */
+  .mobileMenuOpen .navigationMenu li,
+  .mobileMenuOpen .profileMenu li {
+    animation: slideInFromRight 0.4s ease forwards;
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  .mobileMenuOpen .navigationMenu li:nth-child(1) { 
+    animation-delay: 0.1s; 
+  }
+  .mobileMenuOpen .navigationMenu li:nth-child(2) { 
+    animation-delay: 0.15s; 
+  }
+  .mobileMenuOpen .navigationMenu li:nth-child(3) { 
+    animation-delay: 0.2s; 
+  }
+  .mobileMenuOpen .profileMenu li { 
+    animation-delay: 0.25s; 
+  }
+}
+
+/* === MOBILE PEQUENO === */
+@media (max-width: 480px) {
+  .headerContainer {
+    padding: 12px 15px;
+  }
+
+  .logoHeader img {
+    width: 75px;
+  }
+
+  .mobileMenuIcon {
+    font-size: 1.4rem;
+    padding: 6px;
+  }
+
+  .optionsHeader {
+    width: 280px;
+    padding: 70px 0 25px 0;
+  }
+
+  .navigationMenu,
+  .profileMenu {
     padding: 0 20px;
   }
-  
-  .imagesMovie {
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .moviesImagesIndividual img {
-    width: 100%;
-    max-width: 400px;
+
+  .navigationMenu li a {
+    padding: 16px 18px;
+    font-size: 1rem;
   }
 
-  .edit {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0;
+  .authenticatedBox {
+    padding: 20px 18px;
   }
 
-  .boxMyList {
-    margin-left: 20px;
-    margin-right: 20px;
-  }
-  
-  .favoritesGrid {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0;
-    gap: 15px;
-  }
-  
-  .favoriteContainer {
-    width: 140px;
-  }
-  
-  .favoriteImage {
-    width: 140px;
-    height: 210px;
+  .authenticatedBox img {
+    width: 40px;
+    height: 40px;
   }
 
-  .favoritesGrid {
-    gap: 20px;
-  }
-  
-  .favoriteContainer {
-    width: 120px;
-  }
-  
-  .favoriteImage {
-    width: 120px;
-    height: 180px;
-  }
-}
-
-/* Responsividade aprimorada */
-@media (max-width: 768px) {
-  .movieHeroSection {
-    background-image: var(--mobile-image);
-  }
-
-  .serieHeroSection {
-    background-image: var(--mobile-image);
-  }
-
-  .othersMoviesContent {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  
-  .movieCard img {
-    height: 250px;
-  }
-  
-  .movieCardInfo {
-    padding: 15px;
-  }
-  
-  .movieCardInfo h3 {
+  .iconName a {
     font-size: 1.1rem;
   }
-  
-  .movieCardInfo p {
-    font-size: 0.85rem;
+
+  .logOutBox {
+    padding: 14px 18px;
+  }
+
+  .loginBtn {
+    padding: 16px 22px !important;
+    font-size: 1.1rem !important;
   }
 }
 
-@media (max-width: 480px) {
-  .othersMoviesContent {
-    grid-template-columns: 1fr;
-    gap: 15px;
+/* === MOBILE EXTRA PEQUENO === */
+@media (max-width: 375px) {
+  .headerContainer {
+    padding: 10px 12px;
   }
-  
-  .movieCard img {
-    height: 200px;
-  }
-}
 
-/* Responsividade */
-@media (max-width: 768px) {
-  .login {
-    padding: 10px;
-  }
-  
-  .loginContainer {
-    padding: 32px 24px;
-    border-radius: 20px;
-  }
-  
-  .cabecalhoLogin h1 {
-    font-size: 1.9rem;
-  }
-  
-  .imageLogin img {
+  .logoHeader img {
     width: 70px;
-    height: 70px;
+  }
+
+  .optionsHeader {
+    width: 260px;
+  }
+
+  .navigationMenu,
+  .profileMenu {
+    padding: 0 18px;
+  }
+
+  .navigationMenu li a {
+    padding: 14px 16px;
+    font-size: 0.95rem;
+  }
+
+  .loginBtn {
+    padding: 14px 20px !important;
+    font-size: 1rem !important;
   }
 }
 
-@media (max-width: 480px) {
-  .loginContainer {
-    padding: 24px 20px;
-    border-radius: 16px;
-  }
-  
-  .cabecalhoLogin h1 {
-    font-size: 1.7rem;
-  }
-  
-  .othersLogin {
-    gap: 16px;
-  }
-  
-  .othersLogin a {
-    width: 44px;
-    height: 44px;
-    font-size: 1.1rem;
-  }
-}
-/* Responsividade */
-@media (max-width: 768px) {
-  .franquiaInformations {
-    width: calc(100% - 40px);
-    left: 20px;
-    bottom: 20px;
-    padding: 20px;
-  }
-  
-  .franquiaInformations img {
-    width: 150px;
+/* ===== ANIMAÇÕES ===== */
+@keyframes slideInFromRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-@media (max-width: 480px) {
-  .franquiaInformations {
-    width: calc(100% - 20px);
-    left: 10px;
-    bottom: 10px;
-    padding: 15px;
+/* === MELHORIAS DE PERFORMANCE === */
+.header,
+.headerContainer,
+.optionsHeader,
+.navigationMenu li a,
+.authenticatedBox,
+.loginBtn,
+.logOutBox {
+  will-change: transform;
+}
+
+/* === ESTADOS DE FOCUS PARA ACESSIBILIDADE === */
+.navigationMenu li a:focus,
+.loginBtn:focus,
+.logOutBox:focus,
+.mobileMenuIcon:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* === MODO ESCURO APRIMORADO === */
+@media (prefers-color-scheme: dark) {
+  .header {
+    background: linear-gradient(135deg, rgba(0,0,0,0.98) 0%, rgba(10,10,10,0.99) 100%);
   }
   
-  .franquiaInformations img {
-    width: 120px;
+  .navigationMenu li a {
+    background: rgba(255,255,255,0.03);
   }
   
-  .franquiaInformations p {
-    font-size: 14px;
+  .authenticatedBox {
+    background: rgba(255,255,255,0.06);
   }
 }
 
+/* === REDUÇÃO DE MOVIMENTO PARA ACESSIBILIDADE === */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

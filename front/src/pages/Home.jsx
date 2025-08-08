@@ -14,9 +14,17 @@ const Home = () => {
   const disneyRef = useRef(null);
   const dcRef = useRef(null);
 
-
   const navigate = useNavigate();
 
+  // Função scroll para os carrosséis de conteúdo (não confundir com o slide principal)
+  const scroll = (ref, direction) => {
+    if (!ref.current) return;
+    const scrollAmount = 300;
+    ref.current.scrollBy({
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth',
+    });
+  };
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -53,8 +61,10 @@ const Home = () => {
 
   return (
     <div>
+      {/* Slide */}
+      <Slide />
+
       <div className="welcome">
-        <h1>Bem Vindo, <strong>{name}</strong></h1>
         {isAdmin && (
           <div className="buttonsAdd">
             <a href="/AdicionarTemporadas"><button>Adicionar Temporadas</button></a>
@@ -62,9 +72,6 @@ const Home = () => {
           </div>
         )}
       </div>
-
-      {/* Slide */}
-      <Slide />
 
       {/* SERIES */}
       <div className="genericContentBox">
