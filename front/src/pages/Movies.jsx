@@ -186,7 +186,15 @@ const Movie = () => {
   return (
     <div>
       {/* Hero Section com Background */}
-      <div className="movieHeroSection" style={{backgroundImage: `url(${movie.image})`}}>
+      <div
+        className="movieHeroSection"
+        style={{
+          '--desktop-image': `url(${movie.image})`,
+          '--mobile-image': `url(${movie.imageVertical})`
+        }}
+      >
+
+
         <div className="movieHeroOverlay">
           <div className="movieHeroContent">
             {/* Logo/Brand */}

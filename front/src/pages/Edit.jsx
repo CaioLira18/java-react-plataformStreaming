@@ -339,11 +339,6 @@ const Edit = () => {
                 )}
       </div>
 
-      {/* DEBUG: Mostrar quantos favoritos temos */}
-      <div style={{padding: '10px', background: '#f0f0f0', margin: '10px'}}>
-        <p>Debug: {favoriteMovieList.length} filmes, {favoriteSerieList.length} temporadas favoritas</p>
-      </div>
-
       {allFavorites.length > 0 && (
         <div className="myList">
           <div className="boxMyList">
