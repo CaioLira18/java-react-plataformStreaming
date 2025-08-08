@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 const FranquiaPage = () => {
-    const { id } = useParams(); // Pega o ID da URL
+    const { id } = useParams();
     const navigate = useNavigate();
     const API_URL = "http://localhost:8080/api";
     
@@ -10,10 +10,9 @@ const FranquiaPage = () => {
     const [movies, setMovies] = useState([]);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
-    const [collection, setCollection] = useState(null); // Mudei para null pois será um objeto
+    const [collection, setCollection] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Verificar autenticação primeiro
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
@@ -30,7 +29,6 @@ const FranquiaPage = () => {
         }
     }, [navigate]);
 
-    // Buscar dados quando autenticado
     useEffect(() => {
         if (!isAuthenticated) return;
 
@@ -38,7 +36,6 @@ const FranquiaPage = () => {
             try {
                 setLoading(true);
 
-                // Buscar a collection específica pelo ID
                 const collectionResponse = await fetch(`${API_URL}/collections/${id}`);
                 if (collectionResponse.ok) {
                     const collectionData = await collectionResponse.json();
@@ -47,7 +44,6 @@ const FranquiaPage = () => {
                     console.error('Collection não encontrada');
                 }
 
-                // Buscar séries
                 const seriesResponse = await fetch(`${API_URL}/series`);
                 if (seriesResponse.ok) {
                     const seriesData = await seriesResponse.json();
@@ -56,7 +52,6 @@ const FranquiaPage = () => {
                     }
                 }
 
-                // Buscar filmes
                 const moviesResponse = await fetch(`${API_URL}/movie`);
                 if (moviesResponse.ok) {
                     const moviesData = await moviesResponse.json();
@@ -101,44 +96,46 @@ const FranquiaPage = () => {
 
     return (
         <div>
-            <div className="franquia"  style={{'--background-url': `url(${collection.backgroundFranquia})`,}}>
+            <div className="franquia" style={{ '--background-url': `url(${collection.backgroundFranquia})` }}>
                 <div className="containerFranquia">
                     <div className="boxFranquia">
                         <img src={collection.logoFranquia} alt="" />
                         <p>{collection.descricaoFranquia}</p>
                     </div>
-            </div>
-            
-            <div className="contentFranquia">
-            {/* Você pode adicionar aqui a lógica para filtrar filmes/séries desta franquia */}
-            {series.length > 0 && (
-                <div className="boxInformationPage">
-                    {series
-                        .filter(serie => serie.franquiaId === id) // Ajuste conforme sua estrutura
-                        .map(serie => (
-                            <div key={serie.id}>
-                                <h3>{serie.titulo}</h3>
-                            </div>
-                        ))
-                    }
                 </div>
-            )}
 
-            {movies.length > 0 && (
-                <div className="boxInformationPageFranquia">
-                    {movies
-                        .filter(movie => movie.franquia === collection.franquia) // Ajuste conforme sua estrutura
-                        .map(movie => (
-                            <div>
-                                <a href={`/movies/${movie.id}`}><img src={movie.imageVertical} alt="" /></a>
-                            </div>
-                        ))
-                    }
+                <div className="contentFranquia">
+                    {series.length > 0 && (
+                        <div className="boxInformationPage">
+                            {series
+                                .filter(serie => serie.franquiaId === id) // Ajuste conforme sua estrutura
+                                .map(serie => (
+                                    <div key={serie.id}>
+                                        <h3>{serie.titulo}</h3>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    )}
+
+                    {movies.length > 0 && (
+                        <div className="boxInformationPageFranquia">
+                            {movies
+                                .filter(movie => movie.franquia === collection.franquia) // ou use movie.franquiaId === collection.id
+                                .sort((a, b) => a.year - b.year) 
+                                .map(movie => (
+                                    <div key={movie.id}>
+                                        <a href={`/movies/${movie.id}`}>
+                                            <img src={movie.imageVertical} alt="" />
+                                        </a>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    )}
                 </div>
-            )}
             </div>
         </div>
-    </div>
     );
 };
 

@@ -11,6 +11,7 @@ const Movie = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
+  const numero = 9999;
 
   const API_URL = "http://localhost:8080/api";
 
@@ -276,12 +277,14 @@ const Movie = () => {
           {Array.isArray(movies) && movies
             .filter(movieItem => movieItem.marca === movie.marca && movieItem.id !== movie.id)
             .map((movieItem, i) => (
+
               <div className="movieCard" key={movieItem.id || i}>
                 <img src={movieItem.image} alt={movieItem.name} />
                 <div className="movieCardInfo">
                   <a href={`/movies/${movieItem.id}`}><h3>{movieItem.name}</h3></a>
                   <a href={`/movies/${movieItem.id}`}><p>{movieItem.description || "Filme da Disney"}</p></a>
                 </div>
+             
               </div>
             ))}
         </div>
