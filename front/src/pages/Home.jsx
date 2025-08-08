@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Slide from '../components/Slide';
 
 const Home = () => {
   const API_URL = "http://localhost:8080/api";
@@ -8,22 +9,14 @@ const Home = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [name, setName] = useState('');
-  const navigate = useNavigate();
-
-  // Refs para slides
   const seriesRef = useRef(null);
   const moviesRef = useRef(null);
   const disneyRef = useRef(null);
   const dcRef = useRef(null);
 
-  const scroll = (ref, direction) => {
-    if (!ref.current) return;
-    const scrollAmount = 300; // distância que vai deslizar
-    ref.current.scrollBy({ 
-      left: direction === 'left' ? -scrollAmount : scrollAmount, 
-      behavior: 'smooth' 
-    });
-  };
+
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -46,14 +39,14 @@ const Home = () => {
     if (!isAuthenticated) return;
 
     fetch(`${API_URL}/series`)
-      .then(response => response.json())
-      .then(data => Array.isArray(data) && setSeries(data))
-      .catch(error => console.error('Erro ao buscar Series:', error));
+      .then((res) => res.json())
+      .then((data) => Array.isArray(data) && setSeries(data))
+      .catch((err) => console.error("Erro ao buscar séries", err));
 
     fetch(`${API_URL}/movie`)
-      .then(response => response.json())
-      .then(data => Array.isArray(data) && setMovies(data))
-      .catch(error => console.error('Erro ao buscar Movies:', error));
+      .then((res) => res.json())
+      .then((data) => Array.isArray(data) && setMovies(data))
+      .catch((err) => console.error("Erro ao buscar filmes", err));
   }, [isAuthenticated]);
 
   if (!isAuthenticated) return null;
@@ -70,6 +63,9 @@ const Home = () => {
         )}
       </div>
 
+      {/* Slide */}
+      <Slide />
+
       {/* SERIES */}
       <div className="genericContentBox">
         <h1>Series</h1>
@@ -83,7 +79,7 @@ const Home = () => {
               .map((serieItem, i) => (
                 <div className="boxContent" key={serieItem.id || i}>
                   <div className="boxInformation">
-                    <a href={"/series/" + serieItem.id}>
+                    <a href={`/series/${serieItem.id}`}>
                       <img src={serieItem.imageVertical} alt={serieItem.name} />
                     </a>
                   </div>
@@ -104,7 +100,7 @@ const Home = () => {
             {movies.map((movieItem, i) => (
               <div className="boxContent" key={movieItem.id || i}>
                 <div className="boxInformation">
-                  <a href={"/movies/" + movieItem.id}>
+                  <a href={`/movies/${movieItem.id}`}>
                     <img src={movieItem.imageVertical} alt={movieItem.name} />
                   </a>
                 </div>
@@ -117,7 +113,7 @@ const Home = () => {
       {/* DISNEY */}
       <div className="genericContentBox">
         <div className="specialSecction">
-          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070612/logoDisney_twejpl.png" alt="" />
+          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070612/logoDisney_twejpl.png" alt="logo disney" />
         </div>
         <div className="slideWrapper">
           <div className="rowAngle left" onClick={() => scroll(disneyRef, 'left')}>◀</div>
@@ -127,7 +123,7 @@ const Home = () => {
               .map((movieItem, i) => (
                 <div className="boxContent" key={movieItem.id || i}>
                   <div className="boxInformation">
-                    <a href={"/movies/" + movieItem.id}>
+                    <a href={`/movies/${movieItem.id}`}>
                       <img src={movieItem.imageVertical} alt={movieItem.name} />
                     </a>
                   </div>
@@ -140,7 +136,7 @@ const Home = () => {
       {/* DC */}
       <div className="genericContentBox">
         <div className="specialSecction">
-          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="" />
+          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="logo dc" />
         </div>
         <div className="slideWrapper">
           <div className="rowAngle left" onClick={() => scroll(dcRef, 'left')}>◀</div>
@@ -150,7 +146,7 @@ const Home = () => {
               .map((movieItem, i) => (
                 <div className="boxContent" key={movieItem.id || i}>
                   <div className="boxInformation">
-                    <a href={"/movies/" + movieItem.id}>
+                    <a href={`/movies/${movieItem.id}`}>
                       <img src={movieItem.imageVertical} alt={movieItem.name} />
                     </a>
                   </div>

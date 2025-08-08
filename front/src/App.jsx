@@ -14,7 +14,7 @@ import AdicionarEpisodio from './pages/AdicionarEpisodio'
 import Edit from './pages/Edit'
 import Register from './pages/Register'
 import AdicionarConteudo from './pages/AdicionarConteudo'
-
+import FranquiaPage from './pages/FranquiaPage'
 
 function App() {
   
@@ -33,6 +33,7 @@ function App() {
         <Route path="/AdicionarTemporadas" element={<AdicionarTemporada />} />
         <Route path="/AdicionarConteudo" element={<AdicionarConteudo />} />
         <Route path="/AdicionarEpisodio/:id" element={<AdicionarEpisodio />} />
+        <Route path="/franquia/:id" element={<FranquiaPage />} />
       </Routes>
     <Footer />
    </div>
