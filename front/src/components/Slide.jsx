@@ -57,7 +57,7 @@ const Slide = () => {
     const currentItem = collection[currentSlide];
 
     return (
-        <div>
+        <div className='slide'>
             {/* CARROSSEL */}
             <div className="container-slider">
                 <div className="container-images">

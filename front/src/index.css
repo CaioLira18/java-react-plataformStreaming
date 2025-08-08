@@ -83,9 +83,11 @@ ul, ol {
 .containerContent {
   display: flex;
   gap: 20px;
-  overflow-x: auto; /* scroll horizontal */
+  overflow-x: auto;
+  overflow-y: hidden;
   scroll-behavior: smooth;
-  padding: 10px 0;
+  padding: 20px 40px;
+  flex-wrap: nowrap;
 }
 
 .containerContent::-webkit-scrollbar {
@@ -96,51 +98,60 @@ ul, ol {
   position: relative;
 }
 
-.rowAngle {
+/* Botões escondidos inicialmente */
+.sliderControls {
+  opacity: 0;
+  transition: 0.3s ease-in-out;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  color: #000;
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   z-index: 2;
-  box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+  pointer-events: none;
 }
 
-.rowAngle.left {
-  left: 5px;
+.slideWrapper:hover .sliderControls {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.rowAngle.right {
-  right: 5px;
+.sliderControls.left {
+  left: 0;
 }
 
-.containerContent {
+.sliderControls.right {
+  right: 0;
+}
+
+.rowAngle {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border-radius: 50%;
   display: flex;
-  gap: 20px;
-  overflow-x: auto;      /* scroll horizontal */
-  overflow-y: hidden;    /* esconde barra vertical */
-  scroll-behavior: smooth;
-  padding: 20px 0;
-  flex-wrap: nowrap;     /* ❗ Garante que fique em uma linha só */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 24px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.8);
+  transition: transform 0.2s ease;
 }
 
-.containerContent::-webkit-scrollbar {
-  display: none; /* esconde a barra */
+.rowAngle:hover {
+  transform: scale(1.1);
 }
 
+/* Conteúdo de cada item */
 .boxContent {
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;      /* ❗ Impede que diminua e quebre linha */
-  min-width: 200px;
-  max-width: 200px;
+  flex-shrink: 0;
+  min-width: 250px;
+  max-width: 300px;
 }
 
 .boxInformation {
@@ -149,28 +160,6 @@ ul, ol {
   flex-direction: column;
   gap: 15px;
   width: 100%;
-  text-align: center;
-}
-
-
-.boxInformation img:hover {
-  transform: scale(1.05);
-}
-
-.boxContent {
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  min-width: 250px; /* Largura mínima consistente */
-  max-width: 300px; /* Largura máxima para controle */
-}
-
-.boxInformation {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 15px;
-  width: 100%; /* Usa toda a largura do boxContent */
   padding: 20px;
   text-align: center;
 }
@@ -183,17 +172,17 @@ ul, ol {
 }
 
 .boxInformation img {
-  width: 170px;
+  width: 250px;
   height: auto;
   object-fit: cover;
-  border-radius: 5px;
-  transition: 0.3s all ease-in-out;
+  transition: 0.3s ease-in-out;
 }
 
 .boxInformation img:hover {
   transform: scale(1.05);
 }
 
+/* Container geral */
 .genericContentBox {
   margin-top: 60px;
   padding: 30px;
@@ -214,23 +203,13 @@ ul, ol {
   text-decoration: underline;
 }
 
+/* Perfil */
 .liProfile {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.rowAngle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  width: 30px;
-  height: 30px;
-  border-radius: 20px;
-  color: #000;
-  cursor: pointer;
-}
 
 /* Page All */
 
@@ -2138,6 +2117,7 @@ ul, ol {
 
 /* Slide */
 
+
 .container-slider {
   display: flex;
   width: 100%;
@@ -2147,7 +2127,6 @@ ul, ol {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  /* Remove o gap que pode estar causando problemas */
   gap: 0;
 }
 
@@ -2516,6 +2495,7 @@ ul, ol {
     visibility: visible;
   }
 
+
   /* === MENU LATERAL === */
   .optionsHeader {
     position: fixed;
@@ -2562,6 +2542,23 @@ ul, ol {
   .mobileCloseBtn:hover {
     background: rgba(220,53,69,1);
     transform: scale(1.1);
+  }
+
+  .franquiaInformations {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+    gap: 20px;
+  }
+
+  .container-slider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* === NAVEGAÇÃO MOBILE === */
@@ -2705,6 +2702,7 @@ ul, ol {
   }
 
 
+
   /* Garantir que imagens não quebrem o layout */
   .boxInformationPageFranquia img {
     max-width: 100%;
@@ -2747,6 +2745,18 @@ ul, ol {
     animation-delay: 0.25s; 
   }
 }
+
+/* Só esconde o menu por completo no mobile */
+@media (max-width: 768px) {
+  .optionsHeader {
+    display: none;
+  }
+
+  .optionsHeader.mobileMenuOpen {
+    display: flex;
+  }
+}
+
 
 /* === MOBILE PEQUENO === */
 @media (max-width: 480px) {
@@ -2919,3 +2929,140 @@ ul, ol {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ===== CORREÇÃO APENAS PARA CENTRALIZAÇÃO DO BOX FRANQUIA ===== */
+
+/* Adicionando estas regras ao seu CSS existente */
+
+/* === TABLET LARGE === */
+@media (max-width: 1024px) {
+  .container-slider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container-images {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+/* === TABLET/MOBILE === */
+@media (max-width: 768px) {
+
+  .container-images {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .slide-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .franquiaInformations {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+    text-align: center;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    position: absolute;
+  }
+
+  .franquiaInformations p {
+    text-align: center !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 90% !important;
+  }
+
+  .franquiaInformations button {
+    margin: 0 auto !important;
+    display: block !important;
+  }
+
+  .boxInformation img {
+    width: 50%;
+  }
+}
+
+/* === MOBILE PEQUENO === */
+@media (max-width: 480px) {
+
+  .franquiaInformations {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 20px) !important;
+    padding: 20px 10px !important;
+  }
+
+  .franquiaInformations p {
+    padding: 0 10px !important;
+  }
+}
+
+/* === MOBILE EXTRA PEQUENO === */
+@media (max-width: 375px) {
+  .container-slider {
+    padding: 0 8px;
+  }
+
+  .franquiaInformations {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 16px) !important;
+    padding: 15px 8px !important;
+  }
+
+  .franquiaInformations p {
+    padding: 0 8px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .containerContent {
+    overflow-x: auto;
+    padding-left: 16px;
+    padding-right: 40px; /* espaço final para o último item não colar na borda */
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 16px;
+  }
+
+  .boxContent {
+    flex: 0 0 80%; /* Ocupa 80% da largura da tela */
+    scroll-snap-align: start;
+    margin-right: 10px;
+  }
+
+  .boxInformation img {
+    width: 80%; /* imagem se ajusta ao container responsivo */
+    height: auto;
+  }
+
+  .slide {
+    width: 100vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .rowAngle {
+    width: 0px;
+    height: 0px;
+    font-size: 14px;
+    display: none;
+  }
+}
+
+
+

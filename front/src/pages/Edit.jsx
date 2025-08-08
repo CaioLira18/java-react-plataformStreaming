@@ -247,7 +247,7 @@ const Edit = () => {
                                     onChange={(e) => setName(e.target.value)}
                                     placeholder="Digite seu nome"
                                 />
-                                <i className="fa-solid fa-pen-to-square"></i>
+                                <i class="fa-solid fa-user"></i>
                             </div>
                         </div>
 
@@ -260,7 +260,7 @@ const Edit = () => {
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Digite seu email"
                                 />
-                                <i className="fa-solid fa-pen-to-square"></i>
+                                <i class="fa-solid fa-envelope"></i>
                             </div>
                         </div>
 
@@ -300,7 +300,7 @@ const Edit = () => {
                                     onChange={(e) => setNewPassword(e.target.value)}
                                     placeholder="Digite a nova senha"
                                 />
-                                <i className="fa-solid fa-pen-to-square"></i>
+                                <i class="fa-solid fa-lock"></i>
                             </div>
                         </div>
 
@@ -313,7 +313,7 @@ const Edit = () => {
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     placeholder="Confirme a nova senha"
                                 />
-                                <i className="fa-solid fa-pen-to-square"></i>
+                                <i class="fa-solid fa-lock"></i>
                             </div>
                         </div>
                     </div>
