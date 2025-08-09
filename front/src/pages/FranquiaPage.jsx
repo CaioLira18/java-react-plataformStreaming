@@ -5,7 +5,7 @@ const FranquiaPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const API_URL = "http://localhost:8080/api";
-    
+
     const [series, setSeries] = useState([]);
     const [movies, setMovies] = useState([]);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -76,9 +76,9 @@ const FranquiaPage = () => {
 
     if (loading) {
         return (
-            <div className="containerFranquia">
-                <div className="boxFranquia">
-                    <h1>Carregando...</h1>
+            <div className="loading">
+                <div className="loadingText">
+                    <p>Carregando Conteudo...</p>
                 </div>
             </div>
         );
@@ -124,7 +124,7 @@ const FranquiaPage = () => {
                         <div className="boxInformationPageFranquia">
                             {movies
                                 .filter(movie => movie.franquia === collection.franquia) // ou use movie.franquiaId === collection.id
-                                .sort((a, b) => a.year - b.year) 
+                                .sort((a, b) => a.year - b.year)
                                 .map(movie => (
                                     <div key={movie.id}>
                                         <a href={`/movies/${movie.id}`}>

@@ -74,9 +74,10 @@ const Slide = () => {
 
     if (collection.length === 0) {
         return (
-            <div className="loading-container">
-                <div className="loading-spinner"></div>
-                Carregando...
+            <div className="loading">
+                <div className="loadingText">
+                    <p>Carregando Conteudo...</p>
+                </div>
             </div>
         );
     }
@@ -86,12 +87,11 @@ const Slide = () => {
             <div className="container-slider">
                 <div className="container-images">
                     {collection.map((item, index) => (
-                        <div 
+                        <div
                             key={index}
-                            className={`slide-container ${
-                                index === currentSlide ? 'active' : 
-                                index === previousSlide && isTransitioning ? 'previous' : 'hidden'
-                            }`}
+                            className={`slide-container ${index === currentSlide ? 'active' :
+                                    index === previousSlide && isTransitioning ? 'previous' : 'hidden'
+                                }`}
                         >
                             <img
                                 src={item.backgroundFranquia}
@@ -102,8 +102,8 @@ const Slide = () => {
 
                             {/* Botão sempre no DOM, mas só visível no slide ativo */}
                             <div className={`franquiaInformations ${index === currentSlide ? 'on' : ''}`}>
-                                <img 
-                                    src={item.logoFranquia} 
+                                <img
+                                    src={item.logoFranquia}
                                     alt="Logo da franquia"
                                     loading="eager"
                                 />
