@@ -3,7 +3,6 @@
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
-  background-color: #000000;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -44,20 +43,6 @@ a {
 ul, ol {
   list-style: none;
 }
-
-.containerContent {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap; /* Permite quebra de linha */
-  gap: 20px; /* Gap consistente entre itens */
-  margin-top: 20px;
-  padding: 0 20px; /* Padding nas laterais em vez de margin 0 auto */
-}
-
-
-
 
 /* Page All */
 

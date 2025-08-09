@@ -1,0 +1,23 @@
+.searchInput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.boxSearchInput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.boxSearchInput input {
+    width: 90vw;
+    height: 50px;
+    border-radius: 20px;
+    color: white;
+    background-color: transparent;
+    border: 1px solid white;
+    padding-left: 10px;
+}
