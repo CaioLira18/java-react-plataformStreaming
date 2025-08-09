@@ -5,18 +5,37 @@ const Slide = () => {
     const API_URL = "http://localhost:8080/api";
     const [collection, setCollection] = useState([]);
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [previousSlide, setPreviousSlide] = useState(0);
+    const [isTransitioning, setIsTransitioning] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
+    const changeSlide = (newIndex) => {
+        if (isTransitioning || newIndex === currentSlide) return;
+        setIsTransitioning(true);
+        setPreviousSlide(currentSlide);
+
+        setTimeout(() => {
+            setCurrentSlide(newIndex);
+            setTimeout(() => {
+                setIsTransitioning(false);
+            }, 100);
+        }, 50);
+    };
+
     const nextSlide = () => {
-        setCurrentSlide((prev) => (prev + 1) % collection.length);
+        const newIndex = (currentSlide + 1) % collection.length;
+        changeSlide(newIndex);
     };
 
     const prevSlide = () => {
-        setCurrentSlide((prev) =>
-            prev === 0 ? collection.length - 1 : prev - 1
-        );
+        const newIndex = currentSlide === 0 ? collection.length - 1 : currentSlide - 1;
+        changeSlide(newIndex);
+    };
+
+    const goToSlide = (index) => {
+        changeSlide(index);
     };
 
     useEffect(() => {
@@ -42,48 +61,70 @@ const Slide = () => {
         }
     }, [navigate]);
 
-    // Auto-play opcional
     useEffect(() => {
         if (collection.length > 1) {
-            const interval = setInterval(nextSlide, 5000); // Muda a cada 5 segundos
+            const interval = setInterval(() => {
+                if (!isTransitioning) {
+                    nextSlide();
+                }
+            }, 6000);
             return () => clearInterval(interval);
         }
-    }, [collection.length]);
+    }, [collection.length, currentSlide, isTransitioning]);
 
     if (collection.length === 0) {
-        return <div>Carregando...</div>;
+        return (
+            <div className="loading-container">
+                <div className="loading-spinner"></div>
+                Carregando...
+            </div>
+        );
     }
-
-    const currentItem = collection[currentSlide];
 
     return (
         <div className='slide'>
-            {/* CARROSSEL */}
             <div className="container-slider">
                 <div className="container-images">
-                    {/* Apenas o slide atual é renderizado */}
-                    <div className="slide-container">
-                        <img
-                            src={currentItem.backgroundFranquia}
-                            alt={`slide-${currentSlide}`}
-                            className="slider on"
-                        />
-                        <div className="franquiaInformations on">
-                            <img src={currentItem.logoFranquia} alt="Logo da franquia" />
-                            <p>{currentItem.descricaoFranquia}</p>
-                            <button onClick={() => navigate(`/franquia/${currentItem.id}`)}>
-                                Ver Franquia
-                            </button>
-                        </div>
-                    </div>
+                    {collection.map((item, index) => (
+                        <div 
+                            key={index}
+                            className={`slide-container ${
+                                index === currentSlide ? 'active' : 
+                                index === previousSlide && isTransitioning ? 'previous' : 'hidden'
+                            }`}
+                        >
+                            <img
+                                src={item.backgroundFranquia}
+                                alt={`slide-${index}`}
+                                className={`slider ${index === currentSlide ? 'on' : ''}`}
+                                loading={Math.abs(index - currentSlide) <= 1 ? 'eager' : 'lazy'}
+                            />
 
-                    {/* Indicadores de slides */}
+                            {/* Botão sempre no DOM, mas só visível no slide ativo */}
+                            <div className={`franquiaInformations ${index === currentSlide ? 'on' : ''}`}>
+                                <img 
+                                    src={item.logoFranquia} 
+                                    alt="Logo da franquia"
+                                    loading="eager"
+                                />
+                                <p>{item.descricaoFranquia}</p>
+                                <button onClick={() => navigate(`/franquia/${item.id}`)}>
+                                    Ver Franquia
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+
+
+
                     <div className="slide-indicators">
                         {collection.map((_, index) => (
                             <button
                                 key={index}
                                 className={`indicator ${index === currentSlide ? 'active' : ''}`}
-                                onClick={() => setCurrentSlide(index)}
+                                onClick={() => goToSlide(index)}
+                                disabled={isTransitioning}
+                                aria-label={`Ir para slide ${index + 1}`}
                             />
                         ))}
                     </div>
