@@ -28,6 +28,7 @@ public class Series {
     private String marca;
     private String imageVertical;
     private String age;
+    private String franquia;
 
     private String image1;
     private String image2;
@@ -112,6 +113,14 @@ public class Series {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public String getFranquia() {
+        return franquia;
+    }
+
+    public void setFranquia(String franquia) {
+        this.franquia = franquia;
     }
 
     public String getImage1() {

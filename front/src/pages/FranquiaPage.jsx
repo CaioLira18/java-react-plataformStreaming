@@ -106,12 +106,14 @@ const FranquiaPage = () => {
 
                 <div className="contentFranquia">
                     {series.length > 0 && (
-                        <div className="boxInformationPage">
+                        <div className="boxInformationPageFranquia">
                             {series
-                                .filter(serie => serie.franquiaId === id) // Ajuste conforme sua estrutura
+                                .filter(serie => serie.franquia === collection.franquia) // Ajuste conforme sua estrutura
                                 .map(serie => (
                                     <div key={serie.id}>
-                                        <h3>{serie.titulo}</h3>
+                                        <a href={`/series/${serie.id}`}>
+                                            <img src={serie.imageVertical} alt="" />
+                                        </a>
                                     </div>
                                 ))
                             }
