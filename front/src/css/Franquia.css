@@ -20,8 +20,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0.6;
-  /* Ajuste a opacidade aqui */
+  opacity: 0.6; /* Ajuste a opacidade aqui */
   background-image: var(--background-url);
   background-size: cover;
   background-position: center;
@@ -53,22 +52,20 @@
 
 .boxInformationPageFranquia {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  /* 2 colunas iguais */
+  grid-template-columns: repeat(6, 1fr); /* 2 colunas iguais */
   gap: 40px;
   align-items: center;
-  justify-items: center;
-  /* alinha os itens ao centro da célula */
+  justify-items: center; /* alinha os itens ao centro da célula */
   padding: 20px 0;
 }
 
 
-.boxInformationPageFranquia img {
+.boxInformationPageFranquia img{
   width: 150px;
   border-radius: 10px;
   transition: 0.3s all ease-in-out;
 }
 
-.boxInformationPageFranquia img:hover {
+.boxInformationPageFranquia img:hover{
   transform: scale(1.1);
 }

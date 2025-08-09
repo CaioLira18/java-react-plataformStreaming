@@ -19,10 +19,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(200deg,
-      rgba(0, 0, 0, 0.1) 0%,
-      rgba(0, 0, 0, 0.3) 40%,
-      rgba(0, 0, 0, 0.8) 100%);
+  background: linear-gradient(
+    200deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.3) 40%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
@@ -99,9 +101,7 @@
   color: white;
 }
 
-.serieTagRating,
-.serieTagYear,
-.serieTagQuality {
+.serieTagRating, .serieTagYear, .serieTagQuality {
   background: rgba(255, 255, 255, 0.2);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -294,8 +294,7 @@
   opacity: 1;
 }
 
-.playEpisodeButton,
-.episodeOptionsButton {
+.playEpisodeButton, .episodeOptionsButton {
   background: rgba(255, 255, 255, 0.9);
   border: none;
   width: 50px;
@@ -308,14 +307,12 @@
   transition: all 0.3s ease;
 }
 
-.playEpisodeButton:hover,
-.episodeOptionsButton:hover {
+.playEpisodeButton:hover, .episodeOptionsButton:hover {
   background: white;
   transform: scale(1.1);
 }
 
-.playEpisodeButton i,
-.episodeOptionsButton i {
+.playEpisodeButton i, .episodeOptionsButton i {
   color: #000;
   font-size: 18px;
 }

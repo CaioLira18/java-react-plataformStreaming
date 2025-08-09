@@ -35,8 +35,7 @@
 }
 
 .containerContent::-webkit-scrollbar {
-  display: none;
-  /* esconde a barra */
+  display: none; /* esconde a barra */
 }
 
 .slideWrapper {
@@ -117,7 +116,7 @@
 }
 
 .boxInformation img {
-  width: 250px;
+  width: 200px;
   height: auto;
   object-fit: cover;
   transition: 0.3s ease-in-out;
@@ -138,13 +137,13 @@
   font-size: 24px;
 }
 
-.genericContentBox>a {
+.genericContentBox > a {
   color: #007bff;
   text-decoration: none;
   font-size: 14px;
 }
 
-.genericContentBox>a:hover {
+.genericContentBox > a:hover {
   text-decoration: underline;
 }
 

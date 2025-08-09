@@ -1,3 +1,5 @@
+
+
 /* Login */
 
 .login {
@@ -19,8 +21,7 @@
   right: 0;
   bottom: 0;
   background-image: url("https://res.cloudinary.com/dthgw4q5d/image/upload/v1754501763/234234-1140x641_upscayl_2x_realesrgan-x4plus_or6qb9.png");
-  opacity: 0.3;
-  /* Ajuste a opacidade aqui */
+  opacity: 0.3; /* Ajuste a opacidade aqui */
   z-index: -1;
 }
 
@@ -88,8 +89,7 @@
 }
 
 .inputLogin i {
-  display: none;
-  /* Escondemos os ícones para um design mais limpo */
+  display: none; /* Escondemos os ícones para um design mais limpo */
 }
 
 .inputLogin h1 {
