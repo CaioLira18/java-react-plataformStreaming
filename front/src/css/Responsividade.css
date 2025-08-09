@@ -106,6 +106,23 @@
     padding: 15px 20px;
   }
 
+  .boxContentPage {
+    flex: 1 1 calc(50% - 20px); /* 2 por linha */
+    max-width: calc(50% - 20px);
+  }
+
+  .boxInformationPage a p {
+    font-size: 12px;
+  }
+
+  .boxSearchInput input {
+    width: 100px;
+  }
+
+  .boxInformationPage img {
+    width: 150px;
+  }
+
   .logoHeader img {
     width: 85px;
   }

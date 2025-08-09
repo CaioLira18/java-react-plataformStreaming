@@ -46,43 +46,29 @@ ul, ol {
 
 /* Page All */
 
-.containerContentPage {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px 0;
-  flex-wrap: wrap;
-}
-
-.boxContentPage {
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  min-width: 250px; /* Largura mínima consistente */
-  max-width: 300px; /* Largura máxima para controle */
-}
-
 .boxInformationPage {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 15px;
-  width: 100%;
-  padding: 20px;
-  text-align: center;
+  margin-top: 50px;
 }
 
-.boxInformationPage a {
+.boxInformationPage p {
   text-align: center;
   cursor: pointer;
   text-decoration: none;
   font-weight: 500;
-  height: 40px; /* Altura fixa para o texto */
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1.2;
+  font-size: 14px;
+  border-bottom: 1px solid transparent;
+  transition: border-bottom 0.3s ease;
+  transition: 0.3s all ease-in-out;
+}
+
+.boxInformationPage p:hover {
+  border-bottom: 1px solid white;
+  transform: scale(1.1);
 }
 
 .boxInformationPage img {
@@ -115,6 +101,32 @@ ul, ol {
 .genericContentBoxPage > a:hover {
   text-decoration: underline;
 }
+
+/* Search */
+
+.containerContentPage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.boxContentPage {
+  flex: 1 1 calc(20% - 20px); /* 5 por linha no desktop */
+  max-width: calc(20% - 20px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Imagem + texto em coluna */
+.boxInformationPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
 
 /* Loading */
 .loading {

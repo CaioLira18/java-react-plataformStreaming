@@ -16,9 +16,6 @@ import './css/Home.css'
 import './css/Search.css'
 
 
-
-
-
 import App from './App.jsx'
 
 import { BrowserRouter } from "react-router-dom";
