@@ -84,9 +84,38 @@ const Header = () => {
           {/* Navegação */}
           <div className={`optionsHeader ${isMenuOpen ? 'mobileMenuOpen' : ''}`}>
             <ul className="navigationMenu">
-              <li><a href="/" onClick={closeMenu}>Home</a></li>
-              <li><a href="/movies" onClick={closeMenu}>Filmes</a></li>
-              <li><a href="/series" onClick={closeMenu}>Séries</a></li>
+              <li>
+                 <div className="headerOption">
+                  <a href="/" onClick={closeMenu}> 
+                  <i class="fa-solid fa-house"></i>
+                  Home
+                  </a>
+                </div>
+              </li>
+              <li>
+                 <div className="headerOption">
+                  <a href="/movie" onClick={closeMenu}> 
+                  <i class="fa-solid fa-film"></i>
+                  Filmes
+                  </a>
+                </div>
+              </li>
+              <li>
+                 <div className="headerOption">
+                  <a href="/serie" onClick={closeMenu}> 
+                  <i class="fa-solid fa-clapperboard"></i>
+                  Series
+                  </a>
+                </div>
+              </li>
+              <li>
+                <div className="headerOption">
+                  <a href="/search" onClick={closeMenu}> 
+                  <i className="fa-solid fa-magnifying-glass"></i>
+                  Pesquisar
+                  </a>
+                </div>
+              </li>
             </ul>
 
             <ul className="profileMenu">
