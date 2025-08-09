@@ -1,0 +1,333 @@
+/* Header */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 20, 0.98) 100%);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  color: white;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* === LOGO === */
+.logoHeader img {
+  width: 110px;
+  height: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.logoHeader img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* === MENU HAMBURGER (MOBILE) === */
+.mobileMenuIcon {
+  display: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: white;
+  z-index: 1002;
+  transition: all 0.3s ease;
+  padding: 8px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.mobileMenuIcon:hover {
+  color: #007bff;
+  background: rgba(0, 123, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.mobileMenuIcon:active {
+  transform: scale(0.95);
+}
+
+/* === OVERLAY MOBILE === */
+.mobileOverlay {
+  display: none;
+}
+
+/* === NAVEGAÇÃO DESKTOP === */
+.optionsHeader {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+}
+
+.navigationMenu,
+.profileMenu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navigationMenu {
+  gap: 40px;
+}
+
+.profileMenu {
+  gap: 20px;
+}
+
+/* === LINKS DE NAVEGAÇÃO === */
+.navigationMenu li a {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 12px 20px;
+  border-radius: 10px;
+  position: relative;
+  background: linear-gradient(135deg, transparent 0%, transparent 100%);
+}
+
+.navigationMenu li a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #007bff, #00d4ff);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navigationMenu li a:hover {
+  color: #007bff;
+  background: rgba(0, 123, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.navigationMenu li a:hover::before {
+  width: 80%;
+}
+
+/* === BOTÃO LOGIN === */
+.loginBtn {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+  color: white !important;
+  padding: 12px 24px !important;
+  border-radius: 25px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.loginBtn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.loginBtn:hover {
+  background: linear-gradient(135deg, #0056b3 0%, #004085 100%) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.loginBtn:hover::before {
+  left: 100%;
+}
+
+.loginBtn i {
+  font-size: 0.9rem;
+}
+
+/* === USUÁRIO AUTENTICADO === */
+.authenticatedBox {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.authenticatedBox::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transition: left 0.8s;
+}
+
+.authenticatedBox:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(0, 123, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 123, 255, 0.2);
+}
+
+.authenticatedBox:hover::before {
+  left: 100%;
+}
+
+.iconName {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.authenticatedBox img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.authenticatedBox img:hover {
+  border-color: #007bff;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
+}
+
+.iconName a {
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.iconName a:hover {
+  color: #007bff;
+}
+
+.logOutBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.logOutBox:hover {
+  background: rgba(220, 53, 69, 0.2);
+  color: #dc3545;
+  transform: translateX(3px);
+  box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
+}
+
+.logOutBox i {
+  font-size: 0.9rem;
+  transition: transform 0.3s ease;
+}
+
+.logOutBox:hover i {
+  transform: translateX(2px);
+}
+
+.logOutBox span {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Loading */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #000;
+}
+
+.loadingText p {
+  color: white;
+  font-size: 18px;
+}
+
+
+/* Loading */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #000;
+}
+
+.loadingText p {
+  color: white;
+  font-size: 18px;
+}
+
+/* Mensagens de feedback */
+.success,
+.error {
+  padding: 16px;
+  border-radius: 12px;
+  font-weight: 500;
+  text-align: center;
+  margin: 20px 0;
+  animation: slideIn 0.3s ease;
+}
+
+.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

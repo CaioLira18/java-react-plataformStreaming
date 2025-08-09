@@ -1,0 +1,157 @@
+/* Register */
+
+.register {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 1;
+  color: white;
+}
+
+.register::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("https://res.cloudinary.com/dthgw4q5d/image/upload/v1754501763/234234-1140x641_upscayl_2x_realesrgan-x4plus_or6qb9.png");
+  opacity: 0.3;
+  /* Ajuste a opacidade aqui */
+  z-index: -1;
+}
+
+.backgroundBox {
+  background: rgba(0, 0, 0, 0.95);
+  color: white;
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 0px 20px rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 1000px;
+}
+
+.registerContainer {
+  width: 100%;
+}
+
+.registerCabecalho {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.registerCabecalho h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  background-clip: text;
+}
+
+.registerCabecalho p {
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 400;
+}
+
+.registerBox {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.inputRegister {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputRegister h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+  margin-left: 4px;
+  letter-spacing: 0.5px;
+}
+
+.inputRegister input[type="text"],
+.inputRegister input[type="password"],
+.inputRegister input[type="email"] {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 2px solid #e1e5e9;
+  color: #000;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.inputRegister input[type="text"]:focus,
+.inputRegister input[type="password"]:focus,
+.inputRegister input[type="email"]:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.inputRegister select {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.inputRegister select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.inputRegister input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  border: 2px dashed #e1e5e9;
+  border-radius: 12px;
+  background: #fafbfc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.inputRegister input[type="file"]:hover {
+  border-color: #667eea;
+  background: #f8f9ff;
+}
+
+.registerAddContainer {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.registerAddContainer button {
+  width: 100%;
+  height: 52px;
+  background: linear-gradient(135deg, #174a80, #044d85);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}

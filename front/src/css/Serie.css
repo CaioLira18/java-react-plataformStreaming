@@ -1,0 +1,399 @@
+/* Series */
+
+/* Hero Section para Séries */
+.serieHeroSection {
+  position: relative;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 80px;
+  padding-top: 80px;
+}
+
+.serieHeroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(200deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.3) 40%,
+      rgba(0, 0, 0, 0.8) 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 0 5% 80px 5%;
+}
+
+.serieHeroContent {
+  max-width: 450px;
+  width: 100%;
+  z-index: 2;
+}
+
+.serieHeroContent h1 {
+  margin-top: 20px;
+}
+
+.serieBrand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.brandLogo {
+  background: #673ab7;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.brandText {
+  color: white;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+/* Título Principal */
+.serieMainTitle {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 0.9;
+  margin: 0 0 25px 0;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  max-width: 350px;
+  word-wrap: break-word;
+}
+
+/* Tags/Badges */
+.serieTags {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.serieTag {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.serieTagNew {
+  background: #ff4444;
+  color: white;
+}
+
+.serieTagRating,
+.serieTagYear,
+.serieTagQuality {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Selector de Temporadas */
+.seasonSelector {
+  margin-bottom: 20px;
+}
+
+.seasonSelector select {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  min-width: 200px;
+}
+
+.seasonSelector select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.seasonSelector option {
+  background: #333;
+  color: white;
+}
+
+/* Botão Principal */
+.watchButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #000;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.watchButton:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.watchButton i {
+  font-size: 14px;
+}
+
+/* Ações Secundárias */
+.secondaryActions {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 8px;
+}
+
+.actionButton:hover {
+  color: #ccc;
+  transform: translateY(-2px);
+}
+
+.actionButton i {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.actionButton span {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Descrição */
+.serieDescription {
+  margin-bottom: 20px;
+  max-width: 450px;
+}
+
+.serieDescription p {
+  color: white;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Informações Técnicas */
+.serieTechInfo {
+  margin-top: 20px;
+}
+
+.serieTechInfo p {
+  color: #999;
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Seção de Episódios */
+.episodesSection {
+  padding: 80px 5% 60px;
+  background: #000;
+}
+
+.episodesSection h2 {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.episodesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.episodeCard {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.episodeCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.episodeImageContainer {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.episodeImageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.episodeCard:hover .episodeImageContainer img {
+  transform: scale(1.05);
+}
+
+.episodeOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.episodeCard:hover .episodeOverlay {
+  opacity: 1;
+}
+
+.playEpisodeButton,
+.episodeOptionsButton {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.playEpisodeButton:hover,
+.episodeOptionsButton:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.playEpisodeButton i,
+.episodeOptionsButton i {
+  color: #000;
+  font-size: 18px;
+}
+
+.episodeInfo {
+  padding: 20px;
+}
+
+.episodeInfo h3 {
+  color: white;
+  font-size: 1.3rem;
+  margin: 0 0 10px 0;
+  font-weight: 600;
+}
+
+.episodeDescription {
+  color: #ccc;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0 0 15px 0;
+}
+
+.episodeMetadata {
+  display: flex;
+  gap: 20px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.episodeDisclaimer {
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 193, 7, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.episodeDisclaimer p {
+  color: #ffc107;
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Seção de Imagens */
+.serieImagesSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 80px 0;
+  padding: 0 5%;
+  box-sizing: border-box;
+}
+
+.serieImagesSection h2 {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.serieImages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.serieImagesSection img {
+  width: 400px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: 0.3s all ease-in-out;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.serieImagesSection img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}

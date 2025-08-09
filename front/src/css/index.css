@@ -1,0 +1,120 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  background-color: #000000;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+@font-face {
+  font-family: 'FullerSans';
+  src: url('/font/font.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Reset básico e seguro */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-family: sans-serif;
+  background-color: #000;
+  /* opcional: fundo escuro */
+  color: #fff;
+  /* texto branco como base */
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  /* herda a cor do elemento pai */
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* Divider */
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+  margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #000000;
+}
+
+.divider::before {
+  margin-right: 10px;
+}
+
+.divider::after {
+  margin-left: 10px;
+}
+
+
+/* loading */
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+/* Input Box */
+
+.inputBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 10px;
+}
+
+.containerAddSeasson {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputBox input {
+  width: 300px;
+  height: 40px;
+}
+
+.inputSeassons select {
+  width: 300px;
+  height: 30px;
+  background-color: white;
+  color: #000;
+}
+
+.inputBox select {
+  width: 300px;
+  height: 30px;
+  background-color: white;
+  color: #000;
+}

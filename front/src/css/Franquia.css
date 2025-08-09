@@ -1,0 +1,74 @@
+/* Franquia */
+
+.franquia {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 1;
+  color: white;
+  --background-url: url('');
+}
+
+.franquia::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.6;
+  /* Ajuste a opacidade aqui */
+  background-image: var(--background-url);
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  background-size: 'cover';
+  background-position: 'center';
+}
+
+.boxFranquia {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 600px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.boxFranquia p {
+  text-shadow: 0px 0px 10px black;
+}
+
+.boxFranquia img {
+  width: 250px;
+}
+
+.contentFranquia {
+  margin-top: 100px;
+}
+
+.boxInformationPageFranquia {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  /* 2 colunas iguais */
+  gap: 40px;
+  align-items: center;
+  justify-items: center;
+  /* alinha os itens ao centro da célula */
+  padding: 20px 0;
+}
+
+
+.boxInformationPageFranquia img {
+  width: 150px;
+  border-radius: 10px;
+  transition: 0.3s all ease-in-out;
+}
+
+.boxInformationPageFranquia img:hover {
+  transform: scale(1.1);
+}

@@ -1,0 +1,46 @@
+/* Adicionar Temporadas */
+
+.boxAddSeasson {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.addSeasson {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.addSeasson input {
+  width: 100%;
+  height: 40px;
+  background-color: white;
+  border-radius: 10px;
+  color: #000;
+  padding-left: 10px;
+}
+
+.buttonAddContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.buttonAddContainer button {
+  width: 230px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #721c24;
+  transition: 0.3s all ease-in-out;
+  cursor: pointer;
+}
+
+.buttonAddContainer button:hover {
+  background-color: red;
+}

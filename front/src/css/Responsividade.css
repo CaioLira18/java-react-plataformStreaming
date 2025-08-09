@@ -1,0 +1,758 @@
+/* ===== CSS RESPONSIVO CORRIGIDO ===== */
+
+/* === DESKTOP LARGE === */
+@media (min-width: 1440px) {
+  .headerContainer {
+    padding: 20px 60px;
+  }
+
+  .optionsHeader {
+    gap: 100px;
+  }
+
+  .navigationMenu {
+    gap: 50px;
+  }
+}
+
+/* === DESKTOP MÉDIO === */
+@media (max-width: 1200px) {
+  .headerContainer {
+    padding: 18px 30px;
+  }
+
+  .optionsHeader {
+    gap: 60px;
+  }
+
+  .navigationMenu {
+    gap: 30px;
+  }
+}
+
+/* === TABLET LARGE === */
+@media (max-width: 1024px) {
+  .headerContainer {
+    padding: 16px 25px;
+  }
+
+  .logoHeader img {
+    width: 95px;
+  }
+
+  .optionsHeader {
+    gap: 40px;
+  }
+
+  .navigationMenu {
+    gap: 25px;
+  }
+
+  .navigationMenu li a {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+  }
+
+  /* Correção para página de franquia em tablet */
+  .boxFranquia {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .boxInformationPageFranquia {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 colunas iguais */
+    gap: 10px;
+    align-items: center;
+  }
+}
+
+/* === TABLET/MOBILE === */
+@media (max-width: 768px) {
+
+  /* === HEADER MOBILE === */
+  .headerContainer {
+    padding: 15px 20px;
+  }
+
+  .logoHeader img {
+    width: 85px;
+  }
+
+  .mobileMenuIcon {
+    display: block;
+  }
+
+  /* === OVERLAY MOBILE === */
+  .mobileOverlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .mobileMenuOpen+.mobileOverlay {
+    opacity: 1;
+    visibility: visible;
+  }
+
+
+  /* === MENU LATERAL === */
+  .optionsHeader {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    width: 320px;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(20, 20, 20, 0.98) 100%);
+    backdrop-filter: blur(25px);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 20px 0 30px 0;
+    gap: 30px;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1001;
+    overflow-y: auto;
+  }
+
+  .optionsHeader.mobileMenuOpen {
+    right: 0;
+  }
+
+  /* Botão fechar dentro do menu mobile */
+  .mobileCloseBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    width: 40px;
+    height: 40px;
+    background: rgba(220, 53, 69, 0.8);
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    z-index: 1002;
+  }
+
+  .mobileCloseBtn:hover {
+    background: rgba(220, 53, 69, 1);
+    transform: scale(1.1);
+  }
+
+  .franquiaInformations {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+    gap: 20px;
+  }
+
+  .container-slider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* === NAVEGAÇÃO MOBILE === */
+  .navigationMenu,
+  .profileMenu {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0;
+    padding: 0 25px;
+    margin-top: 60px;
+  }
+
+  .navigationMenu {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+  }
+
+  .navigationMenu li,
+  .profileMenu li {
+    width: 100%;
+  }
+
+  .navigationMenu li a {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 18px 20px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    border-left: 4px solid transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .navigationMenu li a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.1), transparent);
+    transition: left 0.5s;
+  }
+
+  .navigationMenu li a:hover {
+    background: rgba(0, 123, 255, 0.15);
+    border-left-color: #007bff;
+    transform: translateX(8px);
+    color: #007bff;
+  }
+
+  .navigationMenu li a:hover::before {
+    left: 100%;
+  }
+
+  /* === USUÁRIO AUTENTICADO MOBILE === */
+  .authenticatedBox {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    padding: 25px 20px;
+    border-radius: 15px;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .iconName {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .iconName a {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .authenticatedBox img {
+    width: 45px;
+    height: 45px;
+  }
+
+  .logOutBox {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 15px 20px;
+    border-radius: 10px;
+    background: rgba(220, 53, 69, 0.15);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    margin-top: 5px;
+  }
+
+  .logOutBox:hover {
+    background: rgba(220, 53, 69, 0.25);
+    transform: translateX(5px);
+  }
+
+  .logOutBox span {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .loginBtn {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 18px 25px !important;
+    font-size: 1.2rem !important;
+    margin-top: 10px !important;
+    border-radius: 15px !important;
+  }
+
+  .loginBtn span {
+    font-weight: 700;
+  }
+
+  /* === CORREÇÃO PARA PÁGINA DE FRANQUIA === */
+  .register {
+    padding: 10px;
+  }
+
+  .backgroundBox {
+    padding: 24px;
+    border-radius: 16px;
+  }
+
+  .registerCabecalho h1 {
+    font-size: 2rem;
+  }
+
+  .registerCabecalho p {
+    font-size: 1rem;
+  }
+
+
+
+  /* Garantir que imagens não quebrem o layout */
+  .boxInformationPageFranquia img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+
+  /* Cards da franquia responsivos */
+  .franquiaCard {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 15px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  /* === CORREÇÃO PARA CONTEÚDO NÃO SER SOBREPOSTO === */
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  /* Animações de entrada mobile */
+  .mobileMenuOpen .navigationMenu li,
+  .mobileMenuOpen .profileMenu li {
+    animation: slideInFromRight 0.4s ease forwards;
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  .mobileMenuOpen .navigationMenu li:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+
+  .mobileMenuOpen .navigationMenu li:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .mobileMenuOpen .navigationMenu li:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+
+  .mobileMenuOpen .profileMenu li {
+    animation-delay: 0.25s;
+  }
+}
+
+/* Só esconde o menu por completo no mobile */
+@media (max-width: 768px) {
+  .optionsHeader {
+    display: none;
+  }
+
+  .optionsHeader.mobileMenuOpen {
+    display: flex;
+  }
+}
+
+
+/* === MOBILE PEQUENO === */
+@media (max-width: 480px) {
+  .headerContainer {
+    padding: 12px 15px;
+  }
+
+  .logoHeader img {
+    width: 75px;
+  }
+
+  .mobileMenuIcon {
+    font-size: 1.4rem;
+    padding: 6px;
+  }
+
+  .optionsHeader {
+    width: 280px;
+    padding: 70px 0 25px 0;
+  }
+
+  .navigationMenu,
+  .profileMenu {
+    padding: 0 20px;
+  }
+
+  .navigationMenu li a {
+    padding: 16px 18px;
+    font-size: 1rem;
+  }
+
+  .authenticatedBox {
+    padding: 20px 18px;
+  }
+
+  .authenticatedBox img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .iconName a {
+    font-size: 1.1rem;
+  }
+
+  .logOutBox {
+    padding: 14px 18px;
+  }
+
+  .loginBtn {
+    padding: 16px 22px !important;
+    font-size: 1.1rem !important;
+  }
+
+  /* === FRANQUIA MOBILE PEQUENO === */
+  .registerCabecalho h1 {
+    font-size: 1.8rem;
+  }
+
+  .backgroundBox {
+    padding: 20px;
+  }
+
+  .registerBox {
+    gap: 20px;
+  }
+
+  .boxFranquia {
+    padding: 0 10px;
+  }
+
+  .boxInformationPageFranquia {
+    gap: 15px;
+    padding: 15px 0;
+  }
+
+  .franquiaCard {
+    max-width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+  }
+}
+
+/* === MOBILE EXTRA PEQUENO === */
+@media (max-width: 375px) {
+  .headerContainer {
+    padding: 10px 12px;
+  }
+
+  .logoHeader img {
+    width: 70px;
+  }
+
+  .optionsHeader {
+    width: 260px;
+  }
+
+  .navigationMenu,
+  .profileMenu {
+    padding: 0 18px;
+  }
+
+  .navigationMenu li a {
+    padding: 14px 16px;
+    font-size: 0.95rem;
+  }
+
+  .loginBtn {
+    padding: 14px 20px !important;
+    font-size: 1rem !important;
+  }
+
+  .boxFranquia {
+    padding: 0 8px;
+  }
+
+  .boxInformationPageFranquia {
+    gap: 12px;
+    padding: 12px 0;
+  }
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes slideInFromRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* === MELHORIAS DE PERFORMANCE === */
+.header,
+.headerContainer,
+.optionsHeader,
+.navigationMenu li a,
+.authenticatedBox,
+.loginBtn,
+.logOutBox {
+  will-change: transform;
+}
+
+/* === ESTADOS DE FOCUS PARA ACESSIBILIDADE === */
+.navigationMenu li a:focus,
+.loginBtn:focus,
+.logOutBox:focus,
+.mobileMenuIcon:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* === MODO ESCURO APRIMORADO === */
+@media (prefers-color-scheme: dark) {
+  .header {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(10, 10, 10, 0.99) 100%);
+  }
+
+  .navigationMenu li a {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .authenticatedBox {
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+/* === REDUÇÃO DE MOVIMENTO PARA ACESSIBILIDADE === */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== CORREÇÃO APENAS PARA CENTRALIZAÇÃO DO BOX FRANQUIA ===== */
+
+/* Adicionando estas regras ao seu CSS existente */
+
+/* === TABLET LARGE === */
+@media (max-width: 1024px) {
+  .container-slider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container-images {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+/* === TABLET/MOBILE === */
+@media (max-width: 768px) {
+  .welcome {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    gap: 0px;
+  }
+
+  .movieHeroContent h1 {
+    font-size: 35px;
+    margin-top: 10px;
+  }
+
+  .movieDescription {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .buttonsAdd button {
+    width: 180px;
+    height: 50px;
+  }
+
+  .container-images {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .slide-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .franquiaInformations {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+    text-align: center;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    position: absolute;
+  }
+
+  .franquiaInformations p {
+    text-align: center !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 90% !important;
+  }
+
+  .franquiaInformations button {
+    margin: 0 auto !important;
+    display: block !important;
+  }
+
+  .boxInformation img {
+    width: 50%;
+  }
+}
+
+/* === MOBILE PEQUENO === */
+@media (max-width: 480px) {
+
+  .franquiaInformations {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 20px) !important;
+    padding: 20px 10px !important;
+  }
+
+  .franquiaInformations p {
+    padding: 0 10px !important;
+  }
+}
+
+/* === MOBILE EXTRA PEQUENO === */
+@media (max-width: 375px) {
+  .container-slider {
+    padding: 0 8px;
+  }
+
+  .franquiaInformations {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 16px) !important;
+    padding: 15px 8px !important;
+  }
+
+  .franquiaInformations p {
+    padding: 0 8px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .containerContent {
+    overflow-x: auto;
+    padding-left: 16px;
+    padding-right: 40px;
+    /* espaço final para o último item não colar na borda */
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 16px;
+  }
+
+  .boxContent {
+    flex: 0 0 80%;
+    /* Ocupa 80% da largura da tela */
+    scroll-snap-align: start;
+    margin-right: 10px;
+  }
+
+  .boxInformation img {
+    width: 80%;
+    /* imagem se ajusta ao container responsivo */
+    height: auto;
+  }
+
+  .slide {
+    width: 100vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .rowAngle {
+    width: 0px;
+    height: 0px;
+    font-size: 14px;
+    display: none;
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 3%;
+  }
+
+  .navMenu {
+    display: none;
+  }
+
+  .serieHeroOverlay {
+    padding: 0 3% 40px 3%;
+  }
+
+  .serieMainTitle {
+    font-size: 2rem;
+    max-width: 280px;
+  }
+
+  .serieHeroContent {
+    max-width: 100%;
+  }
+
+  .secondaryActions {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .episodesSection {
+    padding: 60px 3% 40px;
+  }
+
+  .episodesGrid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+
+  .serieImagesSection {
+    padding: 0 3%;
+  }
+
+  .serieImages {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .serieImagesSection img {
+    width: 100%;
+    max-width: 400px;
+  }
+}
