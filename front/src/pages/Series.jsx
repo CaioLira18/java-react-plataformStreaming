@@ -128,9 +128,8 @@ const Series = () => {
      <div
         className="serieHeroSection"
         style={{
-          backgroundImage: window.innerWidth <= 768
-            ? `url(${serie.imageVertical})`
-            : `url(${serie.image})`
+          '--desktop-image': `url(${serie.image})`,
+          '--mobile-image': `url(${serie.imageVertical})`
         }}
       >
 

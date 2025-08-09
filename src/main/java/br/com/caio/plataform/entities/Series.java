@@ -2,6 +2,7 @@ package br.com.caio.plataform.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import br.com.caio.plataform.entities.enums.ContentCategory;
@@ -38,6 +39,7 @@ public class Series {
     private List<Seassons> seassonsList;
     
     @ManyToMany(mappedBy = "favoriteSeriesList")
+    @JsonIgnore
     private List<User> usersWhoFavorited;
 
     public String getId() {

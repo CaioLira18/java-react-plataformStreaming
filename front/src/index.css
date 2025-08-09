@@ -795,7 +795,7 @@ ul, ol {
 
 .episodesGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
   margin-bottom: 40px;
 }
@@ -999,10 +999,10 @@ ul, ol {
   }
   
   .episodesGrid {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
   }
-  
+
   .serieImagesSection {
     padding: 0 3%;
   }
@@ -1144,7 +1144,7 @@ ul, ol {
   display: flex;
   align-items: center;
   justify-content: left;
-  margin-left: 50px;
+
 }
 
 .specialSecction img {

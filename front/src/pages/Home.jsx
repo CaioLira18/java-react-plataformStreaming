@@ -272,6 +272,42 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+
+      {/* Cartoon */}
+      <div className="genericContentBox">
+        <div className="specialSecction">
+          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754688018/logoMarcaCartoon_of4twi.png" alt="logo disney" />
+        </div>
+
+        <div className="slideWrapper">
+          <div className="sliderControls left">
+            <div className="rowAngle" onClick={() => scroll(disneyRef, 'left')}>
+              <i className="fa-solid fa-angle-left"></i>
+            </div>
+          </div>
+
+          <div className="containerContent" ref={disneyRef}>
+            {series.filter(item => item.marca === "cartoon")
+              .map((movieItem, i) => (
+                <div className="boxContent" key={movieItem.id || i}>
+                  <div className="boxInformation">
+                    <a href={`/series/${movieItem.id}`}>
+                      <img src={movieItem.imageVertical} alt={movieItem.name} />
+                    </a>
+                  </div>
+                </div>
+              ))}
+          </div>
+
+          <div className="sliderControls right">
+            <div className="rowAngle" onClick={() => scroll(disneyRef, 'right')}>
+              <i className="fa-solid fa-angle-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 };
