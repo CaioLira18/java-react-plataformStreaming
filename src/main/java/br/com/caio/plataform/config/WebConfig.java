@@ -10,9 +10,14 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173", "https://java-react-plataform-streaming.vercel.app")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*");
-                // Remove .allowCredentials(true)
+                .allowedOrigins(
+                    "http://localhost:5173", 
+                    "https://java-react-plataform-streaming.vercel.app"
+                )
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD")
+                .allowedHeaders("*")
+                .exposedHeaders("*")
+                .allowCredentials(false) // Explicitamente definido como false
+                .maxAge(3600); // Cache preflight por 1 hora
     }
 }
