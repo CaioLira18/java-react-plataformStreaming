@@ -86,6 +86,7 @@ const Home = () => {
   ];
 
   return (
+
     <div className='home'>
       <Slide />
 
@@ -97,6 +98,10 @@ const Home = () => {
           </div>
         )}
       </div>
+
+      {!isAuthenticated && (
+        navigate("/login")
+      )}
 
       {/* Minha Lista */}
       {allFavorites.length > 0 && (
