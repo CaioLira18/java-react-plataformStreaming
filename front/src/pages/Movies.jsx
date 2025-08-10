@@ -12,8 +12,7 @@ const Movie = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
   const numero = 9999;
-
-  const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api" || "http://localhost:8080/api";
 
   // Carregar dados do usuário do localStorage
   useEffect(() => {

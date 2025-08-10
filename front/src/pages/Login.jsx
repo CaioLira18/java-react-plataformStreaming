@@ -55,7 +55,7 @@ const Login = () => {
   };
 
   const navigate = useNavigate();
-  const API_URL = "http://localhost:8080"; // Altere se necessário
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api" || "http://localhost:8080/api";
 
   return (
     <div className="login">

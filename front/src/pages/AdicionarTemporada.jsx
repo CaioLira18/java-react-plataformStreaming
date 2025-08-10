@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const AdicionarTemporada = () => {
-  const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api" || "http://localhost:8080/api";
   const [series, setSeries] = useState([]);
   const [selectedSerie, setSelectedSerie] = useState(null);
   const [seasonName, setSeasonName] = useState("");

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 const AdicionarConteudo = () => {
 
-  const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api" || "http://localhost:8080/api";
   const [series, setSeries] = useState([]);
   const [selectedSerie, setSelectedSerie] = useState(null);
   const [name, setName] = useState("");

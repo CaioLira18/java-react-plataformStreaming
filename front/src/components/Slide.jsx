@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Slide = () => {
-    const API_URL = "http://localhost:8080/api";
+    const API_URL = "https://java-react-plataformstreaming.onrender.com/api" || "http://localhost:8080/api";
     const [collection, setCollection] = useState([]);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [previousSlide, setPreviousSlide] = useState(0);
