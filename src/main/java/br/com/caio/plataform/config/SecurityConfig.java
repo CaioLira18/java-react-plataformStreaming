@@ -34,9 +34,24 @@ public class SecurityConfig {
         ));
         
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
+        // CORRIGIDO: especificar headers explicitamente quando credentials é false
+        configuration.setAllowedHeaders(List.of(
+            "Origin", 
+            "Content-Type", 
+            "Accept", 
+            "Authorization", 
+            "X-Requested-With",
+            "Access-Control-Request-Method",
+            "Access-Control-Request-Headers"
+        ));
         
-        // CORRIGIDO: allowCredentials deve ser false quando allowedHeaders é "*"
+        // Headers expostos para o frontend
+        configuration.setExposedHeaders(List.of(
+            "Authorization",
+            "Content-Type"
+        ));
+        
+        // IMPORTANTE: deve ser false para evitar problemas de CORS
         configuration.setAllowCredentials(false);
         
         // ADICIONADO: cache para melhor performance
