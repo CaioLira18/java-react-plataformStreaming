@@ -27,8 +27,6 @@ const MoviesPage = () => {
       try {
         const parsedUser = JSON.parse(storedUser);
         setIsAuthenticated(true);
-        setIsAdmin(parsedUser.role === 'ADMIN');
-        setName(parsedUser.name);
 
         console.log("Dados do usuário carregados:", parsedUser);
       } catch (error) {

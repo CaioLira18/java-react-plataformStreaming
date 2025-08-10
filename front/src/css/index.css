@@ -268,6 +268,13 @@ ul, ol {
 /* Welcome */
 
 .welcome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+}
+
+.welcome {
   padding: 30px;
 }
 
@@ -314,7 +321,7 @@ ul, ol {
 .inputBox {
   display: flex;
   flex-direction: column;
-  justify-content: left;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -341,5 +348,20 @@ ul, ol {
   height: 30px;
   background-color: white;
   color: #000;
+}
+
+.addContent {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 50px;
+  gap: 20px;
+}
+
+.addContent input, select {
+  background-color: white;
+  color: black;
+  padding-left: 10px;
+  border-radius: 10px;
 }
 

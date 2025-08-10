@@ -181,11 +181,6 @@ const Series = () => {
             
             {/* Ações secundárias */}
             <div className="secondaryActions">
-              <button className="actionButton">
-                <i className="fa-solid fa-bookmark"></i>
-                <span>Trailer</span>
-              </button>
-              
               {isAuthenticated && isAdmin && (
                 <button className="actionButton" onClick={() => navigate(`/AdicionarEpisodio/${serie.id}`)}>
                   <i className="fa-solid fa-plus-circle"></i>

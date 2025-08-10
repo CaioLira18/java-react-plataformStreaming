@@ -94,7 +94,7 @@ const Header = () => {
               </li>
               <li>
                  <div className="headerOption">
-                  <a href="/movie" onClick={closeMenu}> 
+                  <a href="/movies" onClick={closeMenu}> 
                   <i class="fa-solid fa-film"></i>
                   Filmes
                   </a>
@@ -102,7 +102,7 @@ const Header = () => {
               </li>
               <li>
                  <div className="headerOption">
-                  <a href="/serie" onClick={closeMenu}> 
+                  <a href="/series" onClick={closeMenu}> 
                   <i class="fa-solid fa-clapperboard"></i>
                   Series
                   </a>

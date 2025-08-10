@@ -14,6 +14,8 @@ import './css/Header.css'
 import './css/Serie.css'
 import './css/Home.css'
 import './css/Search.css'
+import './css/modal.css'
+
 
 
 import App from './App.jsx'

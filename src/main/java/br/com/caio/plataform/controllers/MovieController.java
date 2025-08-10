@@ -18,7 +18,10 @@ import br.com.caio.plataform.entities.Movie;
 import br.com.caio.plataform.services.MovieService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") // Your Vite dev server
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "https://java-react-plataformstreaming.onrender.com"
+})
 @RequestMapping("/api/movie")
 public class MovieController {
     private final MovieService movieService;

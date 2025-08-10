@@ -1,0 +1,57 @@
+.trailerModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1200;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.trailerContent {
+  position: relative;
+  background: #000;
+  padding: 10px;
+  border-radius: 12px;
+  max-width: 900px;
+  width: 90%;
+  box-shadow: 0px 10px 40px rgba(0,0,0,0.5);
+  animation: scaleIn 0.3s ease-in-out;
+}
+
+.trailerContent iframe {
+  border-radius: 8px;
+}
+
+.closeBtn {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  background: #ff2e2e;
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+  line-height: 38px;
+}
+
+.closeBtn:hover {
+  background: #ff5555;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
