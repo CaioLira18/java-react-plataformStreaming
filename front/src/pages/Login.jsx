@@ -19,7 +19,6 @@ const Login = () => {
       const response = await Axios.post(
         `${API_URL}/auth/login`,
         { email, password },
-        { withCredentials: true }
       );
 
       if (response.data) {
