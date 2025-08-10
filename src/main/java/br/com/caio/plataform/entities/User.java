@@ -36,6 +36,7 @@ public class User {
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "movie_id")
     )
+    @JsonIgnore
     private List<Movie> favoriteMovieList = new ArrayList<>();
 
     @ManyToMany
@@ -44,6 +45,7 @@ public class User {
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "series_id")
     )
+    @JsonIgnore
     private List<Series> favoriteSeriesList = new ArrayList<>();
 
     // Construtor padrão
