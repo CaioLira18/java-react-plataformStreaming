@@ -139,6 +139,9 @@ const Series = () => {
               {serie.marca === "DC" && (
                 <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="" />
               )}
+              {serie.marca === "WARNER" && (
+                <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754851380/logoMarca_tmnmvb.png" alt="" />
+              )}
             </div>
             
             {/* Título Principal */}

@@ -143,6 +143,15 @@ const Movie = () => {
       >
         <div className="movieHeroOverlay">
           <div className="movieHeroContent">
+             {/* Logo/Brand */}
+            <div className="movieBrand">
+              {movie.marca === "DISNEY" && (
+                <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070612/logoDisney_twejpl.png" alt="" />
+              )}
+              {movie.marca === "DC" && (
+                <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="" />
+              )}
+            </div>
             <h1 className="movieMainTitle">{movie.name}</h1>
 
             <button className="watchButton">
