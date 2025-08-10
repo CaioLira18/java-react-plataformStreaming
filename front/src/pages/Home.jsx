@@ -38,7 +38,7 @@ const Home = () => {
       const parsedUser = JSON.parse(storedUser);
       setUserId(parsedUser.id);
 
-      fetch(`http://localhost:8080/api/users/${parsedUser.id}`)
+      fetch(`https://java-react-plataformstreaming.onrender.com/api/users/${parsedUser.id}`)
         .then((res) => res.json())
         .then((fullUser) => {
           setIsAuthenticated(true);
