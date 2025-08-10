@@ -191,6 +191,17 @@ const Movie = () => {
           </div>
         </div>
       )}
+
+      
+      {/* Seção de Imagens */}
+      <div className="serieImagesSection">
+        <h2>Imagens</h2>
+        <div className="serieImages">
+          <img src={movie.image1} alt="Imagem 1" />
+          <img src={movie.image2} alt="Imagem 2" />
+          <img src={movie.image3} alt="Imagem 3" />
+        </div>
+      </div>
     </div>
   );
 };
