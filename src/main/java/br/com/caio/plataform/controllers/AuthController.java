@@ -6,34 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.caio.plataform.entities.User;
 import br.com.caio.plataform.repository.UserRepository;
 import br.com.caio.plataform.services.LoginRequest;
 
-
 @RestController
-@RequestMapping("/auth")
-@CrossOrigin(
-    origins = {
-        "http://localhost:5173"
-    },
-    allowCredentials = "true",
-    methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS}
-)
+@RequestMapping("/api/auth") // CORRIGIDO: mudou de "/auth" para "/api/auth"
 public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
     
     @Autowired
-    private PasswordEncoder passwordEncoder; // ADICIONADO
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
