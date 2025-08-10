@@ -562,10 +562,6 @@
   }
 
   .rowAngle {
-    display: none;
-    width: 0px;
-    height: 0px;
-    font-size: 14px;
     display: none !important;
   }
 
@@ -611,7 +607,7 @@
     width: 35px !important;
     height: 35px !important;
     font-size: 18px !important;
-    display: flex !important;
+    display: none !important;
   }
   
   /* Container geral mobile */
@@ -829,9 +825,6 @@
   
   .rowAngle {
     display: none;
-    width: 32px !important;
-    height: 32px !important;
-    font-size: 16px !important;
   }
   
   .buttonsAdd button {
@@ -931,9 +924,6 @@
   
   .rowAngle {
     display: none;
-    width: 30px !important;
-    height: 30px !important;
-    font-size: 14px !important;
   }
   
 }
@@ -969,9 +959,6 @@
   
   .rowAngle {
     display: none;
-    width: 28px !important;
-    height: 28px !important;
-    font-size: 12px !important;
   }
 }
 

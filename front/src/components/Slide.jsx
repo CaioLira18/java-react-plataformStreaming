@@ -90,7 +90,7 @@ const Slide = () => {
                         <div
                             key={index}
                             className={`slide-container ${index === currentSlide ? 'active' :
-                                    index === previousSlide && isTransitioning ? 'previous' : 'hidden'
+                                index === previousSlide && isTransitioning ? 'previous' : 'hidden'
                                 }`}
                         >
                             <img
@@ -100,7 +100,7 @@ const Slide = () => {
                                 loading={Math.abs(index - currentSlide) <= 1 ? 'eager' : 'lazy'}
                             />
 
-                            {/* Botão sempre no DOM, mas só visível no slide ativo */}
+                            <div className="image-overlay"></div> {/* <-- camada entre imagem e texto */}
                             <div className={`franquiaInformations ${index === currentSlide ? 'on' : ''}`}>
                                 <img
                                     src={item.logoFranquia}
