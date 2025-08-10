@@ -117,39 +117,39 @@ streaming-platform/
 ## 📸 Screenshots
 
 ### Home Page
-![Home Page](PHOTOS/Home.png)
-![Home Page 2](PHOTOS/Home2.png)
-![Home Page 3](PHOTOS/Home3.png)
-![Home Page 4](PHOTOS/Home4.png)
+![Home Page](FOTOS/Home.png)
+![Home Page 2](FOTOS/Home2.png)
+![Home Page 3](FOTOS/Home3.png)
+![Home Page 4](FOTOS/Home4.png)
 
 
 *Main dashboard with featured content and favorites section*
 
 ### Movies Page
-![Movies Page](PHOTOS/Filmes.png)
+![Movies Page](FOTOS/Filmes.png)
 *Dedicated movies browsing with filtering options*
 
 ### Movie Page
-![Movie Page](PHOTOS/Filme.png)
-![Movie Page](PHOTOS/Filme2.png)
+![Movie Page](FOTOS/Filme.png)
+![Movie Page](FOTOS/Filme2.png)
 *Movie with detailed information*
 
 ### Series Page
-![Series Page](PHOTOS/Series.png)
+![Series Page](FOTOS/Series.png)
 *Series catalog with detailed information*
 
 ### Serie Page
-![Series Page](PHOTOS/Serie.png)
-![Series Page](PHOTOS/Serie2.png)
-![Series Page](PHOTOS/Serie3.png)
+![Series Page](FOTOS/Serie.png)
+![Series Page](FOTOS/Serie2.png)
+![Series Page](FOTOS/Serie3.png)
 *Serie with detailed information*
 
 ### User Profile
-![Edit Profile](screenshots/edit-profile.png)
+![Edit Profile](FOTOS/Edit.png)
 *User information management interface*
 
 ### Search Results
-![Search Page](screenshots/search.png)
+![Search Page](FOTOS/Pesquisar.png)
 *Advanced search functionality with real-time results*
 
 ## 🔧 API Endpoints
