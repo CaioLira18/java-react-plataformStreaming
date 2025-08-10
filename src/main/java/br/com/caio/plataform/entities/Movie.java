@@ -8,12 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
 @Table(name="tb_movies")
 public class Movie {
 
@@ -26,8 +22,8 @@ public class Movie {
     private String duration;
     private String year;
     private String imageVertical;
+    private String youtubeLink;
     
-   
     @Column(columnDefinition = "TEXT")
     private String description;
 
@@ -41,7 +37,132 @@ public class Movie {
     private String image2;
     private String image3;
 
-    public String getId(){
+    // Getters e Setters
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getImageVertical() {
+        return imageVertical;
+    }
+
+    public void setImageVertical(String imageVertical) {
+        this.imageVertical = imageVertical;
+    }
+
+    public String getYoutubelink() {
+        return youtubeLink;
+    }
+
+    public void setYoutubelink(String youtubeLink) {
+        this.youtubeLink = youtubeLink;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ContentCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(ContentCategory category) {
+        this.category = category;
+    }
+
+    public ContentType getType() {
+        return type;
+    }
+
+    public void setType(ContentType type) {
+        this.type = type;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getFranquia() {
+        return franquia;
+    }
+
+    public void setFranquia(String franquia) {
+        this.franquia = franquia;
+    }
+
+    public String getImage1() {
+        return image1;
+    }
+
+    public void setImage1(String image1) {
+        this.image1 = image1;
+    }
+
+    public String getImage2() {
+        return image2;
+    }
+
+    public void setImage2(String image2) {
+        this.image2 = image2;
+    }
+
+    public String getImage3() {
+        return image3;
+    }
+
+    public void setImage3(String image3) {
+        this.image3 = image3;
     }
 }

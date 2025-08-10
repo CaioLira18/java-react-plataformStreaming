@@ -11,228 +11,219 @@ const Movie = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
-  const numero = 9999;
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api" || "http://localhost:8080/api";
+  const [showTrailer, setShowTrailer] = useState(false);
+  const [youtubeLink, setYoutubeLink] = useState("");
 
-  // Carregar dados do usuário do localStorage
+  const API_URL =
+    "https://java-react-plataformstreaming.onrender.com/api" ||
+    "http://localhost:8080/api";
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
-        console.log("Dados do usuário do localStorage:", parsedUser);
-        
-        // Validar se o usuário tem ID válido
-        if (!parsedUser.id) {
-          console.error("ID do usuário não encontrado");
-          return;
-        }
-        
+        if (!parsedUser.id) return;
+
         setUser(parsedUser);
         setIsAuthenticated(true);
-        setIsAdmin(parsedUser.role === 'ADMIN');
-        
-        // Buscar dados completos do usuário da API para pegar a lista de favoritos
+        setIsAdmin(parsedUser.role === "ADMIN");
         fetchUserData(parsedUser.id);
       } catch (error) {
         console.error("Erro ao carregar dados do usuário:", error);
       }
-    } else {
-      console.log("Nenhum usuário encontrado no localStorage");
     }
   }, []);
 
-  // Função separada para buscar dados do usuário
   const fetchUserData = async (userId) => {
     try {
-      console.log("Buscando dados do usuário ID:", userId);
-      
-      const response = await fetch(`${API_URL}/users/${userId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      console.log("Status da resposta:", response.status);
-
-      if (!response.ok) {
-        throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
-      }
-
+      const response = await fetch(`${API_URL}/users/${userId}`);
+      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
       const userData = await response.json();
-      console.log("Dados completos do usuário:", userData);
-      
-      // Verificar se favoriteMovieList existe e é um array
-      const favoriteMovies = Array.isArray(userData.favoriteMovieList) 
-        ? userData.favoriteMovieList 
-        : [];
-      
-      setFavoriteList(favoriteMovies);
-      
+      setFavoriteList(Array.isArray(userData.favoriteMovieList) ? userData.favoriteMovieList : []);
     } catch (error) {
-      console.error("Erro detalhado ao buscar dados do usuário:", error);
-      
-      // Se for erro 404, o usuário pode não existir mais
-      if (error.message.includes('404')) {
-        console.warn("Usuário não encontrado, limpando localStorage");
-        localStorage.removeItem("user");
-        setUser(null);
-        setIsAuthenticated(false);
-        setIsAdmin(false);
-      }
+      console.error(error);
     }
   };
 
-  // Carregar filme específico e lista de filmes
+  // Função para converter link do YouTube para embed
+  const convertYouTubeToEmbed = (url) => {
+    if (!url || typeof url !== 'string') {
+      console.log("URL inválida ou não fornecida:", url);
+      return "";
+    }
+    
+    console.log("URL original para conversão:", url);
+    
+    // Remove espaços em branco e quebras de linha
+    url = url.trim().replace(/\s/g, '');
+    
+    // Diferentes formatos de URL do YouTube
+    let videoId = "";
+    
+    if (url.includes('youtu.be/')) {
+      // Formato: https://youtu.be/VIDEO_ID?si=... ou https://youtu.be/VIDEO_ID
+      const afterDomain = url.split('youtu.be/')[1];
+      videoId = afterDomain.split('?')[0].split('&')[0]; // Remove parâmetros como ?si=
+    } else if (url.includes('youtube.com/watch?v=')) {
+      // Formato: https://www.youtube.com/watch?v=VIDEO_ID&...
+      const params = url.split('?')[1];
+      const urlParams = new URLSearchParams(params);
+      videoId = urlParams.get('v');
+    } else if (url.includes('youtube.com/embed/')) {
+      // Já está no formato embed
+      return url;
+    } else if (url.includes('youtube.com/v/')) {
+      // Formato: https://www.youtube.com/v/VIDEO_ID
+      videoId = url.split('youtube.com/v/')[1].split('?')[0];
+    } else {
+      // Caso o campo contenha apenas o ID do vídeo (11 caracteres)
+      if (url.length === 11 && /^[a-zA-Z0-9_-]+$/.test(url)) {
+        videoId = url;
+      }
+    }
+    
+    if (!videoId) {
+      console.error("Não foi possível extrair o ID do vídeo de:", url);
+      return "";
+    }
+    
+    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+    console.log("ID do vídeo extraído:", videoId);
+    console.log("URL convertida para embed:", embedUrl);
+    
+    return embedUrl;
+  };
+
   useEffect(() => {
     const fetchMovies = async () => {
       try {
+        console.log("Buscando filme com ID:", id);
         const response = await fetch(`${API_URL}/movie`);
-        
-        if (!response.ok) {
-          throw new Error(`Erro ao buscar filmes: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`Erro ao buscar filmes: ${response.status}`);
         
         const data = await response.json();
         console.log("Dados recebidos da API:", data);
         
-        const found = data.find(g => g.id === id);
-        console.log("Movie encontrado:", found);
+        // Converter o ID para string se necessário para comparação
+        const found = data.find((g) => String(g.id) === String(id));
         
-        setMovie(found);
-        setMovies(data);
+        if (found) {
+          console.log("Filme encontrado:", found);
+          console.log("Todas as propriedades do filme:", Object.keys(found));
+          console.log("youtubelink do filme:", found.youtubelink);
+          console.log("Tipo do youtubelink:", typeof found.youtubelink);
+          
+          setMovie(found);
+          setMovies(data);
+          
+          // Verificar se youtubelink existe e não está vazio
+          if (found.youtubelink && found.youtubelink.trim() !== '') {
+            const processedLink = convertYouTubeToEmbed(found.youtubelink);
+            setYoutubeLink(processedLink);
+            console.log("Link processado e definido:", processedLink);
+          } else {
+            console.log("youtubelink está vazio ou não existe");
+            setYoutubeLink("");
+          }
+        } else {
+          console.log("Filme não encontrado para ID:", id);
+          console.log("IDs disponíveis:", data.map(item => ({ id: item.id, name: item.name })));
+        }
       } catch (error) {
-        console.error("Erro ao buscar dados dos filmes:", error);
+        console.error("Erro ao buscar filmes:", error);
       }
     };
-
-    fetchMovies();
-  }, [id]);
+    
+    if (id) {
+      fetchMovies();
+    }
+  }, [id, API_URL]);
 
   const handleAddToFavorites = async () => {
-  if (!isAuthenticated || !user || !movie) {
-    console.warn("Usuário não autenticado ou dados incompletos.");
-    alert("Você precisa estar logado para adicionar aos favoritos!");
-    return;
-  }
-
-  const isAlreadyFavorite = favoriteList.some(item => item.id === movie.id);
-  
-  console.log("Estado atual:", {
-    userId: user.id,
-    movieId: movie.id,
-    isAlreadyFavorite,
-    favoriteListSize: favoriteList.length
-  });
-
-  try {
-    let response;
-    
-    if (isAlreadyFavorite) {
-      // ❌ REMOVER dos favoritos
-      console.log("Removendo filme dos favoritos...");
-      
-      response = await fetch(`${API_URL}/favorites/movie/${movie.id}/${user.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Erro ao remover favorito: ${response.status} - ${errorText}`);
-      }
-
-      console.log("✅ Filme removido dos favoritos com sucesso");
-      alert("Filme removido dos favoritos!");
-      
-    } else {
-      // ✅ ADICIONAR aos favoritos
-      console.log("Adicionando filme aos favoritos...");
-      
-      response = await fetch(`${API_URL}/favorites/movie/${movie.id}/${user.id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Erro ao adicionar favorito: ${response.status} - ${errorText}`);
-      }
-
-      console.log("✅ Filme adicionado aos favoritos com sucesso");
+    if (!isAuthenticated || !user || !movie) {
+      alert("Você precisa estar logado para adicionar aos favoritos!");
+      return;
     }
 
-    // 🔄 Atualiza lista de favoritos depois da mudança
-    console.log("Atualizando lista de favoritos...");
-    await fetchUserData(user.id);
-    
-  } catch (error) {
-    console.error("❌ Erro detalhado ao atualizar favoritos:", error);
-  }
-};
+    const isAlreadyFavorite = favoriteList.some((item) => item.id === movie.id);
+    try {
+      const method = isAlreadyFavorite ? "DELETE" : "POST";
+      const response = await fetch(
+        `${API_URL}/favorites/movie/${movie.id}/${user.id}`,
+        { method, headers: { "Content-Type": "application/json" } }
+      );
+      if (!response.ok) throw new Error(`Erro: ${response.status}`);
+      fetchUserData(user.id);
+    } catch (error) {
+      console.error("Erro ao gerenciar favoritos:", error);
+    }
+  };
 
-  // Verificar se o filme atual está nos favoritos
-  const isInFavorites = Array.isArray(favoriteList) && movie 
-    ? favoriteList.some(item => item.id === movie.id)
-    : false;
+  function handleTrailerPlay() {
+    console.log("=== TENTATIVA DE REPRODUZIR TRAILER ===");
+    console.log("Estado atual do youtubeLink:", youtubeLink);
+    console.log("youtubelink do movie:", movie?.youtubelink);
+    console.log("movie completo:", movie);
+    
+    // Primeiro, tentar usar o link já processado
+    if (youtubeLink && youtubeLink.includes('youtube.com/embed/')) {
+      console.log("Usando link já processado:", youtubeLink);
+      setShowTrailer(true);
+    } 
+    // Se não houver link processado, tentar processar o link original
+    else if (movie?.youtubelink && movie.youtubelink.trim() !== '') {
+      console.log("Tentando processar link original:", movie.youtubelink);
+      const processedLink = convertYouTubeToEmbed(movie.youtubelink);
+      if (processedLink) {
+        console.log("Link processado com sucesso:", processedLink);
+        setYoutubeLink(processedLink);
+        setShowTrailer(true);
+      } else {
+        console.error("Falha ao processar link:", movie.youtubelink);
+        alert("Formato de link do trailer inválido!");
+      }
+    } else {
+      console.log("Nenhum link de trailer disponível");
+      alert("Trailer não disponível!");
+    }
+  }
 
   if (!movie) {
     return (
-      <div className="loading">
-        <div className="loadingText">
-          <p>Carregando Conteudo...</p>
-        </div>
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>Carregando Conteúdo...</p>
       </div>
     );
   }
 
+  const isInFavorites =
+    Array.isArray(favoriteList) && movie
+      ? favoriteList.some((item) => item.id === movie.id)
+      : false;
+
+  // Verificar se deve mostrar o botão do trailer
+  const hasTrailer = movie.youtubelink && movie.youtubelink.trim() !== '';
+
   return (
     <div>
-      {/* Hero Section com Background */}
+      {/* Hero Section */}
       <div
         className="movieHeroSection"
         style={{
           '--desktop-image': `url(${movie.image})`,
-          '--mobile-image': `url(${movie.imageVertical})`
+          '--mobile-image': `url(${movie.imageVertical})`,
         }}
       >
-
-
         <div className="movieHeroOverlay">
           <div className="movieHeroContent">
-            {/* Logo/Brand */}
-            <div className="movieBrand">
-              {movie.marca === "DISNEY" && (
-                <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070612/logoDisney_twejpl.png" alt="" />
-              )}
-              {movie.marca === "DC" && (
-                <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="" />
-              )}
-            </div>
-            
-            {/* Título Principal */}
             <h1 className="movieMainTitle">{movie.name}</h1>
-            
-            {/* Tags/Badges */}
-            <div className="movieTags">
-              <span className="movieTag movieTagNew">Novo</span>
-              <span className="movieTag movieTagRating">{movie.age}</span>
-              <span className="movieTag movieTagYear">{movie.year}</span>
-              <span className="movieTag movieTagQuality">4K UHD</span>
-            </div>
-            
-            {/* Botão de Assistir */}
+
             <button className="watchButton">
               <i className="fa-solid fa-play"></i>
               Assistir Agora
             </button>
-            
-            {/* Ações secundárias */}
+
             <div className="secondaryActions">
               <button onClick={handleAddToFavorites} className="actionButton">
                 {isInFavorites ? (
@@ -240,62 +231,61 @@ const Movie = () => {
                 ) : (
                   <i className="fa-solid fa-plus"></i>
                 )}
-                <span>{isInFavorites ? 'Na lista' : 'Minha lista'}</span>
+                <span>{isInFavorites ? "Na lista" : "Minha lista"}</span>
               </button>
-              
-              <button className="actionButton">
-                <i className="fa-solid fa-bookmark"></i>
-                <span>Trailer</span>
-              </button>
+
+              {/* Botão trailer - só aparece se houver link válido */}
+              {hasTrailer && (
+                <button onClick={handleTrailerPlay} className="actionButton">
+                  <i className="fa-solid fa-film"></i>
+                  <span>Trailer</span>
+                </button>
+              )}
             </div>
+
+            <p>{movie.description}</p>
             
-            {/* Descrição */}
-            <div className="movieDescription">
-              <p>{movie.description}</p>
-            </div>
-            
-            {/* Gêneros e informações */}
-            <div className="movieMetadata">
-              <span>{movie.category}</span>
-              <span>{movie.type}</span>
-            </div>
-            
-            {/* Informações técnicas */}
-            <div className="movieTechInfo">
-              <p>A disponibilidade de 4K UHD, HDR e Dolby Atmos varia de acordo with o dispositivo e o plano.</p>
-            </div>
+            {/* Debug info - remova em produção */}
+            {process.env.NODE_ENV === 'development' && (
+              <div style={{ 
+                marginTop: '1rem', 
+                fontSize: '0.8rem', 
+                opacity: 0.7,
+                background: 'rgba(0,0,0,0.5)',
+                padding: '10px',
+                borderRadius: '5px'
+              }}>
+                <p><strong>Debug Info:</strong></p>
+                <p>ID do filme: {movie.id}</p>
+                <p>Link original: {movie.youtubelink || 'N/A'}</p>
+                <p>Link processado: {youtubeLink || 'N/A'}</p>
+                <p>Tem trailer: {hasTrailer ? 'Sim' : 'Não'}</p>
+                <p>Tipo youtubelink: {typeof movie.youtubelink}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Seção de Imagens */}
-      <div className="moviesImagesIndividual">
-        <h1>Imagens</h1>
-        <div className="imagesMovie">
-          <img src={movie.image1} alt="Imagem 1" />
-          <img src={movie.image2} alt="Imagem 2" />
-          <img src={movie.image3} alt="Imagem 3" />
+      {/* Modal trailer */}
+      {showTrailer && youtubeLink && (
+        <div className="trailerModal" onClick={() => setShowTrailer(false)}>
+          <div className="trailerContent" onClick={(e) => e.stopPropagation()}>
+            <span className="closeBtn" onClick={() => setShowTrailer(false)}>
+              &times;
+            </span>
+            <iframe
+              width="100%"
+              height="500"
+              src={youtubeLink}
+              title="Trailer"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
         </div>
-      </div>
-
-      <div className="othersMovies">
-        <h2>Coisas que você pode gostar</h2>
-        <div className="othersMoviesContent">
-          {Array.isArray(movies) && movies
-            .filter(movieItem => movieItem.marca === movie.marca && movieItem.id !== movie.id)
-            .map((movieItem, i) => (
-
-              <div className="movieCard" key={movieItem.id || i}>
-                <img src={movieItem.image} alt={movieItem.name} />
-                <div className="movieCardInfo">
-                  <a href={`/movies/${movieItem.id}`}><h3>{movieItem.name}</h3></a>
-                  <a href={`/movies/${movieItem.id}`}><p>{movieItem.description || "Filme da Disney"}</p></a>
-                </div>
-             
-              </div>
-            ))}
-        </div>
-      </div>
+      )}
     </div>
   );
 };

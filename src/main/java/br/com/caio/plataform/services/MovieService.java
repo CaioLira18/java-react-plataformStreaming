@@ -42,6 +42,7 @@ public class MovieService {
             moviesToUpdate.setYear(movie.getYear());
             moviesToUpdate.setType(movie.getType());
             moviesToUpdate.setAge(movie.getAge());
+            moviesToUpdate.setYoutubelink(movie.getYoutubelink());
             moviesToUpdate.setFranquia(movie.getFranquia());
             moviesToUpdate.setMarca(movie.getMarca());
             moviesToUpdate.setImage(movie.getImage());
