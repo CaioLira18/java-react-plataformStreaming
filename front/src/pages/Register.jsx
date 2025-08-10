@@ -4,7 +4,7 @@ import axios from 'axios';
 const Register = () => {
   // Configuração correta da URL da API
   const API_URL = process.env.NODE_ENV === 'production' 
-    ? "https://java-react-plataformstreaming.onrender.com/api/users"
+    ? "https://java-react-plataformstreaming.onrender.com/api/users"  // Backend no Render
     : "http://localhost:8080/api/users";
 
   const [name, setName] = useState('');
@@ -114,14 +114,21 @@ const Register = () => {
       console.log("Enviando para:", API_URL);
       console.log("Dados:", userData);
 
-      // Faz a requisição com headers corretos
-      const response = await axios.post(API_URL, userData, {
+      // Configuração simplificada do axios (sem headers problemáticos)
+      const config = {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        timeout: 10000 // 10 segundos de timeout
-      });
+        timeout: 15000, // Aumenta timeout para 15 segundos
+        // Valida status de resposta
+        validateStatus: function (status) {
+          return status >= 200 && status < 300;
+        }
+      };
+
+      // Faz a requisição
+      const response = await axios.post(API_URL, userData, config);
 
       console.log("Resposta:", response.data);
       setMessage("Usuário criado com sucesso!");
@@ -142,29 +149,116 @@ const Register = () => {
       
       if (error.response) {
         console.error("Status:", error.response.status);
+        console.error("Headers de resposta:", error.response.headers);
         console.error("Data:", error.response.data);
         
         switch (error.response.status) {
           case 400:
             errorMessage = "Dados inválidos. Verifique se todos os campos estão corretos.";
+            if (error.response.data?.message) {
+              errorMessage += ` Detalhes: ${error.response.data.message}`;
+            }
             break;
           case 409:
             errorMessage = "Email ou CPF já cadastrado.";
             break;
           case 415:
-            errorMessage = "Erro no formato dos dados. Tente novamente.";
+            errorMessage = "Erro no formato dos dados. O servidor não aceita o tipo de conteúdo enviado.";
+            console.error("Content-Type enviado:", error.config?.headers?.['Content-Type']);
             break;
           case 500:
             errorMessage = "Erro interno do servidor. Tente novamente mais tarde.";
             break;
+          case 503:
+            errorMessage = "Serviço temporariamente indisponível. Tente novamente em alguns minutos.";
+            break;
           default:
-            errorMessage = error.response.data?.message || `Erro ${error.response.status}: ${error.response.statusText}`;
+            errorMessage = error.response.data?.message || 
+                          error.response.data?.error || 
+                          `Erro ${error.response.status}: ${error.response.statusText}`;
         }
       } else if (error.request) {
+        console.error("Request:", error.request);
         errorMessage = "Erro de conexão. Verifique sua internet e tente novamente.";
+      } else {
+        console.error("Error:", error.message);
+        errorMessage = "Erro inesperado. Tente novamente.";
       }
       
       setMessage(errorMessage);
+      setMessageType("error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Função alternativa usando fetch API (caso axios continue com problemas)
+  const handleCreateUserWithFetch = async () => {
+    setLoading(true);
+    setMessage('');
+    setMessageType('');
+
+    try {
+      // Mesmas validações...
+      if (!name.trim() || !email.trim() || !isValidEmail(email) || 
+          !cpf.trim() || !isValidCPF(cpf) || !password.trim() || password.length < 6) {
+        setMessage("Por favor, preencha todos os campos corretamente.");
+        setMessageType("error");
+        setLoading(false);
+        return;
+      }
+
+      if (role === "ADMIN" && adminPassword !== "admin123") {
+        setMessage("Senha de administrador incorreta.");
+        setMessageType("error");
+        setLoading(false);
+        return;
+      }
+
+      const userData = {
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        cpf: cpf.replace(/\D/g, ''),
+        password: password,
+        role: role
+      };
+
+      console.log("Enviando com fetch para:", API_URL);
+      console.log("Dados:", userData);
+
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        credentials: 'omit', // Remove credenciais para compatibilidade com Vercel
+        body: JSON.stringify(userData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.text();
+        console.error("Erro na resposta:", response.status, errorData);
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      console.log("Sucesso:", result);
+      
+      setMessage("Usuário criado com sucesso!");
+      setMessageType("success");
+
+      // Limpa os campos
+      setName('');
+      setEmail('');
+      setCpf('');
+      setPassword('');
+      setRole('USER');
+      setAdminPassword('');
+
+    } catch (error) {
+      console.error("Erro com fetch:", error);
+      setMessage(`Erro: ${error.message}`);
       setMessageType("error");
     } finally {
       setLoading(false);
@@ -253,10 +347,23 @@ const Register = () => {
               disabled={loading}
               style={{
                 opacity: loading ? 0.6 : 1,
-                cursor: loading ? 'not-allowed' : 'pointer'
+                cursor: loading ? 'not-allowed' : 'pointer',
+                marginRight: '10px'
               }}
             >
-              {loading ? 'Criando...' : 'Criar Conta'}
+              {loading ? 'Criando...' : 'Criar Conta (Axios)'}
+            </button>
+            
+            <button
+              onClick={handleCreateUserWithFetch}
+              disabled={loading}
+              style={{
+                opacity: loading ? 0.6 : 1,
+                cursor: loading ? 'not-allowed' : 'pointer',
+                backgroundColor: '#28a745'
+              }}
+            >
+              {loading ? 'Criando...' : 'Criar Conta (Fetch)'}
             </button>
           </div>
 
