@@ -117,16 +117,32 @@ streaming-platform/
 ## 📸 Screenshots
 
 ### Home Page
-![Home Page](screenshots/home.png)
+![Home Page](PHOTOS/Home.png)
+![Home Page 2](PHOTOS/Home2.png)
+![Home Page 3](PHOTOS/Home3.png)
+![Home Page 4](PHOTOS/Home4.png)
+
+
 *Main dashboard with featured content and favorites section*
 
 ### Movies Page
-![Movies Page](screenshots/movies.png)
+![Movies Page](PHOTOS/Filmes.png)
 *Dedicated movies browsing with filtering options*
 
+### Movie Page
+![Movie Page](PHOTOS/Filme.png)
+![Movie Page](PHOTOS/Filme2.png)
+*Movie with detailed information*
+
 ### Series Page
-![Series Page](screenshots/series.png)
+![Series Page](PHOTOS/Series.png)
 *Series catalog with detailed information*
+
+### Serie Page
+![Series Page](PHOTOS/Serie.png)
+![Series Page](PHOTOS/Serie2.png)
+![Series Page](PHOTOS/Serie3.png)
+*Serie with detailed information*
 
 ### User Profile
 ![Edit Profile](screenshots/edit-profile.png)
