@@ -102,8 +102,6 @@ const Login = () => {
             </button>
           </div>
 
-          <Divider />
-
           <div className="registerLink">
             <p>Não tem conta? <strong><a href="/Register">Registre-se</a></strong></p>
           </div>
@@ -114,4 +112,5 @@ const Login = () => {
 };
 
 export default Login;
+
 
