@@ -104,12 +104,6 @@ const Login = () => {
 
           <Divider />
 
-          <div className="othersLogin">
-            <a href="#"><i className="fa-brands fa-google"></i></a>
-            <a href="#"><i className="fa-brands fa-facebook"></i></a>
-            <a href="#"><i className="fa-brands fa-instagram"></i></a>
-          </div>
-
           <div className="registerLink">
             <p>Não tem conta? <strong><a href="/Register">Registre-se</a></strong></p>
           </div>
@@ -120,3 +114,4 @@ const Login = () => {
 };
 
 export default Login;
+
