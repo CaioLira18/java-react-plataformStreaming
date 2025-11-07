@@ -1,19 +1,16 @@
 package br.com.caio.plataform.controllers;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.com.caio.plataform.entities.User;
-import br.com.caio.plataform.repository.UserRepository;
-import br.com.caio.plataform.services.LoginRequest;
+
 
 @RestController
 @RequestMapping("/api")
