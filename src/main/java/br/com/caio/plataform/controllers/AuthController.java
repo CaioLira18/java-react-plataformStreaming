@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import br.com.caio.plataform.repository.UserRepository;
 import br.com.caio.plataform.services.LoginRequest;
 
 @RestController
+@CrossOrigin("https://java-react-plataform-streaming.vercel.app/")
 @RequestMapping("/api/auth") // CORRIGIDO: mudou de "/auth" para "/api/auth"
 public class AuthController {
 
