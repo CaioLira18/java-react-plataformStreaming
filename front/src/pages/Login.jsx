@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Divider from '../components/Divider';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
@@ -9,6 +9,21 @@ const Login = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        fetch(`https://java-react-plataformstreaming.onrender.com/api/users`)
+          .then((res) => res.json())
+          .then(() => {
+            setIsAuthenticated(true);
+          })
+          .catch((error) => {
+            console.error('Erro ao carregar dados:', error);
+          });
+      }
+    }, []);
 
   const handleClickLogin = async () => {
     setLoading(true);
@@ -55,6 +70,10 @@ const Login = () => {
 
   const navigate = useNavigate();
   const API_URL = "https://java-react-plataformstreaming.onrender.com/api" || "http://localhost:8080/api";
+
+  if(isAuthenticated && (
+    navigate("/")
+  ))
 
   return (
     <div className="login">

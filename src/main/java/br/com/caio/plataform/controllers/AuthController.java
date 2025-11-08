@@ -17,7 +17,7 @@ import br.com.caio.plataform.repository.UserRepository;
 import br.com.caio.plataform.services.LoginRequest;
 
 @RestController
-@CrossOrigin("https://java-react-plataform-streaming.vercel.app/")
+@CrossOrigin("http://java-react-plataform-streaming.vercel.app/")
 @RequestMapping("/api/auth") // CORRIGIDO: mudou de "/auth" para "/api/auth"
 public class AuthController {
 
@@ -28,28 +28,28 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        
-        // Debug logs - remover em produção
-        System.out.println("=== TENTATIVA DE LOGIN ===");
-        System.out.println("Email: " + loginRequest.getEmail());
-        System.out.println("Senha recebida: " + loginRequest.getPassword().substring(0, Math.min(5, loginRequest.getPassword().length())) + "...");
-
-        // Primeiro, tenta autenticar como usuário comum
-        Optional<User> optionalUser = userRepository.findByEmail(loginRequest.getEmail());
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            
-            System.out.println("Usuário encontrado: " + user.getName());
-            System.out.println("Senha no BD: " + user.getPassword().substring(0, Math.min(20, user.getPassword().length())) + "...");
-            
-            // CORREÇÃO: Usar passwordEncoder.matches() em vez de equals()
-            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-                System.out.println("Senha não confere para usuário comum");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Senha inválida");
+    public ResponseEntity<?> login(@RequestBody(required = false) LoginRequest loginRequest) {
+        try {
+            if (loginRequest == null || 
+                loginRequest.getEmail() == null || 
+                loginRequest.getPassword() == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Email e senha são obrigatórios");
             }
-            
-            System.out.println("Login de usuário comum bem-sucedido!");
+
+            Optional<User> optionalUser = userRepository.findByEmail(loginRequest.getEmail());
+
+            if (optionalUser.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("Usuário não encontrado");
+            }
+
+            User user = optionalUser.get();
+
+            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("Senha inválida");
+            }
 
             LoginResponse response = new LoginResponse(
                     user.getId(),
@@ -60,9 +60,13 @@ public class AuthController {
             );
 
             return ResponseEntity.ok(response);
-        }
 
-        System.out.println("Usuário não encontrado em nenhuma tabela");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não encontrado");
-    }
+            } catch (Exception e) {
+                // 🔍 Loga no servidor
+                e.printStackTrace();
+                // 🔒 Retorna mensagem amigável ao frontend
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Erro interno ao processar login");
+            }
+        }
 }
