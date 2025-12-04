@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Slide from '../components/Slide';
 
 const Home = () => {
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api" || "http://localhost:8080/api";
+   const API_URL = process.env.NODE_ENV === 'production' 
+    ? "https://java-react-plataformstreaming.onrender.com/api" 
+    : "http://localhost:8080/api";
   const [series, setSeries] = useState([]);
   const [movies, setMovies] = useState([]);
   const [favoriteMovieList, setFavoriteMovieList] = useState([]);

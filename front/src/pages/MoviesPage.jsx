@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 const MoviesPage = () => {
   const [movie, setMovie] = useState([]);
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api" || "http://localhost:8080/api";
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-
+  // const API_URL = "https://java-react-plataformstreaming.onrender.com/api" || "http://localhost:8080/api";
+ const API_URL = process.env.NODE_ENV === 'production' 
+    ? "https://java-react-plataformstreaming.onrender.com/api" 
+    : "http://localhost:8080/api";  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     fetch(`${API_URL}/movie`)

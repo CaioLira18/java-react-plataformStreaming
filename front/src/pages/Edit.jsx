@@ -16,14 +16,17 @@ const Edit = () => {
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
   const [menuOpenId, setMenuOpenId] = useState(null);
-
+  const API_URL = process.env.NODE_ENV === 'production' 
+      ? "https://java-react-plataformstreaming.onrender.com/api" 
+      : "http://localhost:8080/api";
+      
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUserId(parsedUser.id);
 
-      fetch(`http://localhost:8080/api/users/${parsedUser.id}`)
+      fetch(`${API_URL}/users/${parsedUser.id}`)
         .then((res) => res.json())
         .then((fullUser) => {
           console.log('Dados completos do usuário:', fullUser); // DEBUG

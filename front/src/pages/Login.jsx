@@ -11,10 +11,12 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  
+
   useEffect(() => {
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
-        fetch(`https://java-react-plataformstreaming.onrender.com/api/users`)
+        fetch(`${API_URL}/users`)
           .then((res) => res.json())
           .then(() => {
             setIsAuthenticated(true);
@@ -69,8 +71,10 @@ const Login = () => {
   };
 
   const navigate = useNavigate();
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api" || "http://localhost:8080/api";
-
+  const API_URL = process.env.NODE_ENV === 'production' 
+    ? "https://java-react-plataformstreaming.onrender.com/api" 
+    : "http://localhost:8080/api";
+    
   if(isAuthenticated && (
     navigate("/")
   ))

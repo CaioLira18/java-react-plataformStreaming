@@ -12,10 +12,10 @@ const Movie = () => {
   const [user, setUser] = useState(null);
   const [showTrailer, setShowTrailer] = useState(false);
   const [youtubeLink, setYoutubeLink] = useState("");
-
   const API_URL =
     "https://java-react-plataformstreaming.onrender.com/api" ||
     "http://localhost:8080/api";
+
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");

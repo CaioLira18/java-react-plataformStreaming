@@ -13,7 +13,10 @@ const Series = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [favoriteList, setFavoriteList] = useState([]);
   const [user, setUser] = useState(null);
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api" || "http://localhost:8080/api";
+   const API_URL = process.env.NODE_ENV === 'production' 
+    ? "https://java-react-plataformstreaming.onrender.com/api" 
+    : "http://localhost:8080/api";
+
 
   // Carregar dados do usuário do localStorage
   useEffect(() => {
