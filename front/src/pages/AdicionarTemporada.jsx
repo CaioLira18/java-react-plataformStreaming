@@ -5,6 +5,7 @@ const AdicionarTemporada = () => {
   const API_URL = "http://localhost:8080/api";
   const [selectedSerie, setSelectedSerie] = useState(null);
   const [seasonName, setSeasonName] = useState("");
+  const [series, setSeries] = useState([]);
   const { id } = useParams();
 
   function addSeasson() {

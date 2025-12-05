@@ -49,7 +49,7 @@ const Header = () => {
     setIsAdmin(false);
     setName('');
     setImage('');
-    setIsMenuOpen(false); // Fechar menu ao sair
+    setIsMenuOpen(false);
     navigate('/login');
   }
 
@@ -67,10 +67,12 @@ const Header = () => {
         <div className="headerContainer">
           {/* Logo */}
           <div className="logoHeader">
-            <img
-              src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1753825253/logo_wzqgvp.png"
-              alt="Logo"
-            />
+            <a href="/">
+              <img
+                src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1753825253/logo_wzqgvp.png"
+                alt="Logo"
+              />
+            </a>
           </div>
 
           {/* Menu Hamburger - Apenas Mobile */}
@@ -83,76 +85,82 @@ const Header = () => {
 
           {/* Navegação */}
           <div className={`optionsHeader ${isMenuOpen ? 'mobileMenuOpen' : ''}`}>
+            {/* Menu de Navegação */}
             <ul className="navigationMenu">
               <li>
-                 <div className="headerOption">
+                <div className="headerOption">
                   <a href="/" onClick={closeMenu}> 
-                  <i class="fa-solid fa-house"></i>
-                  Home
+                    <i className="fa-solid fa-house"></i>
+                    <span>Home</span>
                   </a>
                 </div>
               </li>
               <li>
-                 <div className="headerOption">
+                <div className="headerOption">
                   <a href="/movies" onClick={closeMenu}> 
-                  <i class="fa-solid fa-film"></i>
-                  Filmes
+                    <i className="fa-solid fa-film"></i>
+                    <span>Filmes</span>
                   </a>
                 </div>
               </li>
               <li>
-                 <div className="headerOption">
+                <div className="headerOption">
                   <a href="/series" onClick={closeMenu}> 
-                  <i class="fa-solid fa-clapperboard"></i>
-                  Series
+                    <i className="fa-solid fa-clapperboard"></i>
+                    <span>Series</span>
                   </a>
                 </div>
               </li>
               <li>
                 <div className="headerOption">
                   <a href="/search" onClick={closeMenu}> 
-                  <i className="fa-solid fa-magnifying-glass"></i>
-                  Pesquisar
+                    <i className="fa-solid fa-magnifying-glass"></i>
+                    <span>Pesquisar</span>
                   </a>
                 </div>
               </li>
-            </ul>
-
-            <ul className="profileMenu">
-              <li className='liProfile'>
-                {!isAuthenticated ? (
-                  <a href="/login" className="loginBtn" onClick={closeMenu}>
-                    <i className="fa-solid fa-user"></i>
-                    <span>Perfil</span>
-                  </a>
-                ) : (
-                  <div className='authenticatedBox'>
-                    <div className="iconName">
-                      <img 
-                        src={image || "https://res.cloudinary.com/dthgw4q5d/image/upload/v1753994647/icon_fzzpew.png"} 
-                        alt="Perfil" 
-                      />
-                      <a href="/Edit" onClick={closeMenu}>{name}</a>
-                    </div>
-                    <div className="logOutBox" onClick={removeProfile}>
-                      <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                      <span>Sair</span>
-                    </div>
-                  </div>
-                )}
-              </li>
-            </ul>
-
-            <ul>
+              {isAdmin && (
               <li>
-                <div className='authenticatedBox'>
-                    <div className="iconName">
-                      
-                      <a href="/adminpage" onClick={closeMenu}>Portal de Admin</a>
-                    </div>
-                  </div>
+                <div className="headerOption">
+                  <a href="/adminpage" onClick={closeMenu}> 
+                    <span>Admin Page</span>
+                  </a>
+                </div>
               </li>
+              )}
             </ul>
+
+            {/* Menu de Perfil/Login */}
+            <div className="rightMenu">
+              {!isAuthenticated ? (
+                <a href="/login" className="loginBtn" onClick={closeMenu}>
+                  <i className="fa-solid fa-user"></i>
+                  <span>Perfil</span>
+                </a>
+              ) : (
+                <div className='authenticatedBox'>
+                  <div className="iconName">
+                    <img 
+                      src={image || "https://res.cloudinary.com/dthgw4q5d/image/upload/v1753994647/icon_fzzpew.png"} 
+                      alt="Perfil" 
+                    />
+                    <a href="/Edit" onClick={closeMenu}>{name}</a>
+                  </div>
+                  <div className="logOutBox" onClick={removeProfile}>
+                    <i className="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Sair</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Portal Admin - apenas para admin */}
+              {isAdmin && (
+                <a href="/adminpage" className="adminPortalBtn" onClick={closeMenu}>
+                  <i className="fa-solid fa-user-shield"></i>
+                  <span>Portal de Admin</span>
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </div>

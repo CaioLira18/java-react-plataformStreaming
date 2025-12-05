@@ -316,52 +316,189 @@ ul, ol {
   font-size: 40px;
 }
 
-/* Input Box */
+/* Container Principal */
+.containerAddContent {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.boxAddContent {
+  background: rgba(30, 30, 30, 0.95);
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+/* Área de Conteúdo */
+.addContent {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+/* Input Box */
 .inputBox {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 10px;
 }
 
-.containerAddSeasson {
+.inputBox h2 {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Inputs de Texto */
+.inputBox input[type="text"],
+.inputBox input[type="number"] {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(20, 20, 20, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.inputBox input[type="text"]:focus,
+.inputBox input[type="number"]:focus {
+  outline: none;
+  border-color: #00b4d8;
+  background: rgba(20, 20, 20, 0.95);
+  box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.1);
+}
+
+.inputBox input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+}
+
+/* Selects */
+.inputBox select {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(20, 20, 20, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.inputBox select:focus {
+  outline: none;
+  border-color: #00b4d8;
+  background: rgba(20, 20, 20, 0.95);
+  box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.1);
+}
+
+.inputBox select option {
+  background: #1a1a1a;
+  color: #ffffff;
+  padding: 10px;
+}
+
+/* Container do Botão */
+.buttonAddContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Botão Adicionar */
+.buttonAddContainer button {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, #00b4d8 0%, #0096c7 100%);
+  color: #ffffff;
+  border: none;
+  padding: 16px 60px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 20px rgba(0, 180, 216, 0.3);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.inputBox input {
-  width: 300px;
-  height: 40px;
+.buttonAddContainer button:hover {
+  background: linear-gradient(135deg, #0096c7 0%, #0077b6 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 180, 216, 0.4);
 }
 
-.inputSeassons select {
-  width: 300px;
-  height: 30px;
-  background-color: white;
-  color: #000;
+.buttonAddContainer button:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 15px rgba(0, 180, 216, 0.3);
 }
 
-.inputBox select {
-  width: 300px;
-  height: 30px;
-  background-color: white;
-  color: #000;
+/* Responsividade */
+@media (max-width: 768px) {
+  .containerAddContent {
+    padding: 20px 15px;
+  }
+
+  .boxAddContent {
+    padding: 25px 20px;
+  }
+
+  .inputBox h2 {
+    font-size: 14px;
+  }
+
+  .inputBox input[type="text"],
+  .inputBox input[type="number"],
+  .inputBox select {
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+
+  .buttonAddContainer button {
+    padding: 14px 40px;
+    font-size: 16px;
+    width: 100%;
+  }
 }
 
-.addContent {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 50px;
-  gap: 20px;
-}
+@media (max-width: 480px) {
+  .boxAddContent {
+    padding: 20px 15px;
+  }
 
-.addContent input, select {
-  background-color: white;
-  color: black;
-  padding-left: 10px;
-  border-radius: 10px;
-}
+  .addContent {
+    gap: 20px;
+  }
 
+  .inputBox h2 {
+    font-size: 13px;
+  }
+
+  .buttonAddContainer button {
+    padding: 12px 30px;
+    font-size: 15px;
+  }
+}
