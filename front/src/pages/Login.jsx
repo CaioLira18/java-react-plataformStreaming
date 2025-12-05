@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
-import Divider from '../components/Divider';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 
@@ -10,22 +9,25 @@ const Login = () => {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const API_URL = "http://localhost:8080/api";
   
+  const navigate = useNavigate();
 
+  // 1. Verifica se já existe usuário logado ao carregar a página
   useEffect(() => {
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
-        fetch(`${API_URL}/users`)
-          .then((res) => res.json())
-          .then(() => {
-            setIsAuthenticated(true);
-          })
-          .catch((error) => {
-            console.error('Erro ao carregar dados:', error);
-          });
+        // Se já tem usuário salvo, consideramos autenticado
+        setIsAuthenticated(true);
       }
-    }, []);
+  }, []);
+
+  // 2. Efeito para redirecionar APENAS quando o estado mudar
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleClickLogin = async () => {
     setLoading(true);
@@ -48,9 +50,12 @@ const Login = () => {
           token: response.data.token,
           authenticated: true,
         };
+        
         localStorage.setItem("user", JSON.stringify(userData));
         setSuccess("Login realizado com sucesso!");
-        navigate('/');
+        
+        // Atualiza o estado, o que vai disparar o useEffect lá de cima
+        setIsAuthenticated(true); 
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
@@ -70,14 +75,7 @@ const Login = () => {
     }
   };
 
-  const navigate = useNavigate();
-  const API_URL = process.env.NODE_ENV === 'production' 
-    ? "https://java-react-plataformstreaming.onrender.com/api" 
-    : "http://localhost:8080/api";
-    
-  if(isAuthenticated && (
-    navigate("/")
-  ))
+  // REMOVI O IF QUE ESTAVA AQUI TRAVANDO O CÓDIGO
 
   return (
     <div className="login">
@@ -135,5 +133,3 @@ const Login = () => {
 };
 
 export default Login;
-
-

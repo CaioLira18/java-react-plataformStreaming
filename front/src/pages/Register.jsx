@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const Register = () => {
-  // Fix: Detect environment based on hostname
-  const API_URL = window.location.hostname === 'localhost' 
-    ? "http://localhost:8080/api/users"
-    : "https://java-react-plataformstreaming.onrender.com/api/users";
-
+  const API_URL = "http://localhost:8080/api/users";
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [cpf, setCpf] = useState('');

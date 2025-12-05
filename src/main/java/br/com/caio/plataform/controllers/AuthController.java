@@ -17,7 +17,6 @@ import br.com.caio.plataform.repository.UserRepository;
 import br.com.caio.plataform.services.LoginRequest;
 
 @RestController
-@CrossOrigin("http://java-react-plataform-streaming.vercel.app/")
 @RequestMapping("/api/auth") // CORRIGIDO: mudou de "/auth" para "/api/auth"
 public class AuthController {
 

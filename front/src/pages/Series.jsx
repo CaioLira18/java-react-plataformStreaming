@@ -3,9 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const Series = () => {
   const { id } = useParams(); 
-  const navigate = useNavigate();
-
+  const navigate = useNavigate();''
   const [serie, setSerie] = useState(null); 
+  const [imdbRating, setImdbRating] = useState(null);
   const [seassons, setSeassons] = useState([]); 
   const [episodes, setEpisodes] = useState([]); 
   const [selectedSeason, setSelectedSeason] = useState(null);
@@ -13,10 +13,7 @@ const Series = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [favoriteList, setFavoriteList] = useState([]);
   const [user, setUser] = useState(null);
-   const API_URL = process.env.NODE_ENV === 'production' 
-    ? "https://java-react-plataformstreaming.onrender.com/api" 
-    : "http://localhost:8080/api";
-
+  const API_URL = "http://localhost:8080/api";
 
   // Carregar dados do usuário do localStorage
   useEffect(() => {
@@ -46,7 +43,6 @@ const Series = () => {
     }
   }, []);
 
-  // Carregar série específica
   useEffect(() => {
     fetch(`${API_URL}/series`)
       .then(response => response.json())
@@ -65,6 +61,31 @@ const Series = () => {
       })
       .catch(err => console.error("Erro ao buscar dados:", err));
   }, [id]);
+
+  useEffect(() => {
+  if (!serie?.name) return;
+
+  const fetchRating = async () => {
+    try {
+      const res = await fetch(
+        `https://www.omdbapi.com/?t=${encodeURIComponent(serie.name)}&apikey=6df0658b`
+      );
+      const data = await res.json();
+
+      if (data.Response === "True") {
+        setImdbRating(data.imdbRating);
+      } else {
+        setImdbRating("N/A");
+      }
+    } catch (error) {
+      console.error("Erro ao buscar rating:", error);
+      setImdbRating("N/A");
+    }
+  };
+
+  fetchRating();
+}, [serie]);
+
 
   const handleAddToFavorites = async () => {
     if (!user) {
@@ -180,10 +201,18 @@ const Series = () => {
             )}
             
             {/* Botão de Assistir */}
+          <div className="flexMovie">
             <button className="watchButton">
               <i className="fa-solid fa-play"></i>
               {episodes.length > 0 ? `Assistir ${episodes[0]?.name || 'Episódio 1'}` : 'Assistir Agora'}
             </button>
+
+            <button className="ratingButton">
+                <i className="fa-solid fa-star"></i>
+                {imdbRating}
+            </button>
+          </div>
+
             
             {/* Ações secundárias */}
             <div className="secondaryActions">

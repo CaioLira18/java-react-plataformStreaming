@@ -6,16 +6,38 @@ const Movie = () => {
   const navigate = useNavigate();
 
   const [movie, setMovie] = useState(null);
+  const [imdbRating, setImdbRating] = useState(null);
   const [favoriteList, setFavoriteList] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
   const [showTrailer, setShowTrailer] = useState(false);
   const [youtubeLink, setYoutubeLink] = useState("");
-  const API_URL =
-    "https://java-react-plataformstreaming.onrender.com/api" ||
-    "http://localhost:8080/api";
+  const API_URL = "http://localhost:8080/api";
 
+  useEffect(() => {
+  if (!movie?.name) return;
+
+  const fetchRating = async () => {
+    try {
+      const res = await fetch(
+        `https://www.omdbapi.com/?t=${encodeURIComponent(movie.name)}&apikey=6df0658b`
+      );
+      const data = await res.json();
+
+      if (data.Response === "True") {
+        setImdbRating(data.imdbRating);
+      } else {
+        setImdbRating("N/A");
+      }
+    } catch (error) {
+      console.error("Erro ao buscar rating:", error);
+      setImdbRating("N/A");
+    }
+  };
+
+  fetchRating();
+}, [movie]);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -154,10 +176,20 @@ const Movie = () => {
             </div>
             <h1 className="movieMainTitle">{movie.name}</h1>
 
-            <button className="watchButton">
-              <i className="fa-solid fa-play"></i>
-              Assistir Agora
-            </button>
+            <div className="flexMovie">
+              <button className="watchButton">
+                <i className="fa-solid fa-play"></i>
+                Assistir Agora
+              </button>
+
+               <button className="ratingButton">
+                <i className="fa-solid fa-star"></i>
+                {imdbRating}
+              </button>
+
+            
+            </div>
+            
 
             <div className="secondaryActions">
               <button onClick={handleAddToFavorites} className="actionButton">
@@ -167,14 +199,20 @@ const Movie = () => {
                   <i className="fa-solid fa-plus"></i>
                 )}
                 <span>{isInFavorites ? "Na lista" : "Minha lista"}</span>
+               
               </button>
 
               {hasTrailer && (
                 <button onClick={handleTrailerPlay} className="actionButton">
                   <i className="fa-solid fa-film"></i>
                   <span>Trailer</span>
+                  
                 </button>
+                
               )}
+            
+
+              
             </div>
 
             <p>{movie.description}</p>

@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 const MoviesPage = () => {
   const [movie, setMovie] = useState([]);
-  // const API_URL = "https://java-react-plataformstreaming.onrender.com/api" || "http://localhost:8080/api";
- const API_URL = process.env.NODE_ENV === 'production' 
-    ? "https://java-react-plataformstreaming.onrender.com/api" 
-    : "http://localhost:8080/api";  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const API_URL = "http://localhost:8080/api";
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`${API_URL}/movie`)
@@ -27,38 +26,36 @@ const MoviesPage = () => {
       try {
         const parsedUser = JSON.parse(storedUser);
         setIsAuthenticated(true);
-
         console.log("Dados do usuário carregados:", parsedUser);
       } catch (error) {
         console.error("Erro ao carregar dados do usuário:", error);
       }
     } else {
       console.log("Nenhum usuário encontrado no localStorage");
+      // Redirect to login if not authenticated
+      navigate('/login');
     }
+  }, [navigate]);
 
-  }, []);
-
-  const navigate = useNavigate();
-
-  {
-    !isAuthenticated && (
-      navigate('/login')
-    )
-  }
+  // Redirect if not authenticated (backup check)
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div>
-      <div className="containerContentPage" >
+      <div className="containerContentPage">
         {movie.map((movie, i) => (
           <div className="boxContentPage" key={i}>
-            {movie.type = "SERIES" && (
+            {movie.type === "SERIES" && (
               <div className="boxInformationPage">
-                <img src={movie.image} alt="" />
+                <img src={movie.image} alt={movie.name} />
                 <a href={"/movies/" + movie.id}><p>{movie.name}</p></a>
               </div>
             )}
           </div>
-
         ))}
       </div>
     </div>

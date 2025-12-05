@@ -1,6 +1,14 @@
 /* Filmes */
 /* Hero Section */
 
+.flexMovie  {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin: 0 auto;
+  gap: 20px;
+}
+
 .movieHeroSection {
   position: relative;
   width: 100%;
@@ -157,6 +165,34 @@
 .watchButton i {
   font-size: 14px;
 }
+
+/* Botão Principal */
+.ratingButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 210, 106, 0.9);
+  color: #523d00;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.ratingButton:hover {
+  background: rgba(255, 210, 106, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.ratingButton i {
+  font-size: 14px;
+}
+
 
 /* Ações Secundárias */
 .secondaryActions {

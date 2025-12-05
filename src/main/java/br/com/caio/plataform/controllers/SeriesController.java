@@ -20,10 +20,7 @@ import br.com.caio.plataform.entities.Series;
 import br.com.caio.plataform.services.SeriesService;
 
 @RestController
-@CrossOrigin(origins = {
-    "http://localhost:5173",
-    "https://java-react-plataformstreaming.onrender.com"
-})
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/series")
 public class SeriesController {
     private final SeriesService seriesService;

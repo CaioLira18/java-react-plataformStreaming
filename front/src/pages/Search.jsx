@@ -4,28 +4,15 @@ import { useNavigate } from 'react-router-dom';
 const Search = () => {
   const [movie, setMovie] = useState([]);
   const [serie, setSerie] = useState([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(null); // null = checking
   const [isAdmin, setIsAdmin] = useState(false);
   const [name, setName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const API_URL = process.env.NODE_ENV === 'production' 
-    ? "https://java-react-plataformstreaming.onrender.com/api" 
-    : "http://localhost:8080/api";
-    
+  const API_URL = "http://localhost:8080/api";
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch(`${API_URL}/movie`)
-      .then(res => res.json())
-      .then(data => Array.isArray(data) ? setMovie(data) : console.error('Formato inesperado para Movies:', data))
-      .catch(err => console.error('Erro ao buscar Movies:', err));
-
-    fetch(`${API_URL}/series`)
-      .then(res => res.json())
-      .then(data => Array.isArray(data) ? setSerie(data) : console.error('Formato inesperado para Series:', data))
-      .catch(err => console.error('Erro ao buscar Series:', err));
-  }, []);
-
+  // Check authentication first
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -36,12 +23,42 @@ const Search = () => {
         setName(parsedUser.name);
       } catch (error) {
         console.error("Erro ao carregar dados do usuário:", error);
+        setIsAuthenticated(false);
       }
+    } else {
+      setIsAuthenticated(false);
     }
   }, []);
 
+  // Navigate only after authentication check is complete
+  useEffect(() => {
+    if (isAuthenticated === false) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
+
+  // Fetch data only when authenticated
+  useEffect(() => {
+    if (isAuthenticated === true) {
+      fetch(`${API_URL}/movie`)
+        .then(res => res.json())
+        .then(data => Array.isArray(data) ? setMovie(data) : console.error('Formato inesperado para Movies:', data))
+        .catch(err => console.error('Erro ao buscar Movies:', err));
+
+      fetch(`${API_URL}/series`)
+        .then(res => res.json())
+        .then(data => Array.isArray(data) ? setSerie(data) : console.error('Formato inesperado para Series:', data))
+        .catch(err => console.error('Erro ao buscar Series:', err));
+    }
+  }, [isAuthenticated]);
+
+  // Show loading while checking authentication
+  if (isAuthenticated === null) {
+    return <div>Carregando...</div>;
+  }
+
+  // Don't render if not authenticated (will redirect)
   if (!isAuthenticated) {
-    navigate('/login');
     return null;
   }
 
@@ -74,7 +91,9 @@ const Search = () => {
           <div className="boxContentPage" key={i}>
             <div className="boxInformationPage">
               <img src={item.image} alt={item.name} />
-              <a href={`/${item.type === "MOVIE" ? "movies" : "series"}/${item.id}`}><p>{item.name}</p></a>
+              <a href={`/${item.type === "MOVIE" ? "movies" : "series"}/${item.id}`}>
+                <p>{item.name}</p>
+              </a>
             </div>
           </div>
         ))}

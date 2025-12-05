@@ -3,9 +3,8 @@ import { useParams } from 'react-router-dom';
 
 const AdicionarConteudo = () => {
   // Corrigir a lógica de URL da API
-  const API_URL = process.env.NODE_ENV === 'production' 
-    ? "https://java-react-plataformstreaming.onrender.com/api" 
-    : "http://localhost:8080/api";
+  const API_URL = "http://localhost:8080/api";
+
     
   const [series, setSeries] = useState([]);
   const [selectedSerie, setSelectedSerie] = useState(null);

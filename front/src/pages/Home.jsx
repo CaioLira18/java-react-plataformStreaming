@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Slide from '../components/Slide';
 
 const Home = () => {
-   const API_URL = process.env.NODE_ENV === 'production' 
-    ? "https://java-react-plataformstreaming.onrender.com/api" 
-    : "http://localhost:8080/api";
+  const API_URL = "http://localhost:8080/api";
   const [series, setSeries] = useState([]);
   const [movies, setMovies] = useState([]);
   const [favoriteMovieList, setFavoriteMovieList] = useState([]);
@@ -40,7 +38,7 @@ const Home = () => {
       const parsedUser = JSON.parse(storedUser);
       setUserId(parsedUser.id);
 
-      fetch(`https://java-react-plataformstreaming.onrender.com/api/users/${parsedUser.id}`)
+      fetch(`${API_URL}/users/${parsedUser.id}`)
         .then((res) => res.json())
         .then((fullUser) => {
           setIsAuthenticated(true);
@@ -56,8 +54,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (!isAuthenticated) return;
-
     fetch(`${API_URL}/series`)
       .then((res) => res.json())
       .then((data) => Array.isArray(data) && setSeries(data))

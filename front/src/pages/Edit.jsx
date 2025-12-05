@@ -16,10 +16,9 @@ const Edit = () => {
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
   const [menuOpenId, setMenuOpenId] = useState(null);
-  const API_URL = process.env.NODE_ENV === 'production' 
-      ? "https://java-react-plataformstreaming.onrender.com/api" 
-      : "http://localhost:8080/api";
-      
+  const API_URL = "http://localhost:8080/api";
+
+
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
