@@ -15,6 +15,7 @@ import Register from './pages/Register'
 import AdicionarConteudo from './pages/AdicionarConteudo'
 import FranquiaPage from './pages/FranquiaPage'
 import Search from './pages/Search'
+import AdminPage from './pages/AdminPage'
 
 function App() {
   
@@ -35,6 +36,7 @@ function App() {
         <Route path="/AdicionarEpisodio/:id" element={<AdicionarEpisodio />} />
         <Route path="/search" element={<Search />} />
         <Route path="/franquia/:id" element={<FranquiaPage />} />
+        <Route path="/adminpage" element={<AdminPage />} />
       </Routes>
     <Footer />
    </div>

@@ -142,6 +142,17 @@ const Header = () => {
                 )}
               </li>
             </ul>
+
+            <ul>
+              <li>
+                <div className='authenticatedBox'>
+                    <div className="iconName">
+                      
+                      <a href="/adminpage" onClick={closeMenu}>Portal de Admin</a>
+                    </div>
+                  </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

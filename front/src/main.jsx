@@ -15,7 +15,7 @@ import './css/Serie.css'
 import './css/Home.css'
 import './css/Search.css'
 import './css/Modal.css'
-
+import './css/AdminPage.css'
 
 
 import App from './App.jsx'
