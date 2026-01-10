@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const MoviesPage = () => {
   const [movie, setMovie] = useState([]);
-  const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 

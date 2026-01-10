@@ -1,249 +1,122 @@
-
-
-/* Login */
-
+/* Login.css */
 .login {
   position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  z-index: 1;
-  color: white;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #000;
+  overflow: hidden;
 }
 
+/* Background com Overlay Escuro para destacar o formulário */
 .login::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-image: url("https://res.cloudinary.com/dthgw4q5d/image/upload/v1754501763/234234-1140x641_upscayl_2x_realesrgan-x4plus_or6qb9.png");
-  opacity: 0.3; /* Ajuste a opacidade aqui */
-  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
+  z-index: 0;
 }
-
 
 .loginContainer {
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-  padding: 40px;
-  box-shadow: 0 0px 20px rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  max-width: 450px;
-  width: 100%;
-}
-
-.imageLogin {
-  text-align: center;
-}
-
-.imageLogin img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.imageLogin img:hover {
-  transform: scale(1.05);
+  position: relative;
+  z-index: 1;
+  background: rgba(15, 15, 15, 0.75);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 50px 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
 .cabecalhoLogin {
   text-align: center;
-  margin-bottom: 32px;
-}
-
-.cabecalhoLogin img {
-  width: 100px;
+  margin-bottom: 35px;
 }
 
 .cabecalhoLogin h1 {
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 700;
-  margin: 0 0 8px 0;
-  background-clip: text;
+  color: #fff;
+  margin-bottom: 8px;
 }
 
 .cabecalhoLogin p {
-  font-size: 1rem;
-  margin: 0;
-  font-weight: 400;
-}
-
-.loginBox {
-  padding: 0;
+  color: #b3b3b3;
+  font-size: 0.9rem;
 }
 
 .inputLogin {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 24px;
-  align-items: flex-start;
-}
-
-.inputLogin i {
-  display: none; /* Escondemos os ícones para um design mais limpo */
+  margin-bottom: 20px;
 }
 
 .inputLogin h1 {
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin: 0 0 0 4px;
-  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #efefef;
+  margin-bottom: 8px;
 }
 
 .inputLogin input {
   width: 100%;
-  height: 48px;
-  padding: 0 16px;
-  border: 2px solid #e1e5e9;
-  border-radius: 12px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0 15px;
+  color: #fff;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: #fff;
-  color: #000;
-  box-sizing: border-box;
 }
 
 .inputLogin input:focus {
   outline: none;
-  border-color: #4facfe;
-  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
-}
-
-
-.buttonLogin {
-  margin-top: 32px;
+  border-color: #e50914; /* Vermelho estilo Netflix */
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.1);
 }
 
 .buttonLogin button {
   width: 100%;
   height: 52px;
-  background-color: rgb(255, 0, 0);
-  color: rgb(255, 255, 255);
+  background: #e50914;
+  color: white;
   border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
-  letter-spacing: 0.5px;
+  transition: transform 0.2s, background 0.3s;
+  margin-top: 10px;
 }
 
 .buttonLogin button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
-}
-
-.buttonLogin button:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.buttonLogin button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Divider customizado */
-.divider {
-  display: flex;
-  align-items: center;
-  margin: 32px 0;
-  color: #999;
-  font-size: 0.9rem;
-}
-
-.divider::before,
-.divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #e1e5e9, transparent);
-}
-
-.divider::before {
-  margin-right: 16px;
-}
-
-.divider::after {
-  margin-left: 16px;
-}
-
-.othersLogin {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-bottom: 24px;
-}
-
-.othersLogin a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #f8f9fa;
-  border: 2px solid #e9ecef;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  color: #000000;
-  font-size: 1.2rem;
-}
-
-.othersLogin a:hover {
-  background: #fff;
-  border-color: #667eea;
-  color: #0088ff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-}
-
-.othersLogin a:nth-child(1):hover {
-  color: #db4437;
-  border-color: #db4437;
-  box-shadow: 0 4px 12px rgba(219, 68, 55, 0.2);
-}
-
-.othersLogin a:nth-child(2):hover {
-  color: #4267b2;
-  border-color: #4267b2;
-  box-shadow: 0 4px 12px rgba(66, 103, 178, 0.2);
-}
-
-.othersLogin a:nth-child(3):hover {
-  color: #e4405f;
-  border-color: #e4405f;
-  box-shadow: 0 4px 12px rgba(228, 64, 95, 0.2);
+  background: #f40612;
+  transform: translateY(-1px);
 }
 
 .registerLink {
   text-align: center;
-  margin-top: 24px;
-}
-
-.registerLink p {
-  color: #ffffff;
-  font-size: 0.95rem;
-  margin: 0;
+  margin-top: 25px;
+  font-size: 0.9rem;
+  color: #aaa;
 }
 
 .registerLink a {
-  color: #667eea;
+  color: #fff;
   text-decoration: none;
-  font-weight: 600;
-  transition: color 0.3s ease;
+  border-bottom: 1px solid transparent;
+  transition: 0.3s;
 }
 
 .registerLink a:hover {
-  color: #00f2fe;
-  text-decoration: underline;
+  border-bottom: 1px solid #fff;
 }

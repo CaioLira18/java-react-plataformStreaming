@@ -1,156 +1,116 @@
-/* Register */
-
+/* Register.css */
 .register {
   position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  z-index: 1;
-  color: white;
+  font-family: 'Inter', sans-serif;
+  background-color: #000;
+  padding: 40px 20px;
 }
 
 .register::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-image: url("https://res.cloudinary.com/dthgw4q5d/image/upload/v1754501763/234234-1140x641_upscayl_2x_realesrgan-x4plus_or6qb9.png");
-  opacity: 0.3; /* Ajuste a opacidade aqui */
-  z-index: -1;
+  background-size: cover;
+  opacity: 0.3;
 }
 
 .backgroundBox {
-  background: rgba(0, 0, 0, 0.95);
-  color: white;
+  position: relative;
+  background: rgba(20, 20, 20, 0.85);
   backdrop-filter: blur(20px);
   border-radius: 24px;
-  padding: 40px;
-  box-shadow: 0 0px 20px rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  width: 1000px;
-}
-
-.registerContainer {
+  padding: 45px;
   width: 100%;
-}
-
-.registerCabecalho {
-  text-align: center;
-  margin-bottom: 40px;
+  max-width: 600px; /* Reduzi para ficar mais elegante que 1000px */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
 }
 
 .registerCabecalho h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0 0 8px 0;
-  background-clip: text;
+  color: #fff;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 .registerCabecalho p {
-  font-size: 1.1rem;
-  margin: 0;
-  font-weight: 400;
+  color: #8c8c8c;
+  text-align: center;
+  margin-bottom: 35px;
 }
 
 .registerBox {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Divide em duas colunas no desktop */
+  gap: 20px;
 }
 
-.inputRegister {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* Campos que devem ocupar a linha inteira */
+.inputRegister:nth-child(1), 
+.inputRegister:nth-child(2) {
+  grid-column: span 2;
+}
+
+@media (max-width: 600px) {
+  .registerBox { grid-template-columns: 1fr; }
+  .inputRegister:nth-child(1), .inputRegister:nth-child(2) { grid-column: span 1; }
 }
 
 .inputRegister h2 {
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin: 0;
-  margin-left: 4px;
-  letter-spacing: 0.5px;
+  color: #efefef;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  font-weight: 500;
 }
 
-.inputRegister input[type="text"],
-.inputRegister input[type="password"],
-.inputRegister input[type="email"] {
+.inputRegister input, .inputRegister select {
   width: 100%;
   height: 48px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
   padding: 0 16px;
-  border: 2px solid #e1e5e9;
-  color: #000;
-  border-radius: 12px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  background: #fff;
-  box-sizing: border-box;
+  color: #fff;
+  transition: 0.3s;
 }
 
-.inputRegister input[type="text"]:focus,
-.inputRegister input[type="password"]:focus,
-.inputRegister input[type="email"]:focus {
+.inputRegister input:focus {
+  border-color: #0071eb;
+  background: rgba(255, 255, 255, 0.1);
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.inputRegister select {
-  width: 100%;
-  height: 48px;
-  padding: 0 16px;
-  border: 2px solid #e1e5e9;
-  border-radius: 12px;
-  font-size: 1rem;
-  background: #fff;
-  color: #000;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-}
-
-.inputRegister select:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.inputRegister input[type="file"] {
-  width: 100%;
-  padding: 12px;
-  border: 2px dashed #e1e5e9;
-  border-radius: 12px;
-  background: #fafbfc;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-}
-
-.inputRegister input[type="file"]:hover {
-  border-color: #667eea;
-  background: #f8f9ff;
-}
-
-.registerAddContainer {
-  margin-top: 32px;
-  display: flex;
-  justify-content: center;
 }
 
 .registerAddContainer button {
   width: 100%;
-  height: 52px;
-  background: linear-gradient(135deg, #174a80, #044d85);
-  color: white;
+  height: 55px;
+  margin-top: 30px;
+  background: #0071eb;
+  color: #fff;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
+  font-weight: 700;
   font-size: 1.1rem;
-  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  letter-spacing: 0.5px;
+  transition: 0.3s;
 }
+
+.registerAddContainer button:hover {
+  background: #0056b3;
+  box-shadow: 0 0 20px rgba(0, 113, 235, 0.4);
+}
+
+.message {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.message.success { background: rgba(46, 213, 115, 0.2); color: #2ed573; }
+.message.error { background: rgba(255, 71, 87, 0.2); color: #ff4757; }

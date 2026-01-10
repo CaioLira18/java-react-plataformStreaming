@@ -9,20 +9,17 @@ const Login = () => {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
   
   const navigate = useNavigate();
 
-  // 1. Verifica se já existe usuário logado ao carregar a página
   useEffect(() => {
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
-        // Se já tem usuário salvo, consideramos autenticado
         setIsAuthenticated(true);
       }
   }, []);
 
-  // 2. Efeito para redirecionar APENAS quando o estado mudar
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
@@ -53,69 +50,50 @@ const Login = () => {
         
         localStorage.setItem("user", JSON.stringify(userData));
         setSuccess("Login realizado com sucesso!");
-        
-        // Atualiza o estado, o que vai disparar o useEffect lá de cima
         setIsAuthenticated(true); 
       }
     } catch (error) {
-      console.error("Erro ao fazer login:", error);
-      if (error.code === "ERR_NETWORK") {
-        setError("Erro de conexão. Verifique sua internet.");
-      } else if (error.response) {
-        const message =
-          error.response.data?.message ||
-          error.response.data?.error ||
-          "Credenciais inválidas";
-        setError(message);
+      if (error.response) {
+        setError(error.response.data?.message || "Credenciais inválidas");
       } else {
-        setError("Erro inesperado. Tente novamente.");
+        setError("Erro de conexão.");
       }
     } finally {
       setLoading(false);
     }
   };
 
-  // REMOVI O IF QUE ESTAVA AQUI TRAVANDO O CÓDIGO
-
   return (
     <div className="login">
       <div className="loginContainer">
-        <div className="imageLogin">
-          <img
-            src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1753831910/logo2_gd2mwf.png"
-            alt="Logo"
-          />
-        </div>
-
         <div className="cabecalhoLogin">
-          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1753825253/logo_wzqgvp.png" alt="" />
           <h1>Bem-vindo</h1>
           <p>Preencha as informações para fazer login</p>
         </div>
 
         <div className="loginBox">
           <div className="inputLogin">
-            <i className="fa-solid fa-envelope"></i>
             <h1>Email</h1>
             <input
               type="email"
+              placeholder="seu@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
           <div className="inputLogin">
-            <i className="fa-solid fa-lock"></i>
             <h1>Senha</h1>
             <input
               type="password"
+              placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
-          {error && <p className="error">{error}</p>}
-          {success && <p className="success">{success}</p>}
+          {error && <p className="message error">{error}</p>}
+          {success && <p className="message success">{success}</p>}
 
           <div className="buttonLogin">
             <button onClick={handleClickLogin} disabled={loading}>
@@ -124,7 +102,7 @@ const Login = () => {
           </div>
 
           <div className="registerLink">
-            <p>Não tem conta? <strong><a href="/Register">Registre-se</a></strong></p>
+            <p>Não tem conta? <a href="/Register">Registre-se</a></p>
           </div>
         </div>
       </div>
