@@ -32,17 +32,15 @@ const MoviesPage = () => {
       }
     } else {
       console.log("Nenhum usuário encontrado no localStorage");
-      // Redirect to login if not authenticated
       navigate('/login');
     }
   }, [navigate]);
 
-  // Redirect if not authenticated (backup check)
-  useEffect(() => {
+  /* useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate]); */
 
   return (
     <div>
