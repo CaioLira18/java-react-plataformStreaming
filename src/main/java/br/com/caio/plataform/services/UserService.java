@@ -38,10 +38,13 @@ public class UserService {
             user.setName(updatedUser.getName());
             user.setEmail(updatedUser.getEmail());
             user.setCpf(updatedUser.getCpf());
-            user.setRole(updatedUser.getRole());
+            user.setPhoto(updatedUser.getPhoto());
 
-            // Criptografa a senha apenas se ela for diferente
-            if (!updatedUser.getPassword().equals(user.getPassword())) {
+            if (updatedUser.getRole() != null) {
+                user.setRole(updatedUser.getRole());
+            }
+
+            if (updatedUser.getPassword() != null && !updatedUser.getPassword().isBlank()) {
                 user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
             }
 

@@ -12,11 +12,32 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
+  const [photo, setPhoto] = useState("");
+  const [photoFile, setPhotoFile] = useState("");
+
+  async function uploadProfileImageToCloudinary() {
+    const formData = new FormData()
+    formData.append("file", photoFile)
+    formData.append("upload_preset", "profile_users")
+
+    const response = await fetch(
+      "https://api.cloudinary.com/v1_1/dthgw4q5d/image/upload",
+      {
+        method: "POST",
+        body: formData
+      }
+    )
+
+    if (!response.ok) throw new Error()
+
+    const data = await response.json()
+    return data.secure_url
+  }
 
   const handleCreateUser = async () => {
     setLoading(true);
     setMessage('');
-    
+
     if (!name || !email || !cpf || !password) {
       setMessage("Preencha todos os campos.");
       setMessageType("error");
@@ -25,12 +46,16 @@ const Register = () => {
     }
 
     try {
-      const userData = { name, email, cpf, password, role };
+
+      const uploadedImageProfile = await uploadProfileImageToCloudinary()
+      setPhoto(uploadedImageProfile)
+
+      const userData = { name, email, cpf, password, photo: uploadedImageProfile, role };
       await axios.post(API_URL, userData);
-      
+
       setMessage("Usuário criado com sucesso!");
       setMessageType("success");
-      setName(''); setEmail(''); setCpf(''); setPassword('');
+      setName(''); setEmail(''); setCpf(''); setPassword(''); setPhoto();
     } catch (error) {
       setMessage("Erro ao cadastrar usuário.");
       setMessageType("error");
@@ -46,7 +71,7 @@ const Register = () => {
           <h1>Cadastre-se Agora</h1>
           <p>Preencha os dados para se registrar</p>
         </div>
-        
+
         <div className="registerBox">
           <div className="inputRegister">
             <h2>Nome Completo</h2>
@@ -82,6 +107,16 @@ const Register = () => {
               <input type="password" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} placeholder="Senha mestre" />
             </div>
           )}
+
+          <div className="inputPhoto">
+            <h2>Foto de Perfil</h2>
+            <label htmlFor="file-upload" className="custom-file-upload">
+              <span className="upload-icon">📁</span>
+              <span className="file-name">Escolher arquivo...</span>
+              <input onChange={(e) => setPhotoFile(e.target.files[0])} id="file-upload" type="file" />
+              {photoFile && <p style={{ color: 'green', marginTop: '5px' }}>Arquivo selecionado: {photoFile.name}</p>}
+            </label>
+          </div>
         </div>
 
         <div className="registerAddContainer">

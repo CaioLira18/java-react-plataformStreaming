@@ -2,9 +2,13 @@ package br.com.caio.plataform.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.caio.plataform.entities.enums.UserRole;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tb_users")
@@ -19,6 +23,8 @@ public class User {
     
     @Column(nullable = false, unique = true)
     private String email;
+
+    private String photo;
     
     @Enumerated(EnumType.STRING) 
     @Column(name = "role", nullable = false, length = 50)
@@ -110,7 +116,14 @@ public class User {
         this.cpf = cpf;
     }
 
-    // Método utilitário para verificar se é admin
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     public boolean isAdmin() {
         return UserRole.ADMIN.equals(this.role);
     }
@@ -129,7 +142,5 @@ public class User {
 
     public void setFavoriteSeriesList(List<Series> favoriteSeriesList) {
         this.favoriteSeriesList = favoriteSeriesList;
-    }
-
-    
+    }   
 }

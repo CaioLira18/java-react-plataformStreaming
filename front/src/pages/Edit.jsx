@@ -1,23 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 const Edit = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [favoriteMovieList, setFavoriteMovieList] = useState([]);
-  const [favoriteSerieList, setFavoriteSerieList] = useState([]);
   const [userId, setUserId] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [cpf, setCpf] = useState('');
+  const [photo, setPhoto] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
-  const [menuOpenId, setMenuOpenId] = useState(null);
+  const [photoFile, setPhotoFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState('');
+  const fileInputRef = useRef(null);
   const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
-
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -28,19 +27,12 @@ const Edit = () => {
       fetch(`${API_URL}/users/${parsedUser.id}`)
         .then((res) => res.json())
         .then((fullUser) => {
-          console.log('Dados completos do usuário:', fullUser); // DEBUG
-
           setIsAuthenticated(true);
-          setIsAdmin(fullUser.role === 'ADMIN');
           setName(fullUser.name || '');
           setEmail(fullUser.email || '');
           setCpf(fullUser.cpf || '');
-          setFavoriteMovieList(fullUser.favoriteMovieList || []);
-
-          // CORREÇÃO: O backend está retornando favoriteSeassonList
-          const seriesList = fullUser.favoriteSeassonList || [];
-          console.log('Lista de temporadas favoritas:', seriesList); // DEBUG
-          setFavoriteSerieList(seriesList);
+          setPhoto(fullUser.photo || '');
+          setPhotoPreview(fullUser.photo || '');
         })
         .catch((error) => {
           console.error('Erro ao carregar dados:', error);
@@ -49,6 +41,40 @@ const Edit = () => {
         });
     }
   }, []);
+
+  const handlePhotoClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validar tamanho (máx 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setMessage('Imagem muito grande. Máximo 5MB');
+        setMessageType('error');
+        return;
+      }
+      
+      // Validar tipo
+      if (!file.type.startsWith('image/')) {
+        setMessage('Arquivo deve ser uma imagem');
+        setMessageType('error');
+        return;
+      }
+
+      setPhotoFile(file);
+      
+      // Criar preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+      
+      setMessage('');
+    }
+  };
 
   const validateForm = () => {
     if (!name.trim()) {
@@ -98,6 +124,27 @@ const Edit = () => {
     return true;
   };
 
+  const uploadProfileImageToCloudinary = async () => {
+    if (!photoFile) return photo; // Retorna a foto atual se não houver arquivo novo
+
+    const formData = new FormData();
+    formData.append("file", photoFile);
+    formData.append("upload_preset", "profile_users");
+
+    const response = await fetch(
+      "https://api.cloudinary.com/v1_1/dthgw4q5d/image/upload",
+      {
+        method: "POST",
+        body: formData
+      }
+    );
+
+    if (!response.ok) throw new Error('Erro ao fazer upload da imagem');
+
+    const data = await response.json();
+    return data.secure_url;
+  };
+
   const handleSave = async () => {
     if (!validateForm()) return;
 
@@ -105,17 +152,24 @@ const Edit = () => {
     setMessage('');
 
     try {
+      // Fazer upload da imagem apenas se houver um arquivo novo
+      let uploadedImageProfile = photo;
+      if (photoFile) {
+        uploadedImageProfile = await uploadProfileImageToCloudinary();
+      }
+
       const updateData = {
         name: name.trim(),
         email: email.trim(),
         cpf: cpf.replace(/\D/g, ''),
+        photo: uploadedImageProfile
       };
 
       if (newPassword) {
         updateData.password = newPassword;
       }
 
-      const response = await fetch(`http://localhost:8080/api/users/${userId}`, {
+      const response = await fetch(`${API_URL}/users/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -135,20 +189,27 @@ const Edit = () => {
 
       const updatedUser = await response.json();
 
+      // Atualizar localStorage
       const storedUser = JSON.parse(localStorage.getItem("user"));
       const updatedStoredUser = {
         ...storedUser,
         name: updatedUser.name,
-        email: updatedUser.email
+        email: updatedUser.email,
+        profileImage: uploadedImageProfile
       };
       localStorage.setItem("user", JSON.stringify(updatedStoredUser));
 
+      // Atualizar estados locais
+      setPhoto(uploadedImageProfile);
+      setPhotoPreview(uploadedImageProfile);
       setMessage('Informações atualizadas com sucesso!');
       setMessageType('success');
 
+      // Limpar campos de senha
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
+      setPhotoFile(null);
 
     } catch (error) {
       console.error('Erro ao atualizar usuário:', error);
@@ -161,7 +222,10 @@ const Edit = () => {
 
   const formatCPF = (value) => {
     const cpf = value.replace(/\D/g, '');
-    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    if (cpf.length <= 11) {
+      return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+    return cpf.slice(0, 11).replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
   };
 
   const handleCPFChange = (e) => {
@@ -169,114 +233,81 @@ const Edit = () => {
     setCpf(formattedCPF);
   };
 
-  const handleRemoveToFavorites = async (item) => {
-    if (!userId) return alert('Você precisa estar logado.');
-
-    // CORREÇÃO: Usar a rota correta baseada no que realmente existe no backend
-    const url = item.type === 'MOVIE'
-      ? `http://localhost:8080/api/users/${userId}/favorites/${item.id}`
-      : `http://localhost:8080/api/users/${userId}/favorites-seasson/${item.id}`; // Use a rota que existe
-
-    console.log('URL de remoção:', url); // DEBUG
-
-    try {
-      const res = await fetch(url, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Erro ao deletar');
-
-      if (item.type === 'MOVIE')
-        setFavoriteMovieList((prev) => prev.filter((m) => m.id !== item.id));
-      else
-        setFavoriteSerieList((prev) => prev.filter((s) => s.id !== item.id));
-
-      // Fechar o menu após remover
-      setMenuOpenId(null);
-      alert('Removido da lista!');
-    } catch (err) {
-      console.error(err);
-      alert('Erro ao remover');
-    }
-  };
-
-  // Criar uma chave única para cada item
-  const allFavorites = [
-    ...favoriteMovieList.map((item) => ({
-      ...item,
-      id: item.id || item.movieId,
-      type: 'MOVIE',
-      uniqueKey: `movie-${item.id || item.movieId}`
-    })),
-    ...favoriteSerieList.map((item) => {
-      console.log('Item da temporada:', item); // DEBUG
-      return {
-        ...item,
-        id: item.id, // Usar o ID da temporada
-        type: 'SERIE',
-        uniqueKey: `seasson-${item.id}`, // Usar prefixo seasson para diferenciar
-        // Garantir que tem nome para exibir - usar o nome da temporada
-        name: item.name || 'Temporada sem nome'
-      };
-    }),
-  ];
-
-  console.log('All favorites:', allFavorites); // DEBUG
-
-  // Função para fechar menu quando clicar fora
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.target.closest('.menuButton') && !event.target.closest('.dropdownMenu')) {
-        setMenuOpenId(null);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
-
   if (!isAuthenticated) {
     return (
       <div className="loading">
         <div className="loadingText">
-          <p>Carregando Conteudo...</p>
+          <p>Carregando Conteúdo...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <div className="edit">
-        <h1>Editar Informações</h1>
-        <div className="editContainer">
-          <div className="editBox">
-            <div className="inputEdit">
-              <h2>Nome</h2>
-              <div className="iconEdit">
+    <div className="editProfilePage">
+      <div className="editProfileContainer">
+        <div className="editProfileBox">
+          <h1 className="editProfileTitle">Editar Perfil</h1>
+
+          {/* Seção da Foto de Perfil */}
+          <div className="profilePhotoSection">
+            <div className="profilePhotoWrapper" onClick={handlePhotoClick}>
+              <img 
+                src={photoPreview || "https://res.cloudinary.com/dthgw4q5d/image/upload/v1753994647/icon_fzzpew.png"} 
+                alt="Foto de Perfil" 
+                className="profilePhoto"
+              />
+              <div className="profilePhotoOverlay">
+                <i className="fa-solid fa-camera"></i>
+                <span>Alterar Foto</span>
+              </div>
+            </div>
+            <input 
+              ref={fileInputRef}
+              type="file" 
+              accept="image/*"
+              onChange={handlePhotoChange}
+              style={{ display: 'none' }}
+            />
+            {photoFile && (
+              <p className="photoSelectedText">
+                <i className="fa-solid fa-check-circle"></i> Foto selecionada
+              </p>
+            )}
+          </div>
+
+          {/* Formulário */}
+          <div className="editFormGrid">
+            <div className="inputGroup">
+              <label>Nome</label>
+              <div className="inputWithIcon">
+                <i className="fa-solid fa-user"></i>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Digite seu nome"
                 />
-                <i class="fa-solid fa-user"></i>
               </div>
             </div>
 
-            <div className="inputEdit">
-              <h2>Email</h2>
-              <div className="iconEdit">
+            <div className="inputGroup">
+              <label>Email</label>
+              <div className="inputWithIcon">
+                <i className="fa-solid fa-envelope"></i>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Digite seu email"
                 />
-                <i class="fa-solid fa-envelope"></i>
               </div>
             </div>
 
-            <div className="inputEdit">
-              <h2>CPF</h2>
-              <div className="iconEdit">
+            <div className="inputGroup">
+              <label>CPF</label>
+              <div className="inputWithIcon">
+                <i className="fa-solid fa-id-card"></i>
                 <input
                   type="text"
                   value={cpf}
@@ -284,69 +315,75 @@ const Edit = () => {
                   placeholder="000.000.000-00"
                   maxLength="14"
                 />
-                <i className="fa-solid fa-id-card"></i>
               </div>
             </div>
 
-            <div className="inputEdit">
-              <h2>Senha Atual</h2>
-              <div className="iconEdit">
+            <div className="inputGroup fullWidth">
+              <label>Senha Atual</label>
+              <div className="inputWithIcon">
+                <i className="fa-solid fa-lock"></i>
                 <input
                   type="password"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   placeholder="Digite sua senha atual"
                 />
-                <i className="fa-solid fa-lock"></i>
               </div>
             </div>
 
-            <div className="inputEdit">
-              <h2>Nova Senha</h2>
-              <div className="iconEdit">
+            <div className="inputGroup">
+              <label>Nova Senha</label>
+              <div className="inputWithIcon">
+                <i className="fa-solid fa-lock"></i>
                 <input
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="Digite a nova senha"
                 />
-                <i class="fa-solid fa-lock"></i>
               </div>
             </div>
 
-            <div className="inputEdit">
-              <h2>Confirmar Nova Senha</h2>
-              <div className="iconEdit">
+            <div className="inputGroup">
+              <label>Confirmar Nova Senha</label>
+              <div className="inputWithIcon">
+                <i className="fa-solid fa-lock"></i>
                 <input
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirme a nova senha"
                 />
-                <i class="fa-solid fa-lock"></i>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="editAddContainer">
           <button
-            onClick={handleSave}
+            className="saveButton"
+            onClick={() => handleSave()}
             disabled={loading}
-            style={{
-              opacity: loading ? 0.6 : 1,
-              cursor: loading ? 'not-allowed' : 'pointer'
-            }}
           >
-            {loading ? 'Salvando...' : 'Salvar Informações'}
+            {loading ? (
+              <>
+                <i className="fa-solid fa-spinner fa-spin"></i>
+                Salvando...
+              </>
+            ) : (
+              <>
+                <i className="fa-solid fa-check"></i>
+                Salvar Alterações
+              </>
+            )}
           </button>
-        </div>
 
-        {message && (
-          <div className={`message ${messageType}`}>
-            {message}
-          </div>
-        )}
+          {/* Mensagem de Feedback */}
+          {message && (
+            <div className={`feedbackMessage ${messageType}`}>
+              <i className={`fa-solid ${messageType === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}`}></i>
+              {message}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

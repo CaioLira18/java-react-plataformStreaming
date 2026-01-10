@@ -115,14 +115,15 @@
 }
 
 .boxInformation img {
-  width: 200px;
+  max-width: 200px;
   height: auto;
   object-fit: cover;
-  transition: 0.3s ease-in-out;
+  padding: 5px;
 }
 
 .boxInformation img:hover {
-  transform: scale(1.05);
+  border: 3px solid white;
+  cursor: pointer;
 }
 
 /* Container geral */

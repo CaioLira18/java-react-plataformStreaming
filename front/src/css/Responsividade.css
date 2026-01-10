@@ -145,7 +145,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(0,0,0,0.95);
+  background: transparent;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255,255,255,0.1);
   width: 100%;
@@ -965,7 +965,7 @@
 /* Desktop - mostrar menu normal, esconder hamburger */
 @media (min-width: 769px) {
   .header {
-    background: rgba(0,0,0,0.95);
+    background: transparent;
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255,255,255,0.1);
   }

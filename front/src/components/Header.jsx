@@ -1,4 +1,3 @@
-// Header.jsx
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,31 +6,42 @@ const Header = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [name, setName] = useState('');
   const [image, setImage] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [users, setUsers] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const API_URL = "http://localhost:8080/api";
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
-        const userData = Array.isArray(parsedUser) ? parsedUser[0] : parsedUser; 
+        const userData = Array.isArray(parsedUser) ? parsedUser[0] : parsedUser;
 
         setIsAuthenticated(true);
         setName(userData.name);
         setIsAdmin(userData.role === 'ADMIN');
-        setImage(userData.profileImage);
-
-        console.log("Dados do usuário carregados:", userData);
+        setUserId(userData.id)
       } catch (error) {
         console.error("Erro ao carregar dados do usuário:", error);
       }
-    } else {
-      console.log("Nenhum usuário encontrado no localStorage");
     }
   }, []);
 
-  // Fechar menu ao redimensionar para desktop
+  useEffect(() => {
+    fetch(`${API_URL}/users`)
+      .then(response => response.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setUsers(data);
+        } else {
+          console.error('Formato inesperado para Users:', data);
+        }
+      })
+      .catch(error => console.error('Erro ao buscar Users:', error));
+  }, []);
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) {
@@ -49,6 +59,7 @@ const Header = () => {
     setIsAdmin(false);
     setName('');
     setImage('');
+    setUserId('');
     setIsMenuOpen(false);
     navigate('/login');
   }
@@ -62,11 +73,10 @@ const Header = () => {
   };
 
   return (
-    <div>
-      <div className="header">
-        <div className="headerContainer">
-          {/* Logo */}
-          <div className="logoHeader">
+    <>
+      <header className="hbo-header">
+        <div className="hbo-container">
+          <div className="hbo-logo">
             <a href="/">
               <img
                 src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1753825253/logo_wzqgvp.png"
@@ -75,96 +85,125 @@ const Header = () => {
             </a>
           </div>
 
-          {/* Menu Hamburger - Apenas Mobile */}
-          <div className="mobileMenuIcon" onClick={toggleMenu}>
-            <i className={isMenuOpen ? "fa-solid fa-times" : "fa-solid fa-bars"}></i>
-          </div>
+          <nav className="hbo-nav">
+            <a href="/" className="hbo-nav-link">Início</a>
+            <a href="/series" className="hbo-nav-link">Séries</a>
+            <a href="/movies" className="hbo-nav-link">Filmes</a>
+            {isAdmin && (
+              <a href="/adminpage" className="hbo-nav-link">Admin</a>
+            )}
+          </nav>
 
-          {/* Overlay para fechar menu mobile */}
-          {isMenuOpen && <div className="mobileOverlay" onClick={closeMenu}></div>}
+          <div className="hbo-right">
+            <a href="/search" className="hbo-search-btn">
+              <i className="fa-solid fa-magnifying-glass"></i>
+            </a>
 
-          {/* Navegação */}
-          <div className={`optionsHeader ${isMenuOpen ? 'mobileMenuOpen' : ''}`}>
-            {/* Menu de Navegação */}
-            <ul className="navigationMenu">
-              <li>
-                <div className="headerOption">
-                  <a href="/" onClick={closeMenu}> 
-                    <i className="fa-solid fa-house"></i>
-                    <span>Home</span>
-                  </a>
-                </div>
-              </li>
-              <li>
-                <div className="headerOption">
-                  <a href="/movies" onClick={closeMenu}> 
-                    <i className="fa-solid fa-film"></i>
-                    <span>Filmes</span>
-                  </a>
-                </div>
-              </li>
-              <li>
-                <div className="headerOption">
-                  <a href="/series" onClick={closeMenu}> 
-                    <i className="fa-solid fa-clapperboard"></i>
-                    <span>Series</span>
-                  </a>
-                </div>
-              </li>
-              <li>
-                <div className="headerOption">
-                  <a href="/search" onClick={closeMenu}> 
-                    <i className="fa-solid fa-magnifying-glass"></i>
-                    <span>Pesquisar</span>
-                  </a>
-                </div>
-              </li>
-              {isAdmin && (
-              <li>
-                <div className="headerOption">
-                  <a href="/adminpage" onClick={closeMenu}> 
-                    <span>Admin Page</span>
-                  </a>
-                </div>
-              </li>
-              )}
-            </ul>
-
-            {/* Menu de Perfil/Login */}
-            <div className="rightMenu">
-              {!isAuthenticated ? (
-                <a href="/login" className="loginBtn" onClick={closeMenu}>
-                  <i className="fa-solid fa-user"></i>
-                  <span>Perfil</span>
-                </a>
-              ) : (
-                <div className='authenticatedBox'>
-                  <div className="iconName">
-                    <img 
-                      src={image || "https://res.cloudinary.com/dthgw4q5d/image/upload/v1753994647/icon_fzzpew.png"} 
-                      alt="Perfil" 
-                    />
-                    <a href="/Edit" onClick={closeMenu}>{name}</a>
+            {!isAuthenticated ? (
+              <a href="/login" className="hbo-user-btn">
+                <i className="fa-solid fa-user"></i>
+              </a>
+            ) : (
+              <div className="hbo-user-menu">
+                <img
+                  src={users.find(user => user.id == userId)?.photo || "https://res.cloudinary.com/dthgw4q5d/image/upload/v1753994647/icon_fzzpew.png"}
+                  alt="Perfil"
+                  className="hbo-user-avatar"
+                />
+                <div className="hbo-dropdown">
+                  <div className="hbo-dropdown-header">
+                    <div className="hbo-dropdown-name">{name}</div>
                   </div>
-                  <div className="logOutBox" onClick={removeProfile}>
+                  <a href="/Edit" className="hbo-dropdown-item">
+                    <i className="fa-solid fa-user"></i>
+                    <span>Minha Conta</span>
+                  </a>
+                  {isAdmin && (
+                    <a href="/adminpage" className="hbo-dropdown-item">
+                      <i className="fa-solid fa-user-shield"></i>
+                      <span>Admin Portal</span>
+                    </a>
+                  )}
+                  <div className="hbo-dropdown-item hbo-logout" onClick={removeProfile}>
                     <i className="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Sair</span>
                   </div>
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* Portal Admin - apenas para admin */}
-              {isAdmin && (
-                <a href="/adminpage" className="adminPortalBtn" onClick={closeMenu}>
-                  <i className="fa-solid fa-user-shield"></i>
-                  <span>Portal de Admin</span>
-                </a>
-              )}
-            </div>
+            <button className="hbo-mobile-toggle" onClick={toggleMenu}>
+              <i className={isMenuOpen ? "fa-solid fa-times" : "fa-solid fa-bars"}></i>
+            </button>
           </div>
         </div>
+      </header>
+
+      <div className={`hbo-mobile-overlay ${isMenuOpen ? 'active' : ''}`} onClick={closeMenu}></div>
+
+      <div className={`hbo-mobile-menu ${isMenuOpen ? 'active' : ''}`}>
+        <div className="hbo-mobile-header">
+          <div className="hbo-logo">
+            <img
+              src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1753825253/logo_wzqgvp.png"
+              alt="Logo"
+            />
+          </div>
+          <button className="hbo-mobile-close" onClick={closeMenu}>
+            <i className="fa-solid fa-times"></i>
+          </button>
+        </div>
+
+        <nav className="hbo-mobile-nav">
+          <a href="/" className="hbo-mobile-link" onClick={closeMenu}>
+            <i className="fa-solid fa-house"></i>
+            <span>Início</span>
+          </a>
+          <a href="/series" className="hbo-mobile-link" onClick={closeMenu}>
+            <i className="fa-solid fa-clapperboard"></i>
+            <span>Séries</span>
+          </a>
+          <a href="/movies" className="hbo-mobile-link" onClick={closeMenu}>
+            <i className="fa-solid fa-film"></i>
+            <span>Filmes</span>
+          </a>
+          <a href="/search" className="hbo-mobile-link" onClick={closeMenu}>
+            <i className="fa-solid fa-magnifying-glass"></i>
+            <span>Pesquisar</span>
+          </a>
+          {isAdmin && (
+            <a href="/adminpage" className="hbo-mobile-link" onClick={closeMenu}>
+              <i className="fa-solid fa-user-shield"></i>
+              <span>Admin Page</span>
+            </a>
+          )}
+        </nav>
+
+        <div className="hbo-mobile-user">
+          {!isAuthenticated ? (
+            <a href="/login" className="hbo-mobile-link" onClick={closeMenu}>
+              <i className="fa-solid fa-user"></i>
+              <span>Fazer Login</span>
+            </a>
+          ) : (
+            <>
+              <a href="/Edit" className="hbo-mobile-link" onClick={closeMenu}>
+                <img
+                  src={image || "https://res.cloudinary.com/dthgw4q5d/image/upload/v1753994647/icon_fzzpew.png"}
+                  alt="Perfil"
+                  style={{ width: '24px', height: '24px', borderRadius: '4px' }}
+                />
+                <span>{name}</span>
+              </a>
+              <div className="hbo-mobile-link" onClick={removeProfile} style={{ color: '#e74c3c' }}>
+                <i className="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Sair</span>
+              </div>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
