@@ -38,7 +38,6 @@ function App() {
         <Route path="/franquia/:id" element={<FranquiaPage />} />
         <Route path="/adminpage" element={<AdminPage />} />
       </Routes>
-    <Footer />
    </div>
   )
 }
