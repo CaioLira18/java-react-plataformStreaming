@@ -47,7 +47,7 @@ const MoviesPage = () => {
       <div className="containerContentPage">
         {movie.map((movie, i) => (
           <div className="boxContentPage" key={i}>
-            {movie.type === "SERIES" && (
+            {movie.type === "MOVIE" && (
               <div className="boxInformationPage">
                 <img src={movie.image} alt={movie.name} />
                 <a href={"/movies/" + movie.id}><p>{movie.name}</p></a>
