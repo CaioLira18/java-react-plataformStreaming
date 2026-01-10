@@ -46,4 +46,6 @@ public class UserController {
         boolean deleted = userService.deleteUser(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
+
+    
 }

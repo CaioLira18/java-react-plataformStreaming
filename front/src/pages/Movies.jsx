@@ -16,28 +16,28 @@ const Movie = () => {
   const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
 
   useEffect(() => {
-  if (!movie?.name) return;
+    if (!movie?.name) return;
 
-  const fetchRating = async () => {
-    try {
-      const res = await fetch(
-        `https://www.omdbapi.com/?t=${encodeURIComponent(movie.name)}&apikey=6df0658b`
-      );
-      const data = await res.json();
+    const fetchRating = async () => {
+      try {
+        const res = await fetch(
+          `https://www.omdbapi.com/?t=${encodeURIComponent(movie.name)}&apikey=6df0658b`
+        );
+        const data = await res.json();
 
-      if (data.Response === "True") {
-        setImdbRating(data.imdbRating);
-      } else {
+        if (data.Response === "True") {
+          setImdbRating(data.imdbRating);
+        } else {
+          setImdbRating("N/A");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar rating:", error);
         setImdbRating("N/A");
       }
-    } catch (error) {
-      console.error("Erro ao buscar rating:", error);
-      setImdbRating("N/A");
-    }
-  };
+    };
 
-  fetchRating();
-}, [movie]);
+    fetchRating();
+  }, [movie]);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -52,9 +52,24 @@ const Movie = () => {
         setFavoriteList(parsedUser.favoriteMovieList || [])
         setIsAdmin(parsedUser.role === "ADMIN");
         fetchUserData(parsedUser.id);
-      } catch {}
+      } catch { }
     }
   }, []);
+
+  const fetchUserData = async (userId) => {
+    try {
+      const response = await fetch(`${API_URL}/users/${userId}`); // Ajuste para o seu endpoint de busca de usuário
+      if (response.ok) {
+        const updatedUser = await response.json();
+        setUser(updatedUser);
+        setFavoriteList(updatedUser.favoriteMovieList || []);
+        // Atualiza o localStorage para manter o estado ao dar F5
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar dados do usuário:", error);
+    }
+  };
 
   const convertYouTubeToEmbed = (url) => {
     if (!url || typeof url !== 'string') return "";
@@ -93,7 +108,7 @@ const Movie = () => {
             setYoutubeLink(convertYouTubeToEmbed(found.youtubelink));
           }
         }
-      } catch {}
+      } catch { }
     };
 
     if (id) fetchMovies();
@@ -113,7 +128,7 @@ const Movie = () => {
       );
       if (!response.ok) throw new Error();
       fetchUserData(user.id);
-    } catch {}
+    } catch { }
   };
 
   function handleTrailerPlay() {
@@ -158,7 +173,7 @@ const Movie = () => {
       >
         <div className="movieHeroOverlay">
           <div className="movieHeroContent">
-             {/* Logo/Brand */}
+            {/* Logo/Brand */}
             <div className="movieBrand">
               {movie.marca === "DISNEY" && (
                 <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070612/logoDisney_twejpl.png" alt="" />
@@ -175,14 +190,14 @@ const Movie = () => {
                 Assistir Agora
               </button>
 
-               <button className="ratingButton">
+              <button className="ratingButton">
                 <i className="fa-solid fa-star"></i>
                 {imdbRating}
               </button>
 
-            
+
             </div>
-            
+
 
             <div className="secondaryActions">
               <button onClick={handleAddToFavorites} className="actionButton">
@@ -192,20 +207,20 @@ const Movie = () => {
                   <i className="fa-solid fa-plus"></i>
                 )}
                 <span>{isInFavorites ? "Na lista" : "Minha lista"}</span>
-               
+
               </button>
 
               {hasTrailer && (
                 <button onClick={handleTrailerPlay} className="actionButton">
                   <i className="fa-solid fa-film"></i>
                   <span>Trailer</span>
-                  
-                </button>
-                
-              )}
-            
 
-              
+                </button>
+
+              )}
+
+
+
             </div>
 
             <p>{movie.description}</p>
@@ -232,7 +247,7 @@ const Movie = () => {
         </div>
       )}
 
-      
+
       {/* Seção de Imagens */}
       <div className="serieImagesSection">
         <h2>Imagens</h2>
