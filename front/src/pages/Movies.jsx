@@ -48,20 +48,13 @@ const Movie = () => {
 
         setUser(parsedUser);
         setIsAuthenticated(true);
+        setIsAuthenticated(true);
+        setFavoriteList(parsedUser.favoriteMovieList || [])
         setIsAdmin(parsedUser.role === "ADMIN");
         fetchUserData(parsedUser.id);
       } catch {}
     }
   }, []);
-
-  const fetchUserData = async (userId) => {
-    try {
-      const response = await fetch(`${API_URL}/users/${userId}`);
-      if (!response.ok) throw new Error();
-      const userData = await response.json();
-      setFavoriteList(Array.isArray(userData.favoriteMovieList) ? userData.favoriteMovieList : []);
-    } catch {}
-  };
 
   const convertYouTubeToEmbed = (url) => {
     if (!url || typeof url !== 'string') return "";
