@@ -11,7 +11,10 @@ import br.com.caio.plataform.dto.CreateSeasonDTO;
 import br.com.caio.plataform.services.SeassonsService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "https://java-react-plataformstreaming.onrender.com"
+})
 @RequestMapping("/api/seassons")
 public class SeassonsController {
     

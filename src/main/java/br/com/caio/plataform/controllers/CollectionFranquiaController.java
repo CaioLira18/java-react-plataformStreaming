@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,10 @@ import br.com.caio.plataform.services.CollectionFranquiaService;
 
 @RestController
 @RequestMapping("/api/collections")
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "https://java-react-plataformstreaming.onrender.com"
+})
 public class CollectionFranquiaController {
     @Autowired
     private CollectionFranquiaService collectionFranquiaService;

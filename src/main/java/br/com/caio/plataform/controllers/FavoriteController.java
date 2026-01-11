@@ -19,7 +19,10 @@ import br.com.caio.plataform.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/favorites")
-@CrossOrigin(origins = "http://localhost:5173") 
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "https://java-react-plataformstreaming.onrender.com"
+})
 public class FavoriteController {
 
     @Autowired

@@ -12,7 +12,10 @@ import br.com.caio.plataform.dto.CreateEpisodeDTO;
 import br.com.caio.plataform.services.EpisodesService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "https://java-react-plataformstreaming.onrender.com"
+})
 @RequestMapping("/api/episodes")
 public class EpisodeController {
     
