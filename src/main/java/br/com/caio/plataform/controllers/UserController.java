@@ -11,7 +11,7 @@ import br.com.caio.plataform.entities.User;
 import br.com.caio.plataform.services.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://java-react-plataform-streaming.vercel.app/")
 @RequestMapping("/api/users")
 public class UserController {
 

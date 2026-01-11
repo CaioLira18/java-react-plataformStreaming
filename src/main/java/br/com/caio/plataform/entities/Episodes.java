@@ -26,9 +26,7 @@ public class Episodes {
     private String episodeDescription;
     private String imageEpisode;
     private String duration;
-    private String year;
-    // Adicionar referência à temporada
-    @ManyToOne
+    private String year;// Adicionar referência à temporada
     @JoinColumn(name = "season_id")
     @JsonIgnore
     private Seassons season;
