@@ -42,13 +42,23 @@ public class UserService {
             item.setPhoto(updatedItem.getPhoto());
             item.setRole(updatedItem.getRole());
 
-            item.setFavoriteMovieList(updatedItem.getFavoriteMovieList());
-            item.setFavoriteSeriesList(updatedItem.getFavoriteSeriesList()());
-           
+            // Atualização das listas ManyToMany
+            if (updatedItem.getFavoriteMovieList() != null) {
+                item.getFavoriteMovieList().clear();
+                item.getFavoriteMovieList().addAll(updatedItem.getFavoriteMovieList());
+            }
+
+            if (updatedItem.getFavoriteSeriesList() != null) {
+                item.getFavoriteSeriesList().clear();
+                item.getFavoriteSeriesList().addAll(updatedItem.getFavoriteSeriesList());
+            }
+
+            // Atualização de senha
             if (updatedItem.getPassword() != null && !updatedItem.getPassword().isEmpty()
                     && !passwordEncoder.matches(updatedItem.getPassword(), item.getPassword())) {
                 item.setPassword(passwordEncoder.encode(updatedItem.getPassword()));
             }
+
             return userRepository.save(item);
         });
     }
