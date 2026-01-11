@@ -12,8 +12,8 @@ import br.com.caio.plataform.services.UserService;
 
 @RestController
 @CrossOrigin(origins = {
-    "http://localhost:5173",
-    "https://java-react-plataformstreaming.onrender.com"
+        "http://localhost:5173",
+        "https://java-react-plataformstreaming.onrender.com"
 })
 @RequestMapping("/api/users")
 public class UserController {
@@ -38,7 +38,7 @@ public class UserController {
         return ResponseEntity.ok(userService.createUser(user));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
         Optional<User> updatedUser = userService.updateUser(id, user);
         return updatedUser.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
@@ -50,5 +50,4 @@ public class UserController {
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
-    
 }
