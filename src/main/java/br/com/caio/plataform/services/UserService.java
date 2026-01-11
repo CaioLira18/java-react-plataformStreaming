@@ -40,22 +40,15 @@ public class UserService {
             item.setEmail(updatedItem.getEmail());
             item.setCpf(updatedItem.getCpf());
             item.setPhoto(updatedItem.getPhoto());
-            item.setRole(updatedItem.getRole());
 
-            // Atualização das listas ManyToMany
+            // Atualiza listas para evitar erros de persistência
             if (updatedItem.getFavoriteMovieList() != null) {
                 item.getFavoriteMovieList().clear();
                 item.getFavoriteMovieList().addAll(updatedItem.getFavoriteMovieList());
             }
 
-            if (updatedItem.getFavoriteSeriesList() != null) {
-                item.getFavoriteSeriesList().clear();
-                item.getFavoriteSeriesList().addAll(updatedItem.getFavoriteSeriesList());
-            }
-
-            // Atualização de senha
-            if (updatedItem.getPassword() != null && !updatedItem.getPassword().isEmpty()
-                    && !passwordEncoder.matches(updatedItem.getPassword(), item.getPassword())) {
+            // Se a nova senha foi enviada e é diferente da atual, criptografa e salva
+            if (updatedItem.getPassword() != null && !updatedItem.getPassword().isEmpty()) {
                 item.setPassword(passwordEncoder.encode(updatedItem.getPassword()));
             }
 
