@@ -16,7 +16,7 @@ const Edit = () => {
   const [photoFile, setPhotoFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState('');
   const fileInputRef = useRef(null);
-  const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -392,5 +392,6 @@ const Edit = () => {
     </div>
   );
 };
+
 
 export default Edit;
