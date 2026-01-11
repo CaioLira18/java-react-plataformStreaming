@@ -62,7 +62,7 @@ const Edit = () => {
         setMessageType('error');
         return;
       }
-      
+
       if (!file.type.startsWith('image/')) {
         setMessage('Arquivo deve ser uma imagem');
         setMessageType('error');
@@ -70,13 +70,13 @@ const Edit = () => {
       }
 
       setPhotoFile(file);
-      
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoPreview(reader.result);
       };
       reader.readAsDataURL(file);
-      
+
       setMessage('');
     }
   };
@@ -186,20 +186,11 @@ const Edit = () => {
       });
 
       console.log('Status da resposta:', response.status);
-      
+
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Erro do servidor:', errorText);
-        
-        if (response.status === 415) {
-          throw new Error('Erro no formato dos dados. Verifique o servidor.');
-        } else if (response.status === 404) {
-          throw new Error('Usuário não encontrado');
-        } else if (response.status === 400) {
-          throw new Error('Dados inválidos');
-        } else {
-          throw new Error(`Erro ao atualizar usuário: ${response.status}`);
-        }
+        const errorData = await response.json().catch(() => null);
+        console.log("Erro detalhado do servidor:", errorData);
+        throw new Error(errorData?.message || 'Erro ao atualizar');
       }
 
       const updatedUser = await response.json();
@@ -267,9 +258,9 @@ const Edit = () => {
 
           <div className="profilePhotoSection">
             <div className="profilePhotoWrapper" onClick={handlePhotoClick}>
-              <img 
-                src={photoPreview || "https://res.cloudinary.com/dthgw4q5d/image/upload/v1753994647/icon_fzzpew.png"} 
-                alt="Foto de Perfil" 
+              <img
+                src={photoPreview || "https://res.cloudinary.com/dthgw4q5d/image/upload/v1753994647/icon_fzzpew.png"}
+                alt="Foto de Perfil"
                 className="profilePhoto"
               />
               <div className="profilePhotoOverlay">
@@ -277,9 +268,9 @@ const Edit = () => {
                 <span>Alterar Foto</span>
               </div>
             </div>
-            <input 
+            <input
               ref={fileInputRef}
-              type="file" 
+              type="file"
               accept="image/*"
               onChange={handlePhotoChange}
               style={{ display: 'none' }}

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import br.com.caio.plataform.dto.UserDTO;
 import br.com.caio.plataform.entities.User;
 import br.com.caio.plataform.services.UserService;
 
@@ -40,8 +41,17 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateItem(@PathVariable String id, @RequestBody User user) {
-        Optional<User> updatedItem = userService.updateItem(id, user);
+    public ResponseEntity<User> updateItem(@PathVariable String id, @RequestBody UserDTO userDto) {
+        User userEntity = new User();
+        userEntity.setName(userDto.getName());
+        userEntity.setEmail(userDto.getEmail());
+        userEntity.setCpf(userDto.getCpf());
+        userEntity.setPhoto(userDto.getPhoto());
+        userEntity.setPassword(userDto.getPassword());
+        // Adicione a role se ela for obrigatória, ou garanta que o Service não a apague
+        userEntity.setRole(userDto.getRole());
+
+        Optional<User> updatedItem = userService.updateItem(id, userEntity);
         return updatedItem.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
