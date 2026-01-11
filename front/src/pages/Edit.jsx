@@ -101,12 +101,6 @@ const Edit = () => {
       return false;
     }
 
-    if (cpf && cpf.replace(/\D/g, '').length !== 11) {
-      setMessage('CPF deve conter 11 dígitos');
-      setMessageType('error');
-      return false;
-    }
-
     if (newPassword) {
       if (!currentPassword) {
         setMessage('Senha atual é obrigatória para alterar a senha');
