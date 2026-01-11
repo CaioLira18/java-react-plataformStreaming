@@ -34,56 +34,22 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Optional<User> updateUser(String id, User updatedUser) {
-        return userRepository.findById(id).map(user -> {
-            // Log para debug
-            System.out.println("=== Atualizando usuário ===");
-            System.out.println("ID: " + id);
-            System.out.println("Nome recebido: " + updatedUser.getName());
-            System.out.println("Email recebido: " + updatedUser.getEmail());
-            System.out.println("CPF recebido: " + updatedUser.getCpf());
-            System.out.println("Photo recebido: " + (updatedUser.getPhoto() != null ? "Sim" : "Não"));
-            System.out.println("Senha recebida: " + (updatedUser.getPassword() != null && !updatedUser.getPassword().isBlank() ? "Sim" : "Não"));
-            
-            // Atualiza campos obrigatórios
-            if (updatedUser.getName() != null && !updatedUser.getName().trim().isEmpty()) {
-                user.setName(updatedUser.getName());
-            }
-            
-            if (updatedUser.getEmail() != null && !updatedUser.getEmail().trim().isEmpty()) {
-                user.setEmail(updatedUser.getEmail());
-            }
-            
-            // Atualiza CPF apenas se fornecido
-            if (updatedUser.getCpf() != null && !updatedUser.getCpf().trim().isEmpty()) {
-                user.setCpf(updatedUser.getCpf());
-            }
-            
-            // Atualiza foto apenas se fornecida
-            if (updatedUser.getPhoto() != null && !updatedUser.getPhoto().trim().isEmpty()) {
-                user.setPhoto(updatedUser.getPhoto());
-            }
+    public Optional<User> updateItem(String id, User updatedItem) {
+        return userRepository.findById(id).map(item -> {
+            item.setName(updatedItem.getName());
+            item.setEmail(updatedItem.getEmail());
+            item.setCpf(updatedItem.getCpf());
+            item.setPhoto(updatedItem.getPhoto());
+            item.setRole(updatedItem.getRole());
 
-            // Atualiza role apenas se fornecida (admin pode alterar)
-            if (updatedUser.getRole() != null) {
-                user.setRole(updatedUser.getRole());
+            item.setFavoriteMovieList(updatedItem.getFavoriteMovieList());
+            item.setFavoriteSeriesList(updatedItem.getFavoriteSeriesList()());
+           
+            if (updatedItem.getPassword() != null && !updatedItem.getPassword().isEmpty()
+                    && !passwordEncoder.matches(updatedItem.getPassword(), item.getPassword())) {
+                item.setPassword(passwordEncoder.encode(updatedItem.getPassword()));
             }
-
-            // Atualiza senha apenas se fornecida e não estiver vazia
-            if (updatedUser.getPassword() != null && 
-                !updatedUser.getPassword().trim().isEmpty() && 
-                !updatedUser.getPassword().isBlank()) {
-                String encodedPassword = passwordEncoder.encode(updatedUser.getPassword());
-                user.setPassword(encodedPassword);
-                System.out.println("Senha atualizada com sucesso");
-            } else {
-                System.out.println("Senha não foi alterada");
-            }
-
-            User savedUser = userRepository.save(user);
-            System.out.println("Usuário salvo com sucesso: " + savedUser.getName());
-            
-            return savedUser;
+            return userRepository.save(item);
         });
     }
 
