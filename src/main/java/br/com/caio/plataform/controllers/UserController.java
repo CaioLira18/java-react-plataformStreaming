@@ -13,6 +13,7 @@ import br.com.caio.plataform.services.UserService;
 @RestController
 @CrossOrigin(origins = {
         "http://localhost:5173",
+        "https://java-react-plataform-streaming.vercel.app/",
         "https://java-react-plataformstreaming.onrender.com"
 })
 @RequestMapping("/api/users")
