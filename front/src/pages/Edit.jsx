@@ -24,8 +24,16 @@ const Edit = () => {
       const parsedUser = JSON.parse(storedUser);
       setUserId(parsedUser.id);
 
-      fetch(`${API_URL}/users/${parsedUser.id}`)
-        .then((res) => res.json())
+      fetch(`${API_URL}/users/${parsedUser.id}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error('Erro ao carregar dados');
+          return res.json();
+        })
         .then((fullUser) => {
           setIsAuthenticated(true);
           setName(fullUser.name || '');
@@ -36,7 +44,7 @@ const Edit = () => {
         })
         .catch((error) => {
           console.error('Erro ao carregar dados:', error);
-          setMessage('Erro ao carregar dados');
+          setMessage('Erro ao carregar dados do usuário');
           setMessageType('error');
         });
     }
@@ -49,14 +57,12 @@ const Edit = () => {
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validar tamanho (máx 5MB)
       if (file.size > 5 * 1024 * 1024) {
         setMessage('Imagem muito grande. Máximo 5MB');
         setMessageType('error');
         return;
       }
       
-      // Validar tipo
       if (!file.type.startsWith('image/')) {
         setMessage('Arquivo deve ser uma imagem');
         setMessageType('error');
@@ -65,7 +71,6 @@ const Edit = () => {
 
       setPhotoFile(file);
       
-      // Criar preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoPreview(reader.result);
@@ -125,7 +130,7 @@ const Edit = () => {
   };
 
   const uploadProfileImageToCloudinary = async () => {
-    if (!photoFile) return photo; // Retorna a foto atual se não houver arquivo novo
+    if (!photoFile) return photo;
 
     const formData = new FormData();
     formData.append("file", photoFile);
@@ -152,7 +157,6 @@ const Edit = () => {
     setMessage('');
 
     try {
-      // Fazer upload da imagem apenas se houver um arquivo novo
       let uploadedImageProfile = photo;
       if (photoFile) {
         uploadedImageProfile = await uploadProfileImageToCloudinary();
@@ -165,31 +169,41 @@ const Edit = () => {
         photo: uploadedImageProfile
       };
 
-      if (newPassword) {
+      // Apenas adiciona a senha se foi fornecida
+      if (newPassword && newPassword.trim()) {
         updateData.password = newPassword;
       }
+
+      console.log('Enviando dados:', JSON.stringify(updateData, null, 2));
 
       const response = await fetch(`${API_URL}/users/${userId}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(updateData)
       });
 
+      console.log('Status da resposta:', response.status);
+      
       if (!response.ok) {
-        if (response.status === 404) {
+        const errorText = await response.text();
+        console.error('Erro do servidor:', errorText);
+        
+        if (response.status === 415) {
+          throw new Error('Erro no formato dos dados. Verifique o servidor.');
+        } else if (response.status === 404) {
           throw new Error('Usuário não encontrado');
         } else if (response.status === 400) {
           throw new Error('Dados inválidos');
         } else {
-          throw new Error('Erro ao atualizar usuário');
+          throw new Error(`Erro ao atualizar usuário: ${response.status}`);
         }
       }
 
       const updatedUser = await response.json();
 
-      // Atualizar localStorage
       const storedUser = JSON.parse(localStorage.getItem("user"));
       const updatedStoredUser = {
         ...storedUser,
@@ -199,17 +213,19 @@ const Edit = () => {
       };
       localStorage.setItem("user", JSON.stringify(updatedStoredUser));
 
-      // Atualizar estados locais
       setPhoto(uploadedImageProfile);
       setPhotoPreview(uploadedImageProfile);
       setMessage('Informações atualizadas com sucesso!');
       setMessageType('success');
 
-      // Limpar campos de senha
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
       setPhotoFile(null);
+
+      setTimeout(() => {
+        setMessage('');
+      }, 3000);
 
     } catch (error) {
       console.error('Erro ao atualizar usuário:', error);
@@ -249,7 +265,6 @@ const Edit = () => {
         <div className="editProfileBox">
           <h1 className="editProfileTitle">Editar Perfil</h1>
 
-          {/* Seção da Foto de Perfil */}
           <div className="profilePhotoSection">
             <div className="profilePhotoWrapper" onClick={handlePhotoClick}>
               <img 
@@ -276,7 +291,6 @@ const Edit = () => {
             )}
           </div>
 
-          {/* Formulário */}
           <div className="editFormGrid">
             <div className="inputGroup">
               <label>Nome</label>
@@ -360,7 +374,7 @@ const Edit = () => {
 
           <button
             className="saveButton"
-            onClick={() => handleSave()}
+            onClick={handleSave}
             disabled={loading}
           >
             {loading ? (
@@ -376,7 +390,6 @@ const Edit = () => {
             )}
           </button>
 
-          {/* Mensagem de Feedback */}
           {message && (
             <div className={`feedbackMessage ${messageType}`}>
               <i className={`fa-solid ${messageType === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}`}></i>
