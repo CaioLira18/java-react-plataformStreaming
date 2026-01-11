@@ -11,8 +11,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
 @Table(name = "tb_users")
 public class User {
 
@@ -65,6 +63,66 @@ public class User {
         this.password = password;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public List<Movie> getFavoriteMovieList() {
+        return favoriteMovieList;
+    }
+
     public void setFavoriteMovieList(List<Movie> favoriteMovieList) {
         this.favoriteMovieList = favoriteMovieList;
     }
@@ -75,5 +133,7 @@ public class User {
 
     public void setFavoriteSeriesList(List<Series> favoriteSeriesList) {
         this.favoriteSeriesList = favoriteSeriesList;
-    }   
+    }
+
+    
 }

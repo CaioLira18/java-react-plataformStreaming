@@ -162,6 +162,7 @@ const Edit = () => {
         uploadedImageProfile = await uploadProfileImageToCloudinary();
       }
 
+      // Construção do objeto garantindo tipos simples
       const updateData = {
         name: name.trim(),
         email: email.trim(),
@@ -169,58 +170,49 @@ const Edit = () => {
         photo: uploadedImageProfile
       };
 
-      // Apenas adiciona a senha se foi fornecida
-      if (newPassword && newPassword.trim()) {
+      // Só envia a senha se o usuário digitou uma nova
+      if (newPassword && newPassword.trim().length >= 6) {
         updateData.password = newPassword;
       }
-
-      console.log('Enviando dados:', JSON.stringify(updateData, null, 2));
 
       const response = await fetch(`${API_URL}/users/${userId}`, {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json' // O Spring exige isso para @RequestBody
         },
         body: JSON.stringify(updateData)
       });
 
-      console.log('Status da resposta:', response.status);
-
       if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        console.log("Erro detalhado do servidor:", errorData);
-        throw new Error(errorData?.message || 'Erro ao atualizar');
+        const errorData = await response.json().catch(() => ({ message: 'Erro desconhecido' }));
+        throw new Error(errorData.message || 'Erro ao atualizar');
       }
 
       const updatedUser = await response.json();
 
+      // Atualiza o LocalStorage com os novos dados
       const storedUser = JSON.parse(localStorage.getItem("user"));
-      const updatedStoredUser = {
+      localStorage.setItem("user", JSON.stringify({
         ...storedUser,
         name: updatedUser.name,
         email: updatedUser.email,
-        profileImage: uploadedImageProfile
-      };
-      localStorage.setItem("user", JSON.stringify(updatedStoredUser));
+        photo: updatedUser.photo
+      }));
 
-      setPhoto(uploadedImageProfile);
-      setPhotoPreview(uploadedImageProfile);
+      setPhoto(updatedUser.photo);
+      setPhotoPreview(updatedUser.photo);
       setMessage('Informações atualizadas com sucesso!');
       setMessageType('success');
 
+      // Limpa campos de senha
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
-      setPhotoFile(null);
-
-      setTimeout(() => {
-        setMessage('');
-      }, 3000);
 
     } catch (error) {
       console.error('Erro ao atualizar usuário:', error);
-      setMessage(error.message || 'Erro ao atualizar informações');
+      setMessage(error.message);
       setMessageType('error');
     } finally {
       setLoading(false);

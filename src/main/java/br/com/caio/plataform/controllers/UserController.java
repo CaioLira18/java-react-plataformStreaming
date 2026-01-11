@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import br.com.caio.plataform.dto.CreateUserDTO;
 import br.com.caio.plataform.dto.UserDTO;
 import br.com.caio.plataform.entities.User;
 import br.com.caio.plataform.services.UserService;
@@ -35,24 +36,32 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody CreateUserDTO user) {
         System.out.println("Dados recebidos: " + user.getName() + ", " + user.getEmail());
         return ResponseEntity.ok(userService.createUser(user));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateItem(@PathVariable String id, @RequestBody UserDTO userDto) {
-        User userEntity = new User();
-        userEntity.setName(userDto.getName());
-        userEntity.setEmail(userDto.getEmail());
-        userEntity.setCpf(userDto.getCpf());
-        userEntity.setPhoto(userDto.getPhoto());
-        userEntity.setPassword(userDto.getPassword());
-        // Adicione a role se ela for obrigatória, ou garanta que o Service não a apague
-        userEntity.setRole(userDto.getRole());
+        // 1. Procurar o utilizador existente para não perder dados (como a ROLE ou
+        // Favoritos)
+        return userService.findById(id).map(existingUser -> {
 
-        Optional<User> updatedItem = userService.updateItem(id, userEntity);
-        return updatedItem.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+            // 2. Atualizar apenas os campos permitidos vindos do DTO
+            existingUser.setName(userDto.getName());
+            existingUser.setEmail(userDto.getEmail());
+            existingUser.setCpf(userDto.getCpf());
+            existingUser.setPhoto(userDto.getPhoto());
+
+            // Se a password vier preenchida, passamos para o service tratar a criptografia
+            if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
+                existingUser.setPassword(userDto.getPassword());
+            }
+
+            // 3. Chamar o service enviando a entidade já populada
+            User updated = userService.updateItem(id, existingUser).orElseThrow();
+            return ResponseEntity.ok(updated);
+        }).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")

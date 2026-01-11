@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.caio.plataform.dto.CreateUserDTO;
 import br.com.caio.plataform.entities.User;
+import br.com.caio.plataform.entities.enums.UserRole;
 import br.com.caio.plataform.repository.UserRepository;
 
 @Service
@@ -27,10 +29,17 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public User createUser(User user) {
-        System.out.println("Criando usuário: " + user.getName() + ", " + user.getEmail());
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
+    public User createUser(CreateUserDTO dto) {
+        User user = new User();
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        user.setCpf(dto.getCpf());
+        user.setPhoto(dto.getPhoto());
+        user.setRole(dto.getRole() != null ? dto.getRole() : UserRole.USER);
+
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
         user.setPassword(encodedPassword);
+
         return userRepository.save(user);
     }
 
@@ -41,14 +50,8 @@ public class UserService {
             item.setCpf(updatedItem.getCpf());
             item.setPhoto(updatedItem.getPhoto());
 
-            // Atualiza listas para evitar erros de persistência
-            if (updatedItem.getFavoriteMovieList() != null) {
-                item.getFavoriteMovieList().clear();
-                item.getFavoriteMovieList().addAll(updatedItem.getFavoriteMovieList());
-            }
-
-            // Se a nova senha foi enviada e é diferente da atual, criptografa e salva
-            if (updatedItem.getPassword() != null && !updatedItem.getPassword().isEmpty()) {
+            if (updatedItem.getPassword() != null && !updatedItem.getPassword().isEmpty()
+                    && !updatedItem.getPassword().startsWith("$2a$")) {
                 item.setPassword(passwordEncoder.encode(updatedItem.getPassword()));
             }
 

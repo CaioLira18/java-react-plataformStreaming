@@ -33,7 +33,7 @@ public class FavoriteController {
 
     @PostMapping("/movie/{movieId}/{userId}")
     public ResponseEntity<?> addMovieToFavorites(
-            @PathVariable String userId, 
+            @PathVariable String userId,
             @PathVariable String movieId) {
         
         System.out.println("=== DEBUG: Adicionando filme aos favoritos ===");
