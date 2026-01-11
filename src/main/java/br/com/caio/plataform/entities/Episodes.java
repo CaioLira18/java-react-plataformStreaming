@@ -27,7 +27,6 @@ public class Episodes {
     private String imageEpisode;
     private String duration;
     private String year;
-    
     // Adicionar referência à temporada
     @ManyToOne
     @JoinColumn(name = "season_id")
