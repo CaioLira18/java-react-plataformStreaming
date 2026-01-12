@@ -3,66 +3,65 @@ import { useNavigate } from 'react-router-dom';
 
 const SeriesPage = () => {
   const [series, setSeries] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isLast, setIsLast] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  const API_URL = "http://localhost:8080/api";
+  const navigate = useNavigate();
 
-
-  useEffect(() => {
-    fetch(`${API_URL}/series`)
+  const fetchSeries = (page) => {
+    fetch(`${API_URL}/series?page=${page}&size=20`)
       .then(response => response.json())
       .then(data => {
-        if (Array.isArray(data)) {
-          setSeries(data);
-        } else {
-          console.error('Formato inesperado para Movies:', data);
-        }
+        setSeries(data.content || []);
+        setIsLast(data.last);
+        setCurrentPage(data.number);
       })
-      .catch(error => console.error('Erro ao buscar Movies:', error));
-  }, []);
+      .catch(error => console.error('Erro ao buscar Séries:', error));
+  };
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        setIsAuthenticated(true);
-
-        console.log("Dados do usuário carregados:", parsedUser);
-      } catch (error) {
-        console.error("Erro ao carregar dados do usuário:", error);
-      }
+      setIsAuthenticated(true);
+      fetchSeries(0);
     } else {
-      console.log("Nenhum usuário encontrado no localStorage");
+      navigate('/login');
     }
-
-  }, []);
-
-  const navigate = useNavigate();
-
-  {
-    !isAuthenticated && (
-      navigate('/login')
-    )
-  }
-
+  }, [navigate]);
 
   return (
-    <div>
-      <div className="containerContentPage" >
-        {series.map((series, i) => (
+    <div className="pageContainer">
+      <div className="containerContentPage">
+        {series.map((item, i) => (
           <div className="boxContentPage" key={i}>
-            {series.type = "SERIES" && (
-              <div className="boxInformationPage">
-                <img src={series.image} alt="" />
-                <a href={"/series/" + series.id}><p>{series.name}</p></a>
-              </div>
-            )}
+            <div className="boxInformationPage">
+              <img src={item.image} alt={item.name} />
+              <a href={"/series/" + item.id}><p>{item.name}</p></a>
+            </div>
           </div>
-
         ))}
       </div>
+
+      {/* 
+      <div className="paginationControls">
+        <button 
+          disabled={currentPage === 0} 
+          onClick={() => fetchSeries(currentPage - 1)}
+        >
+          Anterior
+        </button>
+        <span>Página {currentPage + 1}</span>
+        <button 
+          disabled={isLast} 
+          onClick={() => fetchSeries(currentPage + 1)}
+        >
+          Próxima
+        </button>
+      </div>
+      */}
     </div>
   )
 }
 
-export default SeriesPage
+export default SeriesPage;

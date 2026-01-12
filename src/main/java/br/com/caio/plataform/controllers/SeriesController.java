@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,8 +42,8 @@ public class SeriesController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Series>> getAllSeries() {
-        List<Series> series = seriesService.findAll();
+    public ResponseEntity<Page<Series>> getAllSeries(Pageable pageable) {
+        Page<Series> series = seriesService.findAll(pageable);
         return new ResponseEntity<>(series, HttpStatus.OK);
     }
 

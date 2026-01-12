@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const Series = () => {
   const { id } = useParams(); 
-  const navigate = useNavigate();''
+  const navigate = useNavigate();
   const [serie, setSerie] = useState(null); 
   const [imdbRating, setImdbRating] = useState(null);
   const [seassons, setSeassons] = useState([]); 
@@ -15,7 +15,6 @@ const Series = () => {
   const [user, setUser] = useState(null);
   const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
 
-  // Carregar dados do usuário do localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -24,34 +23,26 @@ const Series = () => {
         setUser(parsedUser);
         setIsAuthenticated(true);
         setIsAdmin(parsedUser.role === 'ADMIN');
-        console.log("Dados do usuário carregados:", parsedUser);
         
-        // Buscar dados completos do usuário da API para pegar a lista de favoritos
         fetch(`${API_URL}/users/${parsedUser.id}`)
           .then(response => response.json())
           .then(userData => {
-            console.log("Dados completos do usuário:", userData);
-            // O backend retorna favoriteSeassonList
             setFavoriteList(userData.favoriteSeassonList || []);
           })
           .catch(err => console.error("Erro ao buscar dados do usuário:", err));
       } catch (error) {
         console.error("Erro ao carregar dados do usuário:", error);
       }
-    } else {
-      console.log("Nenhum usuário encontrado no localStorage");
     }
   }, []);
 
+  // LOGICA PAGEABLE: Fetch direto pelo ID para evitar erro de .find no objeto de paginação
   useEffect(() => {
-    fetch(`${API_URL}/series`)
+    fetch(`${API_URL}/series/${id}`)
       .then(response => response.json())
       .then(data => {
-        console.log("Dados recebidos da API:", data);
-        const found = data.find(g => g.id === id);
-        console.log("Série encontrada:", found);
-        setSerie(found);
-        const seasonList = found?.seassonsList || [];
+        setSerie(data);
+        const seasonList = data?.seassonsList || [];
         setSeassons(seasonList);
 
         if (seasonList.length > 0) {
@@ -59,33 +50,25 @@ const Series = () => {
           setEpisodes(seasonList[0].episodesList || []);
         }
       })
-      .catch(err => console.error("Erro ao buscar dados:", err));
+      .catch(err => console.error("Erro ao buscar dados da série:", err));
   }, [id]);
 
   useEffect(() => {
-  if (!serie?.name) return;
+    if (!serie?.name) return;
 
-  const fetchRating = async () => {
-    try {
-      const res = await fetch(
-        `https://www.omdbapi.com/?t=${encodeURIComponent(serie.name)}&apikey=6df0658b`
-      );
-      const data = await res.json();
-
-      if (data.Response === "True") {
-        setImdbRating(data.imdbRating);
-      } else {
+    const fetchRating = async () => {
+      try {
+        const res = await fetch(
+          `https://www.omdbapi.com/?t=${encodeURIComponent(serie.name)}&apikey=6df0658b`
+        );
+        const data = await res.json();
+        setImdbRating(data.Response === "True" ? data.imdbRating : "N/A");
+      } catch (error) {
         setImdbRating("N/A");
       }
-    } catch (error) {
-      console.error("Erro ao buscar rating:", error);
-      setImdbRating("N/A");
-    }
-  };
-
-  fetchRating();
-}, [serie]);
-
+    };
+    fetchRating();
+  }, [serie]);
 
   const handleAddToFavorites = async () => {
     if (!user) {
@@ -94,43 +77,28 @@ const Series = () => {
     }
 
     try {
-      // Como o backend salva temporadas, vamos adicionar a primeira temporada
       const seasonToAdd = seassons[0];
       if (!seasonToAdd) {
         alert("Nenhuma temporada disponível para adicionar.");
         return;
       }
 
-      console.log("User ID:", user.id);
-      console.log("Season ID:", seasonToAdd.id);
-
       const response = await fetch(`${API_URL}/users/${user.id}/favorites`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        // Usar seassonId porque é o que o backend espera
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ seassonId: seasonToAdd.id })
       });
 
-      if (!response.ok) {
-        throw new Error("Erro ao adicionar aos favoritos.");
-      }
+      if (!response.ok) throw new Error();
 
       const updatedUser = await response.json();
-      console.log("Usuário atualizado:", updatedUser);
-      
-      // Atualizar a lista de favoritos local com temporadas
       setFavoriteList(updatedUser.favoriteSeassonList || []);
-      
       alert("Série adicionada à sua lista!");
     } catch (error) {
-      console.error("Erro ao adicionar aos favoritos:", error);
       alert("Erro ao adicionar série à lista.");
     }
   };
 
-  // Verificar se alguma temporada da série está nos favoritos
   const isInFavorites = favoriteList.some(item => 
     seassons.some(season => season.id === item.id)
   );
@@ -147,18 +115,15 @@ const Series = () => {
 
   return (
     <div>
-      {/* Hero Section com Background */}
-     <div
+      <div
         className="serieHeroSection"
         style={{
           '--desktop-image': `url(${serie.image})`,
           '--mobile-image': `url(${serie.imageVertical})`
         }}
       >
-
         <div className="serieHeroOverlay">
           <div className="serieHeroContent">
-            {/* Logo/Brand */}
             <div className="movieBrand">
               {serie.marca === "DC" && (
                 <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="" />
@@ -168,22 +133,17 @@ const Series = () => {
               )}
             </div>
             
-            {/* Título Principal */}
             <h1 className="serieMainTitle">{serie.name}</h1>
             
-            {/* Tags/Badges */}
             <div className="serieTags">
               <span className="serieTag serieTagNew">Novo</span>
               <span className="serieTag serieTagRating">{serie.age}</span>
               <span className="serieTag serieTagQuality">4K UHD</span>
             </div>
             
-            {/* Selector de Temporadas */}
             {seassons.length > 0 && (
               <div className="seasonSelector">
                 <select 
-                  name="season" 
-                  id="season"
                   onChange={(e) => {
                     const season = seassons.find(s => s.name === e.target.value);
                     setSelectedSeason(season);
@@ -192,29 +152,23 @@ const Series = () => {
                   value={selectedSeason?.name || ''}
                 >
                   {seassons.map(season => (
-                    <option key={season.id} value={season.name}>
-                      {season.name}
-                    </option>
+                    <option key={season.id} value={season.name}>{season.name}</option>
                   ))}
                 </select>
               </div>
             )}
             
-            {/* Botão de Assistir */}
-          <div className="flexMovie">
-            <button className="watchButton">
-              <i className="fa-solid fa-play"></i>
-              {episodes.length > 0 ? `Assistir ${episodes[0]?.name || 'Episódio 1'}` : 'Assistir Agora'}
-            </button>
-
-            <button className="ratingButton">
+            <div className="flexMovie">
+              <button className="watchButton">
+                <i className="fa-solid fa-play"></i>
+                {episodes.length > 0 ? `Assistir ${episodes[0]?.name || 'Episódio 1'}` : 'Assistir Agora'}
+              </button>
+              <button className="ratingButton">
                 <i className="fa-solid fa-star"></i>
                 {imdbRating}
-            </button>
-          </div>
+              </button>
+            </div>
 
-            
-            {/* Ações secundárias */}
             <div className="secondaryActions">
               {isAuthenticated && isAdmin && (
                 <button className="actionButton" onClick={() => navigate(`/AdicionarEpisodio/${serie.id}`)}>
@@ -224,20 +178,13 @@ const Series = () => {
               )}
             </div>
             
-            {/* Descrição */}
             <div className="serieDescription">
               <p>{serie.description}</p>
-            </div>
-            
-            {/* Informações técnicas */}
-            <div className="serieTechInfo">
-              <p>A disponibilidade de 4K UHD, HDR e Dolby Atmos varia de acordo com o dispositivo e o plano.</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Seção de Episódios */}
       {episodes.length > 0 && (
         <div className="episodesSection">
           <h2>{selectedSeason?.name}</h2>
@@ -247,12 +194,7 @@ const Series = () => {
                 <div className="episodeImageContainer">
                   <img src={episode.imageEpisode} alt={episode.name} />
                   <div className="episodeOverlay">
-                    <button className="playEpisodeButton">
-                      <i className="fa-solid fa-play"></i>
-                    </button>
-                    <button className="episodeOptionsButton">
-                      <i className="fa-solid fa-ellipsis-vertical"></i>
-                    </button>
+                    <button className="playEpisodeButton"><i className="fa-solid fa-play"></i></button>
                   </div>
                 </div>
                 <div className="episodeInfo">
@@ -266,14 +208,9 @@ const Series = () => {
               </div>
             ))}
           </div>
-          
-          <div className="episodeDisclaimer">
-            <p>* Os Episódios estão limitados e não estão disponíveis para assistir, devido aos direitos</p>
-          </div>
         </div>
       )}
 
-      {/* Seção de Imagens */}
       <div className="serieImagesSection">
         <h2>Imagens</h2>
         <div className="serieImages">

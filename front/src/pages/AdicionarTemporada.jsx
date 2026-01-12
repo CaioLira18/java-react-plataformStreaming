@@ -2,106 +2,44 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const AdicionarTemporada = () => {
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  const API_URL = "http://localhost:8080/api";
   const [selectedSerie, setSelectedSerie] = useState(null);
   const [seasonName, setSeasonName] = useState("");
   const [series, setSeries] = useState([]);
   const { id } = useParams();
 
-  function addSeasson() {
-  if (!selectedSerie || seasonName.trim() === "") {
-    alert("Selecione uma série e informe o nome da temporada.");
-    return;
-  }
-
-  const novaTemporada = {
-    name: seasonName,
-    episodesList: [] // você pode adicionar isso ou deixar o backend criar vazio
-  };
-
-  fetch(`${API_URL}/seassons/series/${selectedSerie.id}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(novaTemporada)
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Erro ao adicionar temporada.");
-      }
-      return response.json();
-    })
-    .then(data => {
-      alert("Temporada adicionada com sucesso!");
-      setSeasonName(""); // Limpa o campo de input
-
-      // Atualiza o estado da série selecionada para refletir a nova temporada
-      setSelectedSerie(prev => ({
-        ...prev,
-        seassonsList: [...(prev.seassonsList || []), data]
-      }));
-    })
-    .catch(error => {
-      console.error(error);
-      alert("Erro ao adicionar temporada.");
-    });
-}
-
-
+  // LOGICA PAGEABLE: Acessando .content para popular o select de séries
   useEffect(() => {
-    fetch(`${API_URL}/series`)
-      .then(response => response.json())
+    fetch(`${API_URL}/series?size=1000`)
+      .then(res => res.json())
       .then(data => {
-        setSeries(data);
-
-        const found = data.find(g => g.id === id);
-        if (found) {
+        const list = data.content || data;
+        setSeries(list);
+        if (id) {
+          const found = list.find(s => String(s.id) === String(id));
           setSelectedSerie(found);
         }
-      })
-      .catch(err => console.error("Erro ao buscar dados:", err));
+      });
   }, [id]);
 
-  return (
-    <div>
-      <div className="containerAddSeasson">
-        <div className="boxAddSeasson">
-          {series.length > 0 && (
-            <div className="inputSeassons">
-              <select 
-                name="season" 
-                id="season"
-                onChange={(e) => {
-                  const selected = series.find(s => s.name === e.target.value);
-                  setSelectedSerie(selected);
-                }}
-                value={selectedSerie?.name || ""}
-              >
-                <option value="">Selecione uma série</option>
-                {series.map(serie => (
-                  <option key={serie.id} value={serie.name}>
-                    {serie.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+  function addSeasson() {
+    if (!selectedSerie || !seasonName) return alert("Erro");
+    fetch(`${API_URL}/seassons/series/${selectedSerie.id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: seasonName, episodesList: [] })
+    }).then(() => alert("Temporada adicionada!"));
+  }
 
-          <div className="addSeasson">
-            <h2>Nome da Temporada</h2>
-            <input 
-              type="text" 
-              value={seasonName} 
-              onChange={(e) => setSeasonName(e.target.value)} 
-              placeholder="Digite o nome da temporada"
-            />
-          </div>
-          
-          <div className="buttonAddContainer">
-            <button onClick={addSeasson}>Adicionar</button>
-          </div>
-        </div>
+  return (
+    <div className="containerAddSeasson">
+      <div className="boxAddSeasson">
+        <select onChange={e => setSelectedSerie(series.find(s => s.name === e.target.value))} value={selectedSerie?.name || ""}>
+          <option value="">Selecione a série</option>
+          {series.map(s => <option key={s.id} value={s.name}>{s.name}</option>)}
+        </select>
+        <input type="text" value={seasonName} onChange={e => setSeasonName(e.target.value)} placeholder="Nome da Temporada" />
+        <button onClick={addSeasson}>Adicionar</button>
       </div>
     </div>
   );

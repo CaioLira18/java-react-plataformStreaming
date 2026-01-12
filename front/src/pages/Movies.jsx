@@ -48,7 +48,6 @@ const Movie = () => {
 
         setUser(parsedUser);
         setIsAuthenticated(true);
-        setIsAuthenticated(true);
         setFavoriteList(parsedUser.favoriteMovieList || [])
         setIsAdmin(parsedUser.role === "ADMIN");
         fetchUserData(parsedUser.id);
@@ -58,12 +57,11 @@ const Movie = () => {
 
   const fetchUserData = async (userId) => {
     try {
-      const response = await fetch(`${API_URL}/users/${userId}`); // Ajuste para o seu endpoint de busca de usuário
+      const response = await fetch(`${API_URL}/users/${userId}`);
       if (response.ok) {
         const updatedUser = await response.json();
         setUser(updatedUser);
         setFavoriteList(updatedUser.favoriteMovieList || []);
-        // Atualiza o localStorage para manter o estado ao dar F5
         localStorage.setItem("user", JSON.stringify(updatedUser));
       }
     } catch (error) {
@@ -94,24 +92,24 @@ const Movie = () => {
     return `https://www.youtube.com/embed/${videoId}`;
   };
 
+  // LOGICA PAGEABLE: Fetch direto pelo ID para evitar erro de .find no objeto de paginação
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchMovieDetail = async () => {
       try {
-        const response = await fetch(`${API_URL}/movie`);
+        const response = await fetch(`${API_URL}/movie/${id}`);
         if (!response.ok) throw new Error();
         const data = await response.json();
-        const found = data.find((g) => String(g.id) === String(id));
-
-        if (found) {
-          setMovie(found);
-          if (found.youtubelink && found.youtubelink.trim() !== '') {
-            setYoutubeLink(convertYouTubeToEmbed(found.youtubelink));
-          }
+        
+        setMovie(data);
+        if (data.youtubelink && data.youtubelink.trim() !== '') {
+          setYoutubeLink(convertYouTubeToEmbed(data.youtubelink));
         }
-      } catch { }
+      } catch (err) {
+        console.error("Erro ao carregar filme", err);
+      }
     };
 
-    if (id) fetchMovies();
+    if (id) fetchMovieDetail();
   }, [id, API_URL]);
 
   const handleAddToFavorites = async () => {
@@ -173,7 +171,6 @@ const Movie = () => {
       >
         <div className="movieHeroOverlay">
           <div className="movieHeroContent">
-            {/* Logo/Brand */}
             <div className="movieBrand">
               {movie.marca === "DISNEY" && (
                 <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070612/logoDisney_twejpl.png" alt="" />
@@ -183,22 +180,16 @@ const Movie = () => {
               )}
             </div>
             <h1 className="movieMainTitle">{movie.name}</h1>
-
             <div className="flexMovie">
               <button className="watchButton">
                 <i className="fa-solid fa-play"></i>
                 Assistir Agora
               </button>
-
               <button className="ratingButton">
                 <i className="fa-solid fa-star"></i>
                 {imdbRating}
               </button>
-
-
             </div>
-
-
             <div className="secondaryActions">
               <button onClick={handleAddToFavorites} className="actionButton">
                 {isInFavorites ? (
@@ -207,22 +198,14 @@ const Movie = () => {
                   <i className="fa-solid fa-plus"></i>
                 )}
                 <span>{isInFavorites ? "Na lista" : "Minha lista"}</span>
-
               </button>
-
               {hasTrailer && (
                 <button onClick={handleTrailerPlay} className="actionButton">
                   <i className="fa-solid fa-film"></i>
                   <span>Trailer</span>
-
                 </button>
-
               )}
-
-
-
             </div>
-
             <p>{movie.description}</p>
           </div>
         </div>
@@ -240,15 +223,12 @@ const Movie = () => {
               src={youtubeLink}
               title="Trailer"
               frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             ></iframe>
           </div>
         </div>
       )}
 
-
-      {/* Seção de Imagens */}
       <div className="serieImagesSection">
         <h2>Imagens</h2>
         <div className="serieImages">

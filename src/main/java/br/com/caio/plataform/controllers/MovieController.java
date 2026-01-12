@@ -2,7 +2,10 @@ package br.com.caio.plataform.controllers;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,13 +17,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import br.com.caio.plataform.entities.Movie;
 import br.com.caio.plataform.services.MovieService;
 
 @RestController
 @CrossOrigin(origins = {
-    "http://localhost:5173",
-    "https://java-react-plataformstreaming.onrender.com"
+        "http://localhost:5173",
+        "https://java-react-plataformstreaming.onrender.com"
 })
 @RequestMapping("/api/movie")
 public class MovieController {
@@ -38,8 +42,8 @@ public class MovieController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Movie>> getAllMovies() {
-        List<Movie> movie = movieService.findAll();
+    public ResponseEntity<Page<Movie>> getAllMovies(Pageable pageable) {
+        Page<Movie> movie = movieService.findAll(pageable);
         return new ResponseEntity<>(movie, HttpStatus.OK);
     }
 
