@@ -6,12 +6,10 @@ const Home = () => {
   const API_URL = "http://localhost:8080/api";
   const [series, setSeries] = useState([]);
   const [movies, setMovies] = useState([]);
-  
-  // Estados para Paginação de Filmes
+
+  // Estados para Paginação
   const [moviePage, setMoviePage] = useState(0);
   const [movieIsLast, setMovieIsLast] = useState(false);
-
-  // Estados para Paginação de Séries
   const [seriesPage, setSeriesPage] = useState(0);
   const [seriesIsLast, setSeriesIsLast] = useState(false);
 
@@ -23,9 +21,6 @@ const Home = () => {
   const seriesRef = useRef(null);
   const favRef = useRef(null);
   const moviesRef = useRef(null);
-  const disneyRef = useRef(null);
-  const dcRef = useRef(null);
-  const cartoonRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -51,8 +46,10 @@ const Home = () => {
           setFavoriteSerieList(fullUser.favoriteSeassonList || []);
         })
         .catch((error) => console.error('Erro ao carregar dados:', error));
+    } else {
+        navigate("/login");
     }
-  }, []);
+  }, [navigate]);
 
   const fetchMovies = (page = 0) => {
     fetch(`${API_URL}/movie?page=${page}&size=12`)
@@ -69,7 +66,7 @@ const Home = () => {
     fetch(`${API_URL}/series?page=${page}&size=12`)
       .then(res => res.json())
       .then(data => {
-        setSeries(data.content || []); // Pega o content do Pageable
+        setSeries(data.content || []);
         setSeriesPage(data.number);
         setSeriesIsLast(data.last);
       })
@@ -80,7 +77,6 @@ const Home = () => {
     fetchMovies(0);
     fetchSeries(0);
   }, []);
-
 
   if (!isAuthenticated) return null;
 
@@ -102,14 +98,19 @@ const Home = () => {
     <div className='home'>
       <Slide />
 
-      {!isAuthenticated && navigate("/login")}
-
       {/* Minha Lista */}
       {allFavorites.length > 0 && (
         <div className="genericContentBox">
-          <h1>Minha Lista</h1>
+          <div className="flexHomeSecction">
+            <h1>Minha Lista</h1>
+            <a href="/">Mostrar Tudo</a>
+          </div>
           <div className="slideWrapper">
-            <div className="sliderControls left" onClick={() => scroll(favRef, 'left')}><i className="fa-solid fa-angle-left"></i></div>
+            <div className="sliderControls left">
+              <div className="rowAngle" onClick={() => scroll(favRef, 'left')}>
+                <i className="fa-solid fa-angle-left"></i>
+              </div>
+            </div>
             <div className="containerContent" ref={favRef}>
               {allFavorites.map((item) => (
                 <div className="boxContent" key={item.uniqueKey}>
@@ -121,17 +122,27 @@ const Home = () => {
                 </div>
               ))}
             </div>
-            <div className="sliderControls right" onClick={() => scroll(favRef, 'right')}><i className="fa-solid fa-angle-right"></i></div>
+            <div className="sliderControls right">
+              <div className="rowAngle" onClick={() => scroll(favRef, 'right')}>
+                <i className="fa-solid fa-angle-right"></i>
+              </div>
+            </div>
           </div>
         </div>
       )}
 
       {/* SERIES */}
       <div className="genericContentBox">
-        <h1>Séries</h1>
-        <a href="/series">Mostrar Tudo</a>
+        <div className="flexHomeSecction">
+          <h1>Séries</h1>
+          <a href="/series">Mostrar Tudo</a>
+        </div>
         <div className="slideWrapper">
-          <div className="sliderControls left" onClick={() => scroll(seriesRef, 'left')}><i className="fa-solid fa-angle-left"></i></div>
+          <div className="sliderControls left">
+            <div className="rowAngle" onClick={() => scroll(seriesRef, 'left')}>
+              <i className="fa-solid fa-angle-left"></i>
+            </div>
+          </div>
           <div className="containerContent" ref={seriesRef}>
             {series.map((serieItem) => (
               <div className="boxContent" key={serieItem.id}>
@@ -143,16 +154,26 @@ const Home = () => {
               </div>
             ))}
           </div>
-          <div className="sliderControls right" onClick={() => scroll(seriesRef, 'right')}><i className="fa-solid fa-angle-right"></i></div>
+          <div className="sliderControls right">
+            <div className="rowAngle" onClick={() => scroll(seriesRef, 'right')}>
+              <i className="fa-solid fa-angle-right"></i>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* FILMES */}
       <div className="genericContentBox">
-        <h1>Filmes</h1>
-        <a href="/movies">Mostrar tudo</a>
+        <div className="flexHomeSecction">
+          <h1>Filmes</h1>
+          <a href="/movies">Mostrar tudo</a>
+        </div>
         <div className="slideWrapper">
-          <div className="sliderControls left" onClick={() => scroll(moviesRef, 'left')}><i className="fa-solid fa-angle-left"></i></div>
+          <div className="sliderControls left">
+            <div className="rowAngle" onClick={() => scroll(moviesRef, 'left')}>
+              <i className="fa-solid fa-angle-left"></i>
+            </div>
+          </div>
           <div className="containerContent" ref={moviesRef}>
             {movies.map((movieItem) => (
               <div className="boxContent" key={movieItem.id}>
@@ -164,7 +185,11 @@ const Home = () => {
               </div>
             ))}
           </div>
-          <div className="sliderControls right" onClick={() => scroll(moviesRef, 'right')}><i className="fa-solid fa-angle-right"></i></div>
+          <div className="sliderControls right">
+            <div className="rowAngle" onClick={() => scroll(moviesRef, 'right')}>
+              <i className="fa-solid fa-angle-right"></i>
+            </div>
+          </div>
         </div>
       </div>
     </div>

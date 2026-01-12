@@ -5,11 +5,11 @@
   .headerContainer {
     padding: 20px 60px;
   }
-  
+
   .optionsHeader {
     gap: 100px;
   }
-  
+
   .navigationMenu {
     gap: 50px;
   }
@@ -25,7 +25,7 @@
     gap: 4px;
     padding: 10px 4px;
   }
-  
+
   .boxContent {
     min-width: 260px;
     max-width: 300px;
@@ -37,11 +37,11 @@
   .headerContainer {
     padding: 18px 30px;
   }
-  
+
   .optionsHeader {
     gap: 60px;
   }
-  
+
   .navigationMenu {
     gap: 30px;
   }
@@ -57,12 +57,12 @@
     gap: 4px;
     padding: 10px 4px;
   }
-  
+
   .boxContent {
     min-width: 260px;
     max-width: 300px;
   }
-  
+
   .boxInformation img {
     width: 200px;
   }
@@ -73,19 +73,19 @@
   .headerContainer {
     padding: 16px 25px;
   }
-  
+
   .logoHeader img {
     width: 95px;
   }
-  
+
   .optionsHeader {
     gap: 40px;
   }
-  
+
   .navigationMenu {
     gap: 25px;
   }
-  
+
   .navigationMenu li a {
     padding: 10px 16px;
     font-size: 0.95rem;
@@ -129,12 +129,12 @@
     gap: 8px;
     padding: 10px 8px;
   }
-  
+
   .boxContent {
     min-width: 220px;
     max-width: 260px;
   }
-  
+
   .boxInformation img {
     width: 180px;
   }
@@ -147,7 +147,7 @@
   z-index: 1000;
   background: transparent;
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   width: 100%;
 }
 
@@ -170,8 +170,8 @@
   padding: 8px;
   border-radius: 6px;
   transition: all 0.3s ease;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   width: 45px;
   height: 45px;
   display: flex;
@@ -180,7 +180,7 @@
 }
 
 .mobileMenuIcon:hover {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   transform: scale(1.05);
 }
 
@@ -190,6 +190,7 @@
 
 /* === TABLET/MOBILE === */
 @media (max-width: 768px) {
+
   /* === HEADER MOBILE === */
   .headerContainer {
     padding: 15px 20px;
@@ -211,15 +212,15 @@
   .mobileMenuIcon {
     display: flex !important;
   }
-  
+
   .mobileMenuIcon i {
     font-size: 1.4rem;
   }
 
   /* Animação quando o menu está aberto */
   .mobileMenuIcon.active {
-    background: rgba(220,53,69,0.2);
-    border-color: rgba(220,53,69,0.3);
+    background: rgba(220, 53, 69, 0.2);
+    border-color: rgba(220, 53, 69, 0.3);
   }
 
   .mobileMenuIcon.active i {
@@ -252,7 +253,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(5px);
     z-index: 999;
     opacity: 0;
@@ -260,7 +261,7 @@
     transition: all 0.3s ease;
   }
 
-  .mobileMenuOpen + .mobileOverlay {
+  .mobileMenuOpen+.mobileOverlay {
     opacity: 1;
     visibility: visible;
   }
@@ -272,7 +273,7 @@
     right: -320px;
     width: 320px;
     height: 100vh;
-    background: linear-gradient(135deg, rgba(0,0,0,0.98) 0%, rgba(20,20,20,0.98) 100%);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(20, 20, 20, 0.98) 100%);
     backdrop-filter: blur(25px);
     flex-direction: column;
     justify-content: flex-start;
@@ -280,7 +281,7 @@
     padding: 20px 0 30px 0;
     gap: 30px;
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border-left: 1px solid rgba(255,255,255,0.1);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
     z-index: 1001;
     overflow-y: auto;
     display: none;
@@ -303,7 +304,7 @@
   }
 
   .navigationMenu {
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 20px;
     margin-bottom: 10px;
   }
@@ -319,7 +320,7 @@
     width: 100%;
     padding: 18px 20px;
     margin-bottom: 8px;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     font-size: 1.1rem;
     border-left: 4px solid transparent;
@@ -335,12 +336,12 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0,123,255,0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.1), transparent);
     transition: left 0.5s;
   }
 
   .navigationMenu li a:hover {
-    background: rgba(0,123,255,0.15);
+    background: rgba(0, 123, 255, 0.15);
     border-left-color: #007bff;
     transform: translateX(8px);
     color: #007bff;
@@ -358,8 +359,8 @@
     padding: 25px 20px;
     border-radius: 15px;
     gap: 20px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
   }
 
   .iconName {
@@ -367,7 +368,7 @@
     justify-content: flex-start;
     gap: 15px;
     padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .iconName a {
@@ -385,13 +386,13 @@
     justify-content: flex-start;
     padding: 15px 20px;
     border-radius: 10px;
-    background: rgba(220,53,69,0.15);
-    border: 1px solid rgba(220,53,69,0.3);
+    background: rgba(220, 53, 69, 0.15);
+    border: 1px solid rgba(220, 53, 69, 0.3);
     margin-top: 5px;
   }
 
   .logOutBox:hover {
-    background: rgba(220,53,69,0.25);
+    background: rgba(220, 53, 69, 0.25);
     transform: translateX(5px);
   }
 
@@ -417,16 +418,16 @@
   .register {
     padding: 10px;
   }
-  
+
   .backgroundBox {
     padding: 24px;
     border-radius: 16px;
   }
-  
+
   .registerCabecalho h1 {
     font-size: 2rem;
   }
-  
+
   .registerCabecalho p {
     font-size: 1rem;
   }
@@ -456,17 +457,20 @@
     transform: translateX(30px);
   }
 
-  .mobileMenuOpen .navigationMenu li:nth-child(1) { 
-    animation-delay: 0.1s; 
+  .mobileMenuOpen .navigationMenu li:nth-child(1) {
+    animation-delay: 0.1s;
   }
-  .mobileMenuOpen .navigationMenu li:nth-child(2) { 
-    animation-delay: 0.15s; 
+
+  .mobileMenuOpen .navigationMenu li:nth-child(2) {
+    animation-delay: 0.15s;
   }
-  .mobileMenuOpen .navigationMenu li:nth-child(3) { 
-    animation-delay: 0.2s; 
+
+  .mobileMenuOpen .navigationMenu li:nth-child(3) {
+    animation-delay: 0.2s;
   }
-  .mobileMenuOpen .profileMenu li { 
-    animation-delay: 0.25s; 
+
+  .mobileMenuOpen .profileMenu li {
+    animation-delay: 0.25s;
   }
 
   /* === CORREÇÕES RESPONSIVAS PARA LAYOUT === */
@@ -578,14 +582,14 @@
     scroll-behavior: smooth;
     flex-wrap: nowrap;
   }
-  
+
   .boxContent {
     flex-shrink: 0;
     min-width: 140px !important;
     max-width: 160px !important;
     margin-right: 4px;
   }
-  
+
   .boxInformation {
     display: flex;
     align-items: center;
@@ -593,7 +597,7 @@
     width: 100%;
     text-align: center;
   }
-  
+
   .boxInformation img {
     width: 130px !important;
     height: auto !important;
@@ -601,26 +605,27 @@
     object-fit: cover;
     border-radius: 8px;
   }
-  
+
   /* Ajustar botões de navegação */
   .rowAngle {
     width: 35px !important;
     height: 35px !important;
     font-size: 18px !important;
     display: none !important;
+    background-color: rgba(0, 0, 0, 0.6);
   }
-  
+
   /* Container geral mobile */
   .genericContentBox {
     margin-top: 40px;
     padding: 20px 15px;
   }
-  
+
   .genericContentBox h1 {
     font-size: 20px;
     margin-bottom: 15px;
   }
-  
+
   /* Seções especiais (Disney, DC, etc) */
   .specialSecction {
     margin-bottom: 15px;
@@ -630,54 +635,54 @@
   .containerContent::-webkit-scrollbar {
     display: none;
   }
-  
+
   .containerContent {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
+
   /* Melhorar controles do slider em mobile */
   .sliderControls {
     display: none;
     width: 50px;
-    background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
     opacity: 0.7 !important;
     pointer-events: auto !important;
   }
-  
+
   .sliderControls.right {
-    background: linear-gradient(270deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+    background: linear-gradient(270deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
   }
-  
+
   .sliderControls:active {
     opacity: 1 !important;
   }
-  
+
   /* Melhorar área de toque */
   .rowAngle {
     display: none;
     background-color: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(5px);
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
-  
+
   .rowAngle:active {
     transform: scale(0.95);
     background-color: rgba(0, 0, 0, 0.9);
   }
-  
+
   /* Links e hover states otimizados para mobile */
   .boxInformation a {
     display: block;
     width: 100%;
   }
-  
+
   .boxInformation img:active {
     transform: scale(0.98);
   }
-  
+
   /* Otimizar "Mostrar tudo" links */
-  .genericContentBox > a {
+  .genericContentBox>a {
     font-size: 13px;
     display: inline-block;
     margin-bottom: 10px;
@@ -690,7 +695,7 @@
     gap: 15px;
     margin-top: 20px;
   }
-  
+
   .buttonsAdd button {
     width: 100% !important;
     max-width: 280px;
@@ -761,11 +766,11 @@
   .registerCabecalho h1 {
     font-size: 1.8rem;
   }
-  
+
   .backgroundBox {
     padding: 20px;
   }
-  
+
   .registerBox {
     gap: 20px;
   }
@@ -801,32 +806,32 @@
     gap: 6px !important;
     padding: 8px 6px !important;
   }
-  
+
   .boxContent {
     min-width: 120px !important;
     max-width: 140px !important;
     margin-right: 3px;
   }
-  
+
   .boxInformation img {
     width: 115px !important;
     border-radius: 6px;
   }
-  
+
   .genericContentBox {
     padding: 15px 12px;
     margin-top: 30px;
   }
-  
+
   .genericContentBox h1 {
     font-size: 18px;
     margin-bottom: 12px;
   }
-  
+
   .rowAngle {
     display: none;
   }
-  
+
   .buttonsAdd button {
     height: 40px !important;
     font-size: 13px;
@@ -900,63 +905,64 @@
     gap: 4px !important;
     padding: 6px 4px !important;
   }
-  
+
   .boxContent {
     min-width: 110px !important;
     max-width: 130px !important;
     margin-right: 2px;
   }
-  
+
   .boxInformation img {
     width: 105px !important;
     border-radius: 5px;
   }
-  
+
   .genericContentBox {
     padding: 12px 10px;
     margin-top: 25px;
   }
-  
+
   .genericContentBox h1 {
     font-size: 16px;
     margin-bottom: 10px;
   }
-  
+
   .rowAngle {
     display: none;
   }
-  
+
 }
 
 /* === MOBILE SUPER PEQUENO === */
 @media (max-width: 320px) {
+
   /* === HOME MOBILE SUPER PEQUENO === */
   .containerContent {
     gap: 3px !important;
     padding: 4px 3px !important;
   }
-  
+
   .boxContent {
     min-width: 100px !important;
     max-width: 120px !important;
     margin-right: 1px;
   }
-  
+
   .boxInformation img {
     width: 95px !important;
     border-radius: 4px;
   }
-  
+
   .genericContentBox {
     padding: 10px 8px;
     margin-top: 20px;
   }
-  
+
   .genericContentBox h1 {
     font-size: 15px;
     margin-bottom: 8px;
   }
-  
+
   .rowAngle {
     display: none;
   }
@@ -967,7 +973,7 @@
   .header {
     background: transparent;
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .headerContainer {
@@ -977,7 +983,7 @@
   .mobileMenuIcon {
     display: none !important;
   }
-  
+
   .optionsHeader {
     display: flex !important;
     position: static;
@@ -1026,7 +1032,7 @@
     background: transparent;
     border-radius: 25px;
     font-size: 1rem;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease;
     position: static;
     overflow: visible;
@@ -1036,8 +1042,8 @@
   }
 
   .navigationMenu li a:hover {
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(255,255,255,0.4);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-2px);
     color: #ffffff;
   }
@@ -1085,8 +1091,8 @@
     justify-content: center;
     padding: 8px 15px;
     border-radius: 20px;
-    background: rgba(220,53,69,0.1);
-    border: 1px solid rgba(220,53,69,0.3);
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
     margin: 0;
     cursor: pointer;
     display: flex;
@@ -1095,7 +1101,7 @@
   }
 
   .logOutBox:hover {
-    background: rgba(220,53,69,0.2);
+    background: rgba(220, 53, 69, 0.2);
     transform: translateY(-2px);
   }
 
@@ -1112,7 +1118,7 @@
     margin: 0 !important;
     border-radius: 25px !important;
     background: transparent !important;
-    border: 1px solid rgba(255,255,255,0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
     color: #ffffff !important;
     text-decoration: none !important;
     display: flex !important;
@@ -1122,8 +1128,8 @@
   }
 
   .loginBtn:hover {
-    background: rgba(255,255,255,0.1) !important;
-    border-color: rgba(255,255,255,0.4) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
     transform: translateY(-2px) !important;
   }
 
@@ -1136,12 +1142,12 @@
     gap: 4px;
     padding: 10px 4px;
   }
-  
+
   .boxContent {
     min-width: 260px;
     max-width: 300px;
   }
-  
+
   .boxInformation img {
     width: 200px;
   }
@@ -1157,7 +1163,7 @@
 @media (min-width: 769px) {
   .containerContent .boxInformation img:hover {
     transform: scale(1.05);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -1170,9 +1176,17 @@
 }
 
 @keyframes hamburgerPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .mobileMenuIcon:active {
@@ -1205,18 +1219,18 @@
 }
 
 .mobileMenuIcon[aria-expanded="true"] {
-  background: rgba(220,53,69,0.2);
-  border-color: rgba(220,53,69,0.3);
+  background: rgba(220, 53, 69, 0.2);
+  border-color: rgba(220, 53, 69, 0.3);
 }
 
 /* === MODO ESCURO APRIMORADO === */
 @media (prefers-color-scheme: dark) {
   .navigationMenu li a {
-    background: rgba(255,255,255,0.03);
+    background: rgba(255, 255, 255, 0.03);
   }
-  
+
   .authenticatedBox {
-    background: rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.06);
   }
 }
 
