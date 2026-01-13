@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const AdicionarEpisodio = () => {
-  const API_URL = "http://localhost:8080/api";
+  // const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+
   
   const [series, setSeries] = useState([]);
   const [selectedSerie, setSelectedSerie] = useState(null);

@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 
 const AdicionarConteudo = () => {
-  const API_URL = "http://localhost:8080/api";
+  // const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+
 
   const [series, setSeries] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("MOVIE");
   const [category, setCategory] = useState("ACTION");
-  const [marca, setMarca] = useState("");
+  const [marca, setMarca] = useState("WARNER"); // Definido um padrão para evitar nulo
   const [age, setAge] = useState("");
   const [year, setYear] = useState("");
   const [franquia, setFranquia] = useState("");
@@ -41,31 +43,25 @@ const AdicionarConteudo = () => {
       .catch(err => console.error(err));
   }, []);
 
-  // Função para limpar o nome da pasta (remove caracteres especiais)
   const sanitizeFolderName = (name) => {
     return name
-      .normalize("NFD") // Remove acentos
+      .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-zA-Z0-9\s-]/g, "") // Remove caracteres especiais
-      .replace(/\s+/g, "_") // Substitui espaços por underline
+      .replace(/[^a-zA-Z0-9\s-]/g, "")
+      .replace(/\s+/g, "_")
       .trim();
   };
 
-  // Função para fazer upload no Cloudinary
   async function uploadToCloudinary(file, folderName) {
     const cleanFolderName = sanitizeFolderName(folderName);
-
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "Photos"); // Nome exato do preset
-    formData.append("folder", `Photos/${cleanFolderName}`); // Photos/NomeDoFilme
+    formData.append("upload_preset", "Photos");
+    formData.append("folder", `Photos/${cleanFolderName}`);
 
     const response = await fetch(
       "https://api.cloudinary.com/v1_1/dthgw4q5d/image/upload",
-      {
-        method: "POST",
-        body: formData
-      }
+      { method: "POST", body: formData }
     );
 
     if (!response.ok) {
@@ -77,48 +73,59 @@ const AdicionarConteudo = () => {
     return data.secure_url;
   }
 
-  // Função para lidar com seleção de arquivo e preview
   const handleFileChange = (e, setFile, setPreview) => {
     const file = e.target.files[0];
     if (file) {
       setFile(file);
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result);
-      };
+      reader.onloadend = () => setPreview(reader.result);
       reader.readAsDataURL(file);
     }
   };
 
-  async function addSeries() {
+  const resetForm = () => {
+    setName("");
+    setDescription("");
+    setMarca("WARNER");
+    setAge("");
+    setYear("");
+    setFranquia("");
+    setDuration("");
+    setYoutubeLink("");
+    setImageFile(null);
+    setImageVerticalFile(null);
+    setImage1File(null);
+    setImage2File(null);
+    setImage3File(null);
+    setImagePreview("");
+    setImageVerticalPreview("");
+    setImage1Preview("");
+    setImage2Preview("");
+    setImage3Preview("");
+    document.querySelectorAll('input[type="file"]').forEach(input => input.value = '');
+  };
+
+  async function addContent() {
     if (!name.trim() || !description.trim()) {
       alert("Preencha os campos obrigatórios (Nome e Descrição).");
-      return;
-    }
-
-    if (!imageFile) {
-      alert("Selecione pelo menos a imagem principal.");
       return;
     }
 
     setUploading(true);
 
     try {
-      // Upload de todas as imagens
-      const imageUrl = await uploadToCloudinary(imageFile, name);
-      const imageVerticalUrl = imageVerticalFile
-        ? await uploadToCloudinary(imageVerticalFile, name)
-        : "";
-      const image1Url = image1File
-        ? await uploadToCloudinary(image1File, name)
-        : "";
-      const image2Url = image2File
-        ? await uploadToCloudinary(image2File, name)
-        : "";
-      const image3Url = image3File
-        ? await uploadToCloudinary(image3File, name)
-        : "";
+      // Upload das imagens (mantendo sua lógica anterior)
+      const uploadPromises = [
+        uploadToCloudinary(imageFile, name),
+        imageVerticalFile ? uploadToCloudinary(imageVerticalFile, name) : Promise.resolve(""),
+        image1File ? uploadToCloudinary(image1File, name) : Promise.resolve(""),
+        image2File ? uploadToCloudinary(image2File, name) : Promise.resolve(""),
+        image3File ? uploadToCloudinary(image3File, name) : Promise.resolve(""),
+      ];
 
+      const [imageUrl, imageVerticalUrl, image1Url, image2Url, image3Url] = await Promise.all(uploadPromises);
+
+      // Criamos um objeto base com os campos comuns
       const payload = {
         name,
         description,
@@ -127,50 +134,38 @@ const AdicionarConteudo = () => {
         image2: image2Url,
         image3: image3Url,
         imageVertical: imageVerticalUrl,
-        type,
-        category,
-        marca,
+        type,      // Deve ser "MOVIE" ou "SERIES"
+        category,  // Deve bater com o Enum ContentCategory
+        marca,     // Deve bater com o Enum MarcaEnum (para Series)
         age,
-        year,
-        franquia,
-        youtubeLink,
-        duration
+        franquia
       };
 
-      const response = await fetch(`${API_URL}/movie`, {
+      // SE FOR FILME, adicionamos os campos específicos de Movie.java
+      if (type === "MOVIE") {
+        payload.duration = duration;
+        payload.youtubelink = youtubeLink; // Note o 'l' minúsculo para bater com o setter do Java
+        payload.year = year;
+      }
+
+      const endpoint = type === "MOVIE" ? "movie" : "series";
+
+      const response = await fetch(`${API_URL}/${endpoint}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
         body: JSON.stringify(payload)
       });
 
       if (response.ok) {
-        alert("Conteúdo adicionado com sucesso!");
-        // Limpar formulário
-        setName("");
-        setDescription("");
-        setMarca("");
-        setAge("");
-        setYear("");
-        setFranquia("");
-        setDuration("");
-        setYoutubeLink("");
-        setImageFile(null);
-        setImageVerticalFile(null);
-        setImage1File(null);
-        setImage2File(null);
-        setImage3File(null);
-        setImagePreview("");
-        setImageVerticalPreview("");
-        setImage1Preview("");
-        setImage2Preview("");
-        setImage3Preview("");
-
-        // Resetar os inputs de arquivo
-        document.querySelectorAll('input[type="file"]').forEach(input => {
-          input.value = '';
-        });
+        alert(`${type === "MOVIE" ? "Filme" : "Série"} adicionado com sucesso!`);
+        resetForm();
       } else {
-        throw new Error("Erro ao salvar no banco");
+        const errorText = await response.text();
+        console.error("Erro do servidor:", errorText);
+        throw new Error(`Erro ${response.status}: Falha ao salvar.`);
       }
     } catch (error) {
       alert("Erro ao adicionar conteúdo: " + error.message);
@@ -308,16 +303,18 @@ const AdicionarConteudo = () => {
               />
             </div>
 
-            {/* Duração */}
-            <div className="inputBox">
-              <label>Duração</label>
-              <input
-                type="text"
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-                placeholder="Ex: 2h 30min"
-              />
-            </div>
+            {/* Duração (Apenas para Filme) */}
+            {type === "MOVIE" && (
+              <div className="inputBox">
+                <label>Duração</label>
+                <input
+                  type="text"
+                  value={duration}
+                  onChange={(e) => setDuration(e.target.value)}
+                  placeholder="Ex: 2h 30min"
+                />
+              </div>
+            )}
 
             {/* Franquia */}
             <div className="inputBox">
@@ -396,30 +393,31 @@ const AdicionarConteudo = () => {
                     </div>
                   )}
                 </div>
-
-                {/* Link do Trailer */}
-                <div className="inputBox">
-                  <label>Link do Trailer *</label>
-                  <input
-                    type="text"
-                    value={youtubeLink}
-                    onChange={(e) => setYoutubeLink(e.target.value)}
-                    placeholder="Link do Trailer"
-                  />
-                </div>
               </div>
             </div>
+
+            {/* Link do Trailer (Apenas para Filme) */}
+            {type === "MOVIE" && (
+              <div className="inputBox fullWidth">
+                <label>Link do Trailer *</label>
+                <input
+                  type="text"
+                  value={youtubeLink}
+                  onChange={(e) => setYoutubeLink(e.target.value)}
+                  placeholder="URL do YouTube"
+                />
+              </div>
+            )}
           </div>
 
           <div className="buttonAddContainer">
-            <button onClick={addSeries} disabled={uploading}>
+            <button onClick={addContent} disabled={uploading}>
               {uploading ? "🔄 Enviando..." : "✓ Adicionar Conteúdo"}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Loading Overlay */}
       {uploading && (
         <div className="loading-overlay">
           <div className="loading-spinner"></div>

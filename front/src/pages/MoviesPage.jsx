@@ -5,7 +5,8 @@ const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLast, setIsLast] = useState(false);
-  const API_URL = "http://localhost:8080/api";
+  // const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 

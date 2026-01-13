@@ -8,7 +8,7 @@ const AdminPage = () => {
                 <div className="updateContainer">
                     <div className="updateBox">
                         <div className="updateBackground">
-                            <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1764897687/Silvermist-Profile4_qbl4sn.webp" alt="Filmes" />
+                            <img src="https://uploads.maisgoias.com.br/2022/05/f229a945-top-gun-maverick.jpg" alt="Filmes" />
                         </div>
                         <div className="updateContent">
                             <h1>Insira Filmes</h1>

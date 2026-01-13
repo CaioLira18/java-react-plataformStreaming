@@ -8,8 +8,8 @@ const Search = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [name, setName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  // const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
-  const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  // const API_URL = "http://localhost:8080/api";
 
 
   const navigate = useNavigate();

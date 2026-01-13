@@ -36,7 +36,6 @@ public class Series {
     private String image3;
 
     @OneToMany(mappedBy = "series", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference("series-seasons")
     private List<Seassons> seassonsList; // Garanta que a classe Seassons tenha o @JsonBackReference("series-seasons")
     
     @ManyToMany(mappedBy = "favoriteSeriesList")

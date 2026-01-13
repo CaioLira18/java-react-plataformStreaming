@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const Register = () => {
-  // const API_URL = "https://java-react-plataformstreaming.onrender.com/api/users";
-  const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api/users";
+  // const API_URL = "http://localhost:8080/api/users";
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [cpf, setCpf] = useState('');
