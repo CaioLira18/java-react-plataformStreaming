@@ -34,10 +34,11 @@ const SeriesPage = () => {
     <div className="pageContainer">
       <div className="containerContentPage">
         {series.map((item, i) => (
-          <div className="boxContentPage" key={i}>
-            <div className="boxInformationPage">
-              <img src={item.image} alt={item.name} />
-              <a href={"/series/" + item.id}><p>{item.name}</p></a>
+          <div className="boxContent" key={i}>
+            <div className="boxInformation">
+              <a href={"/series/" + item.id}>
+                <img src={item.imageVertical} alt={item.name} />
+              </a>
             </div>
           </div>
         ))}

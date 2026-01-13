@@ -97,11 +97,10 @@ const Search = () => {
 
       <div className="containerContentPage">
         {filteredItems.map((item, i) => (
-          <div className="boxContentPage" key={i}>
-            <div className="boxInformationPage">
-              <img src={item.image} alt={item.name} />
+          <div className="boxContent" key={i}>
+            <div className="boxInformation">
               <a href={`/${item.type === "MOVIE" ? "movies" : "series"}/${item.id}`}>
-                <p>{item.name}</p>
+                <img src={item.imageVertical} alt={item.name} />
               </a>
             </div>
           </div>

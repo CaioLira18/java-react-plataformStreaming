@@ -34,10 +34,11 @@ const MoviesPage = () => {
     <div className="pageContainer">
       <div className="containerContentPage">
         {movies.map((movie, i) => (
-          <div className="boxContentPage" key={i}>
-            <div className="boxInformationPage">
-              <img src={movie.image} alt={movie.name} />
-              <a href={"/movies/" + movie.id}><p>{movie.name}</p></a>
+          <div className="boxContent" key={i}>
+            <div className="boxInformation">
+              <a href={"/movies/" + movie.id}>
+                <img src={movie.imageVertical} alt={movie.name} />
+              </a>
             </div>
           </div>
         ))}
