@@ -268,7 +268,7 @@ const Home = () => {
             </div>
           </div>
           <div className="containerContent" ref={cartoonRef}>
-            {series.filter(item => item.marca === "cartoon").map((serieItem) => (
+            {series.filter(item => item.marca === "CARTOON").map((serieItem) => (
               <div className="boxContent" key={serieItem.id}>
                 <div className="boxInformation">
                   <a href={`/series/${serieItem.id}`}>
