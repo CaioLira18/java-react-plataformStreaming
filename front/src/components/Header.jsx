@@ -10,7 +10,9 @@ const Header = () => {
   const [users, setUsers] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const API_URL = "http://localhost:8080/api";
+  // const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
