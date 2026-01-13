@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import br.com.caio.plataform.entities.enums.ContentCategory;
 import br.com.caio.plataform.entities.enums.ContentType;
+import br.com.caio.plataform.entities.enums.MarcaEnum;
 import jakarta.persistence.*;
 
 @Entity
@@ -25,7 +26,7 @@ public class Series {
     private String image;
     private ContentCategory category;
     private ContentType type;
-    private String marca;
+    private MarcaEnum marca;
     private String imageVertical;
     private String age;
     private String franquia;
@@ -90,11 +91,11 @@ public class Series {
         this.type = type;
     }
 
-    public String getMarca() {
+    public MarcaEnum getMarca() {
         return marca;
     }
 
-    public void setMarca(String marca) {
+    public void setMarca(MarcaEnum marca) {
         this.marca = marca;
     }
 

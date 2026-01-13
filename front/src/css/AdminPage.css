@@ -1,34 +1,53 @@
-/* Container principal dos cards */
-.updateContainer {
-  display: inline-block;
-  margin: 20px;
+/* Reset e configurações globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Card individual */
+.adminPage {
+  min-height: 100vh;
+  padding: 60px 20px;
+}
+
+/* Container central com grid responsivo */
+.centerBox {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 40px;
+  padding: 20px;
+}
+
+/* Container individual do card */
+.updateContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card principal */
 .updateBox {
-  width: 400px;
-  height: 500px;
-  border-radius: 12px;
-  background-color: white;
+  width: 100%;
+  max-width: 380px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
   overflow: hidden;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
 }
 
 .updateBox:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
 }
 
-/* Background da imagem */
+/* Background da imagem com overlay */
 .updateBackground {
   width: 100%;
-  height: 300px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 280px;
   position: relative;
   overflow: hidden;
 }
@@ -36,69 +55,217 @@
 .updateBackground::before {
   content: '';
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.1);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  z-index: 2;
   transition: opacity 0.3s ease;
 }
 
 .updateBox:hover .updateBackground::before {
-  opacity: 0;
+  opacity: 0.6;
 }
 
 .updateBackground img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
-/* Conteúdo do texto */
-.updateBox h1 {
-  margin: 20px 20px 10px;
-  font-size: 24px;
-  font-weight: 700;
-  color: #2d3748;
+.updateBox:hover .updateBackground img {
+  transform: scale(1.1);
 }
 
-.updateBox p {
-  margin: 0 20px 20px;
-  font-size: 14px;
+/* Conteúdo do card */
+.updateContent {
+  padding: 30px 25px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgb(255, 246, 221) 100%
+  );
+}
+
+.updateContent h1 {
+  font-size: 26px;
   font-weight: 700;
-  color: #2d3748;
+  color: #1a202c;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+  transition: color 0.3s ease;
+}
+
+.updateBox:hover .updateContent h1 {
+  color: #19224a;
+}
+
+.updateContent p {
+  font-size: 15px;
+  font-weight: 500;
+  color: #718096;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+/* Botão estilizado */
+.buttonUpdate {
+  display: flex;
+  justify-content: center;
+}
+
+.buttonUpdate a {
+  text-decoration: none;
+  width: 100%;
 }
 
 .buttonUpdate button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 300px;
-    height: 50px;
-    margin: 0 auto;
-    background-color: #19224a;
-    border-radius: 10px;
-    transition: 0.4s all ease-in-out;
-    cursor: pointer;
+  width: 100%;
+  height: 54px;
+  background: linear-gradient(135deg, #19224a 0%, #2d3a6e 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.buttonUpdate button:hover{
-    background-color: #384372;
+.buttonUpdate button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
 }
 
-.centerBox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.buttonUpdate button:hover::before {
+  left: 100%;
 }
 
-/* Responsividade */
+.buttonUpdate button:hover {
+  background: linear-gradient(135deg, #2d3a6e 0%, #384372 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(25, 34, 74, 0.4);
+}
+
+.buttonUpdate button:active {
+  transform: translateY(0);
+}
+
+/* Responsividade aprimorada */
+@media (max-width: 1200px) {
+  .centerBox {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+}
+
 @media (max-width: 768px) {
-  .updateContainer {
-    margin: 15px auto;
-    display: block;
-    max-width: 300px;
+  .adminPage {
+    padding: 40px 15px;
   }
-  
+
+  .centerBox {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    padding: 10px;
+  }
+
   .updateBox {
-    width: 100%;
+    max-width: 100%;
   }
+
+  .updateBackground {
+    height: 240px;
+  }
+
+  .updateContent {
+    padding: 25px 20px;
+  }
+
+  .updateContent h1 {
+    font-size: 22px;
+  }
+
+  .updateContent p {
+    font-size: 14px;
+  }
+
+  .buttonUpdate button {
+    height: 50px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .adminPage {
+    padding: 30px 10px;
+  }
+
+  .updateBackground {
+    height: 200px;
+  }
+
+  .updateContent {
+    padding: 20px 15px;
+  }
+
+  .updateContent h1 {
+    font-size: 20px;
+  }
+
+  .buttonUpdate button {
+    height: 48px;
+  }
+}
+
+/* Animação de entrada */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.updateBox {
+  animation: fadeInUp 0.6s ease backwards;
+}
+
+.updateContainer:nth-child(1) .updateBox {
+  animation-delay: 0.1s;
+}
+
+.updateContainer:nth-child(2) .updateBox {
+  animation-delay: 0.2s;
+}
+
+.updateContainer:nth-child(3) .updateBox {
+  animation-delay: 0.3s;
+}
+
+.updateContainer:nth-child(4) .updateBox {
+  animation-delay: 0.4s;
 }

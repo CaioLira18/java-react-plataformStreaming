@@ -47,16 +47,24 @@
 }
 
 .contentFranquia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   margin-top: 100px;
+  width: 100%;
 }
 
 .boxInformationPageFranquia {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /* 2 colunas iguais */
+  grid-template-columns: repeat(5, 1fr); /* 5 colunas iguais */
   gap: 40px;
   align-items: center;
   justify-items: center; /* alinha os itens ao centro da célula */
+  justify-content: center; /* centraliza o grid */
   padding: 20px 0;
+  max-width: 1200px; /* largura máxima para manter organizado */
+  margin: 0 auto; /* centraliza o container */
 }
 
 

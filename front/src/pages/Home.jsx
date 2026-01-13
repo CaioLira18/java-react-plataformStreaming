@@ -21,6 +21,9 @@ const Home = () => {
   const seriesRef = useRef(null);
   const favRef = useRef(null);
   const moviesRef = useRef(null);
+  const disneyRef = useRef(null);
+  const dcRef = useRef(null);
+  const cartoonRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -187,6 +190,96 @@ const Home = () => {
           </div>
           <div className="sliderControls right">
             <div className="rowAngle" onClick={() => scroll(moviesRef, 'right')}>
+              <i className="fa-solid fa-angle-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* DISNEY */}
+      <div className="genericContentBox">
+        <div className="specialSecction">
+          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070612/logoDisney_twejpl.png" alt="logo disney" />
+        </div>
+        <div className="slideWrapper">
+          <div className="sliderControls left">
+            <div className="rowAngle" onClick={() => scroll(disneyRef, 'left')}>
+              <i className="fa-solid fa-angle-left"></i>
+            </div>
+          </div>
+          <div className="containerContent" ref={disneyRef}>
+            {movies.filter(item => item.marca === "DISNEY").map((movieItem) => (
+              <div className="boxContent" key={movieItem.id}>
+                <div className="boxInformation">
+                  <a href={`/movies/${movieItem.id}`}>
+                    <img src={movieItem.imageVertical} alt={movieItem.name} />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="sliderControls right">
+            <div className="rowAngle" onClick={() => scroll(disneyRef, 'right')}>
+              <i className="fa-solid fa-angle-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* DC */}
+      <div className="genericContentBox">
+        <div className="specialSecction">
+          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="logo dc" />
+        </div>
+        <div className="slideWrapper">
+          <div className="sliderControls left">
+            <div className="rowAngle" onClick={() => scroll(dcRef, 'left')}>
+              <i className="fa-solid fa-angle-left"></i>
+            </div>
+          </div>
+          <div className="containerContent" ref={dcRef}>
+            {movies.filter(item => item.marca === "DC").map((movieItem) => (
+              <div className="boxContent" key={movieItem.id}>
+                <div className="boxInformation">
+                  <a href={`/movies/${movieItem.id}`}>
+                    <img src={movieItem.imageVertical} alt={movieItem.name} />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="sliderControls right">
+            <div className="rowAngle" onClick={() => scroll(dcRef, 'right')}>
+              <i className="fa-solid fa-angle-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CARTOON */}
+      <div className="genericContentBox">
+        <div className="specialSecction">
+          <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754688018/logoMarcaCartoon_of4twi.png" alt="logo cartoon" />
+        </div>
+        <div className="slideWrapper">
+          <div className="sliderControls left">
+            <div className="rowAngle" onClick={() => scroll(cartoonRef, 'left')}>
+              <i className="fa-solid fa-angle-left"></i>
+            </div>
+          </div>
+          <div className="containerContent" ref={cartoonRef}>
+            {series.filter(item => item.marca === "cartoon").map((serieItem) => (
+              <div className="boxContent" key={serieItem.id}>
+                <div className="boxInformation">
+                  <a href={`/series/${serieItem.id}`}>
+                    <img src={serieItem.imageVertical} alt={serieItem.name} />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="sliderControls right">
+            <div className="rowAngle" onClick={() => scroll(cartoonRef, 'right')}>
               <i className="fa-solid fa-angle-right"></i>
             </div>
           </div>

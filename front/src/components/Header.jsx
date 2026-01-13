@@ -89,9 +89,6 @@ const Header = () => {
             <a href="/" className="hbo-nav-link">Início</a>
             <a href="/series" className="hbo-nav-link">Séries</a>
             <a href="/movies" className="hbo-nav-link">Filmes</a>
-            {isAdmin && (
-              <a href="/adminpage" className="hbo-nav-link">Admin</a>
-            )}
           </nav>
 
           <div className="hbo-right">
