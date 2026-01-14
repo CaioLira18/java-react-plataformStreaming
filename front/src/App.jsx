@@ -19,6 +19,7 @@ import AdminPage from './pages/AdminPage'
 import { DeleteMoviePage } from './pages/deletePages/DeleteMoviePage'
 import DeleteSeriePage from './pages/deletePages/DeleteSeriePage'
 import DeleteSeassonPage from './pages/deletePages/DeleteSeassonPage'
+import { Favorites } from './pages/Favorites'
 
 function App() {
   
@@ -33,6 +34,7 @@ function App() {
         <Route path="/series" element={<SeriesPage />} />
         <Route path="/movies" element={<MoviesPage />} />
         <Route path="/Edit" element={<Edit />} />
+        <Route path="/favorites" element={<Favorites />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/AdicionarTemporadas" element={<AdicionarTemporada />} />
         <Route path="/AdicionarConteudo" element={<AdicionarConteudo />} />

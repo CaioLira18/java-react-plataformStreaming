@@ -106,7 +106,7 @@ ul, ol {
 .containerContentPage {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: start;
   gap: 20px;
   padding: 20px;
   margin-top: 100px;
@@ -458,6 +458,14 @@ ul, ol {
 
 .space {
   padding: 20px;
+}
+
+.favoritePageContainer {
+  margin-top: 100px;
+}
+
+.headerList {
+  padding: 30px;
 }
 
 /* Responsividade */

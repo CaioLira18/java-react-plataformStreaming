@@ -110,6 +110,10 @@ const Header = () => {
               <i className="fa-solid fa-magnifying-glass"></i>
             </NavLink>
 
+            <NavLink to="/favorites" className="hbo-search-btn">
+              <i class="fa-regular fa-bookmark"></i>
+            </NavLink>
+
             {!isAuthenticated ? (
               <NavLink to="/login" className="hbo-user-btn">
                 <i className="fa-solid fa-user"></i>
