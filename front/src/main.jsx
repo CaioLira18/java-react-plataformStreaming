@@ -18,6 +18,7 @@ import './css/Search.css'
 import './css/ModalTrailer.css'
 import './css/Modal.css'
 import './css/AdminPage.css'
+import './css/Favorite.css'
 import './css/DeletePages.css'
 
 
