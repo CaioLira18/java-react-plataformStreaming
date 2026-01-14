@@ -117,6 +117,7 @@ export const DeleteSeriePage = () => {
         <div className="modal-overlay">
           <div className="modal-container">
             <h2>Confirmar Exclusão</h2>
+            <img className='imageDeleteModal' src={selectedSerie.image} alt="" />
             <p>Você tem certeza que deseja excluir a serie: <strong>{selectedSerie?.name}</strong>?</p>
             <div className="modal-actions">
               <button className="btn-cancel" onClick={closeModal}>Cancelar</button>
