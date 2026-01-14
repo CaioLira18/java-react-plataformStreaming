@@ -4,5 +4,6 @@ public enum MarcaEnum {
   DISNEY,
   DC,
   WARNER,
-  CARTOON;
+  CARTOON,
+  PARAMOUNT;
 }

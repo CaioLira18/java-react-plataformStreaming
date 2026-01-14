@@ -265,6 +265,7 @@ const AdicionarConteudo = () => {
                 <option value="DISNEY">DISNEY</option>
                 <option value="WARNER">WARNER</option>
                 <option value="CARTOON">CARTOON</option>
+                <option value="PARAMOUNT">PARAMOUNT</option>
               </select>
             </div>
 

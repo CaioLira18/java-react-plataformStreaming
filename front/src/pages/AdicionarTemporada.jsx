@@ -87,7 +87,7 @@ const AdicionarTemporada = () => {
 
             {/* Input Nome da Temporada */}
             <div className="inputBox">
-              <label>Nome da Temporada *</label>
+              <label className='seassonLabel'>Nome da Temporada *</label>
               <input 
                 type="text" 
                 value={seasonName} 

@@ -2,6 +2,7 @@
 .containerAddSeasson {
   min-height: 100vh;
   padding: 40px 20px;
+  margin-top: 100px;
 }
 
 .boxAddSeasson {
@@ -56,6 +57,10 @@ label {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.seassonLabel {
+  margin-top: 30px;
 }
 
 /* Inputs e Selects */

@@ -13,8 +13,8 @@ const Series = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [favoriteList, setFavoriteList] = useState([]);
   const [user, setUser] = useState(null);
-  const API_URL = "http://localhost:8080/api";
-  // const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  // const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
   {
     !isAuthenticated && (
       navigate('/login')

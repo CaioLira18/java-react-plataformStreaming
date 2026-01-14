@@ -3,6 +3,7 @@ package br.com.caio.plataform.entities;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import br.com.caio.plataform.entities.enums.ContentCategory;
@@ -36,7 +37,8 @@ public class Series {
     private String image3;
 
     @OneToMany(mappedBy = "series", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Seassons> seassonsList; // Garanta que a classe Seassons tenha o @JsonBackReference("series-seasons")
+    @JsonIgnoreProperties("series")
+    private List<Seassons> seassonsList;
     
     @ManyToMany(mappedBy = "favoriteSeriesList")
     @JsonIgnore

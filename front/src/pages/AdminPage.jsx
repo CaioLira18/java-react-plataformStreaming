@@ -5,6 +5,7 @@ const AdminPage = () => {
     return (
         <div className="adminPage">
             <div className="centerBox">
+                {/*Adicionar Filmes*/}
                 <div className="updateContainer">
                     <div className="updateBox">
                         <div className="updateBackground">
@@ -22,6 +23,7 @@ const AdminPage = () => {
                     </div>
                 </div>
 
+                {/*Adicionar Series*/}
                 <div className="updateContainer">
                     <div className="updateBox">
                         <div className="updateBackground">
@@ -39,6 +41,7 @@ const AdminPage = () => {
                     </div>
                 </div>
 
+                {/*Adicionar Temporadas*/}
                 <div className="updateContainer">
                     <div className="updateBox">
                         <div className="updateBackground">
@@ -56,10 +59,11 @@ const AdminPage = () => {
                     </div>
                 </div>
 
+                {/*Deletar Filme*/}
                 <div className="updateContainer">
                     <div className="updateBox">
                         <div className="updateBackground">
-                            <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1764903493/coming-soon-letter-hanging-door-600nw-2497993761_mgpqmi.webp" alt="Coming Soon" />
+                            <img src="https://m.media-amazon.com/images/S/pv-target-images/bde8881567b130a785647cfa67c3a89c6583ebe6bee758ebf2129b89c7d6a9e8._SX1080_FMjpg_.jpg" alt="Coming Soon" />
                         </div>
                         <div className="updateContent">
                             <h1>Deletar Filmes</h1>
@@ -73,10 +77,11 @@ const AdminPage = () => {
                     </div>
                 </div>
 
+                {/*Deletar Serie*/}
                 <div className="updateContainer">
                     <div className="updateBox">
                         <div className="updateBackground">
-                            <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1764903493/coming-soon-letter-hanging-door-600nw-2497993761_mgpqmi.webp" alt="Coming Soon" />
+                            <img src="https://www.theglobeandmail.com/resizer/v2/G3AEAOIC7JFORNXCTNL4OGNQLQ.JPG?auth=48decce108a795a3de3e9c8d85bc615f3477e341f6fa79923de4b81827833be9&width=1200&quality=80" alt="Coming Soon" />
                         </div>
                         <div className="updateContent">
                             <h1>Delete Serie</h1>
@@ -90,16 +95,17 @@ const AdminPage = () => {
                     </div>
                 </div>
 
+                {/*Deletar Temporadas*/}
                 <div className="updateContainer">
                     <div className="updateBox">
                         <div className="updateBackground">
-                            <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1764903493/coming-soon-letter-hanging-door-600nw-2497993761_mgpqmi.webp" alt="Coming Soon" />
+                            <img src="https://m.media-amazon.com/images/S/pv-target-images/3e41d0768d4fe9bd835fad6807f1e431ac41a63a0afab7bddd62fe732c5e79d3._SX1080_FMjpg_.jpg" alt="Coming Soon" />
                         </div>
                         <div className="updateContent">
                             <h1>Deletar Temporadas</h1>
                             <p>Delete Temporadas</p>
                             <div className="buttonUpdate">
-                                <a href="/deleteTemporadas">
+                                <a href="/deleteSeasson">
                                     <button>Deletar</button>
                                 </a>
                             </div>

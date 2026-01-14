@@ -35,7 +35,7 @@ public class SeassonsController {
     // Novo método para criar temporada por ID da série
     @PostMapping("/series/{seriesId}")
     public ResponseEntity<Seassons> createSeasonBySeries(
-            @PathVariable String seriesId, 
+            @PathVariable String seriesId,
             @RequestBody CreateSeasonDTO seasonDTO) {
         try {
             Seassons createdSeason = seassonsService.createSeasonBySeries(seriesId, seasonDTO.getName());
