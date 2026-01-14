@@ -201,6 +201,7 @@
 .serieDescription {
   margin-bottom: 20px;
   max-width: 450px;
+  margin-top: 20px;
 }
 
 .serieDescription p {

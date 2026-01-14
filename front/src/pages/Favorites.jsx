@@ -6,10 +6,11 @@ export const Favorites = () => {
   const [favoriteSerieList, setFavoriteSerieList] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState(null); // Corrigido: Estado adicionado
+  const [selectedItem, setSelectedItem] = useState(null); // Corrigido: Estado adicionado
   const [name, setName] = useState('');
   const [userId, setUserId] = useState(null); // Corrigido: Para usar no handle
-  const API_URL = "http://localhost:8080/api";
+  // const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
   const navigate = useNavigate();
 
   // Função para buscar dados (centralizada para ser reusada)
@@ -20,7 +21,7 @@ export const Favorites = () => {
         setIsAuthenticated(true);
         setName(fullUser.name);
         setFavoriteMovieList(fullUser.favoriteMovieList || []);
-        setFavoriteSerieList(fullUser.favoriteSeassonList || []);
+        setFavoriteSerieList(fullUser.favoriteSeriesList || []);
       })
       .catch((error) => console.error('Erro ao carregar dados:', error));
   };
@@ -36,33 +37,33 @@ export const Favorites = () => {
     }
   }, [navigate]);
 
-  const openModal = (movie) => {
-    setSelectedMovie(movie);
+  const openModal = (item) => {
+    setSelectedItem(item);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedMovie(null);
+    setSelectedItem(null);
   };
 
   const handleAddToFavorites = async () => {
-    if (!isAuthenticated || !userId || !selectedMovie) {
+    if (!isAuthenticated || !userId || !selectedItem) {
       alert("Erro ao processar solicitação.");
       return;
     }
 
     // Verifica se já é favorito para decidir entre DELETE ou POST
     const isAlreadyFavorite = [...favoriteMovieList, ...favoriteSerieList].some(
-      (item) => item.id === selectedMovie.id
+      (item) => item.id === selectedItem.id
     );
 
     try {
       const method = isAlreadyFavorite ? "DELETE" : "POST";
-      const endpoint = selectedMovie.type === 'MOVIE' ? 'movie' : 'serie';
+      const endpoint = selectedItem.type === 'MOVIE' ? 'movie' : 'series';
 
       const response = await fetch(
-        `${API_URL}/favorites/${endpoint}/${selectedMovie.id}/${userId}`,
+        `${API_URL}/favorites/${endpoint}/${selectedItem.id}/${userId}`,
         { method, headers: { "Content-Type": "application/json" } }
       );
 
@@ -98,16 +99,23 @@ export const Favorites = () => {
 
         {allFavorites.length > 0 ? (
           <div className="containerContentPage">
-            {allFavorites.map((movie) => (
-              <div className="boxContent" key={movie.uniqueKey}>
+            {allFavorites.map((item) => (
+              <div className="boxContent" key={item.uniqueKey}>
                 <div className="boxInformation">
                   <div className="modalIcon">
                     {/* Corrigido: Função anônima no onClick */}
-                    <i onClick={() => openModal(movie)} className="fa-solid fa-ellipsis"></i>
+                    <i onClick={() => openModal(item)} className="fa-solid fa-ellipsis"></i>
                   </div>
-                  <a href={`/movies/${movie.id}`}>
-                    <img src={movie.imageVertical} alt={movie.name} />
-                  </a>
+                  {item.type == "MOVIE" && (
+                    <a href={`/movies/${item.id}`}>
+                      <img src={item.imageVertical} alt={item.name} />
+                    </a>
+                  )}
+                  {item.type == "SERIE" && (
+                    <a href={`/series/${item.id}`}>
+                      <img src={item.imageVertical} alt={item.name} />
+                    </a>
+                  )}
                 </div>
               </div>
             ))}
@@ -124,12 +132,12 @@ export const Favorites = () => {
           <div className="modal-container">
             <div className="modal-actions">
               <div className="favoritePageMovieOptions">
-                <img className='favotitePageImage' src={selectedMovie.image} alt="" />
+                <img className='favotitePageImage' src={selectedItem.image} alt="" />
                 <div className="favoritePageMovieButtons">
-                  <button className="btn-confirm" onClick={handleAddToFavorites}>
-                    <i class="fa-solid fa-trash"></i> Remover da Lista
-                  </button>
-                  <button className="btn-cancel" onClick={closeModal}>Cancelar</button>
+                      <button className="btn-confirm" onClick={handleAddToFavorites}>
+                        <i class="fa-solid fa-trash"></i> Remover da Lista
+                      </button>
+                      <button className="btn-cancel" onClick={closeModal}>Cancelar</button>
                 </div>
               </div>
             </div>

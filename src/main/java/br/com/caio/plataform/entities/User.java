@@ -20,40 +20,33 @@ public class User {
 
     @Column(nullable = false)
     private String name;
-    
+
     @Column(nullable = false, unique = true)
     private String email;
 
     private String photo;
-    
-    @Enumerated(EnumType.STRING) 
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 50)
     private UserRole role;
-    
+
     @Column(nullable = false)
     private String password;
-    
+
     @Column(unique = true)
     private String cpf;
 
     @ManyToMany
-    @JoinTable(
-        name = "user_favorite_movies",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "movie_id")
-    )
+    @JoinTable(name = "user_favorite_movies", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "movie_id"))
     private List<Movie> favoriteMovieList = new ArrayList<>();
 
     @ManyToMany
-    @JoinTable(
-        name = "user_favorite_series",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "series_id")
-    )
+    @JoinTable(name = "user_favorite_series", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "series_id"))
     private List<Series> favoriteSeriesList = new ArrayList<>();
 
     // Construtor padrão
-    public User() {}
+    public User() {
+    }
 
     // Construtor com parâmetros essenciais
     public User(String name, String email, UserRole role, String password) {
@@ -135,5 +128,4 @@ public class User {
         this.favoriteSeriesList = favoriteSeriesList;
     }
 
-    
 }

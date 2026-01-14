@@ -23,7 +23,7 @@ public class Series {
 
     @Column(columnDefinition = "TEXT")
     private String description;
-    
+
     private String image;
     private ContentCategory category;
     private ContentType type;
@@ -39,7 +39,7 @@ public class Series {
     @OneToMany(mappedBy = "series", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties("series")
     private List<Seassons> seassonsList;
-    
+
     @ManyToMany(mappedBy = "favoriteSeriesList")
     @JsonIgnore
     private List<User> usersWhoFavorited;
@@ -164,5 +164,19 @@ public class Series {
         this.usersWhoFavorited = usersWhoFavorited;
     }
 
-    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof Series))
+            return false;
+        Series series = (Series) o;
+        return id != null && id.equals(series.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
 }

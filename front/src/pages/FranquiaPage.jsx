@@ -4,8 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 const FranquiaPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    // const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
-    const API_URL = "http://localhost:8080/api";
+    const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+    // const API_URL = "http://localhost:8080/api";
 
     const [series, setSeries] = useState([]);
     const [movies, setMovies] = useState([]);

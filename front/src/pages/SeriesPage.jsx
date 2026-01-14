@@ -6,8 +6,8 @@ const SeriesPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isLast, setIsLast] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const API_URL = "http://localhost:8080/api";
-  // const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  // const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
   const navigate = useNavigate();
   {
     !isAuthenticated && (

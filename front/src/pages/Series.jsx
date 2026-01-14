@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const Series = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  
   const [serie, setSerie] = useState(null);
   const [imdbRating, setImdbRating] = useState(null);
   const [seassons, setSeassons] = useState([]);
@@ -13,15 +14,20 @@ const Series = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [favoriteList, setFavoriteList] = useState([]);
   const [user, setUser] = useState(null);
-  const API_URL = "http://localhost:8080/api";
-  // const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
-  {
-    !isAuthenticated && (
-      navigate('/login')
-    )
-  }
+  // const API_URL = "http://localhost:8080/api";
+  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
 
+  // Função para buscar dados atualizados do usuário (favoritos)
+  const fetchUserData = useCallback((userId) => {
+    fetch(`${API_URL}/users/${userId}`)
+      .then(response => response.json())
+      .then(userData => {
+        setFavoriteList(userData.favoriteSeriesList || []);
+      })
+      .catch(err => console.error("Erro ao buscar dados do usuário:", err));
+  }, [API_URL]);
 
+  // Verificação de autenticação e carga inicial do usuário
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -30,20 +36,16 @@ const Series = () => {
         setUser(parsedUser);
         setIsAuthenticated(true);
         setIsAdmin(parsedUser.role === 'ADMIN');
-
-        fetch(`${API_URL}/users/${parsedUser.id}`)
-          .then(response => response.json())
-          .then(userData => {
-            setFavoriteList(userData.favoriteSeassonList || []);
-          })
-          .catch(err => console.error("Erro ao buscar dados do usuário:", err));
+        fetchUserData(parsedUser.id);
       } catch (error) {
         console.error("Erro ao carregar dados do usuário:", error);
       }
+    } else {
+      navigate('/login');
     }
-  }, []);
+  }, [navigate, fetchUserData]);
 
-  // LOGICA PAGEABLE: Fetch direto pelo ID para evitar erro de .find no objeto de paginação
+  // Busca os dados da série
   useEffect(() => {
     fetch(`${API_URL}/series/${id}`)
       .then(response => response.json())
@@ -58,8 +60,9 @@ const Series = () => {
         }
       })
       .catch(err => console.error("Erro ao buscar dados da série:", err));
-  }, [id]);
+  }, [id, API_URL]);
 
+  // Busca o rating no OMDB
   useEffect(() => {
     if (!serie?.name) return;
 
@@ -77,38 +80,34 @@ const Series = () => {
     fetchRating();
   }, [serie]);
 
+  // Lógica correta para verificar se esta série específica está nos favoritos
+  const isInFavorites = favoriteList.some(item => item.id === serie?.id);
+
   const handleAddToFavorites = async () => {
-    if (!user) {
-      alert("Você precisa estar logado para adicionar aos favoritos.");
+    if (!isAuthenticated || !user || !serie) {
+      alert("Você precisa estar logado para adicionar aos favoritos!");
       return;
     }
 
     try {
-      const seasonToAdd = seassons[0];
-      if (!seasonToAdd) {
-        alert("Nenhuma temporada disponível para adicionar.");
-        return;
+      // Se já está nos favoritos, o método deve ser DELETE (ou conforme sua API tratar)
+      const method = isInFavorites ? "DELETE" : "POST";
+      const response = await fetch(
+        `${API_URL}/favorites/series/${serie.id}/${user.id}`,
+        { 
+          method, 
+          headers: { "Content-Type": "application/json" } 
+        }
+      );
+
+      if (response.ok) {
+        // Recarrega a lista de favoritos do backend para atualizar o ícone
+        fetchUserData(user.id);
       }
-
-      const response = await fetch(`${API_URL}/users/${user.id}/favorites`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ seassonId: seasonToAdd.id })
-      });
-
-      if (!response.ok) throw new Error();
-
-      const updatedUser = await response.json();
-      setFavoriteList(updatedUser.favoriteSeassonList || []);
-      alert("Série adicionada à sua lista!");
     } catch (error) {
-      alert("Erro ao adicionar série à lista.");
+      console.error("Erro ao processar favoritos:", error);
     }
   };
-
-  const isInFavorites = favoriteList.some(item =>
-    seassons.some(season => season.id === item.id)
-  );
 
   if (!serie) {
     return (
@@ -133,10 +132,10 @@ const Series = () => {
           <div className="serieHeroContent">
             <div className="movieBrand">
               {serie.marca === "DC" && (
-                <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="" />
+                <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="DC Logo" />
               )}
               {serie.marca === "WARNER" && (
-                <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754851380/logoMarca_tmnmvb.png" alt="" />
+                <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754851380/logoMarca_tmnmvb.png" alt="Warner Logo" />
               )}
             </div>
 
@@ -176,14 +175,15 @@ const Series = () => {
               </button>
             </div>
 
-            <div className="secondaryActions">
-              {!isAuthenticated && isAdmin && (
-                <button className="actionButton" onClick={() => navigate(`/AdicionarEpisodio/${serie.id}`)}>
-                  <i className="fa-solid fa-plus-circle"></i>
-                  <span>Adicionar Episódio</span>
-                </button>
+            {/* Botão de Favoritos corrigido */}
+            <button onClick={handleAddToFavorites} className="actionButton">
+              {isInFavorites ? (
+                <i className="fa-solid fa-check" style={{ color: '#2ecc71' }}></i>
+              ) : (
+                <i className="fa-solid fa-plus"></i>
               )}
-            </div>
+              <span>{isInFavorites ? "Na lista" : "Minha lista"}</span>
+            </button>
 
             <div className="serieDescription">
               <p>{serie.description}</p>
