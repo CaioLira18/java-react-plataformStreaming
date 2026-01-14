@@ -394,3 +394,27 @@
   transform: scale(1.05);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
 }
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  gap: 20px;
+}
+
+.paginationControls button {
+  width: 100px;
+  background-color: transparent;
+  border: 1px solid white;
+  padding: 10px;
+  color: white;
+  border-radius: 20px;
+  transition: 0.3s all ease-in-out;
+}
+
+.paginationControls button:hover {
+  color: #000;
+  background-color: white;
+  cursor: pointer;
+}

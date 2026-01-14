@@ -13,7 +13,13 @@ const Movie = () => {
   const [user, setUser] = useState(null);
   const [showTrailer, setShowTrailer] = useState(false);
   const [youtubeLink, setYoutubeLink] = useState("");
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  // const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  const API_URL = "http://localhost:8080/api";
+  {
+    !isAuthenticated && (
+      navigate('/login')
+    )
+  }
 
   useEffect(() => {
     if (!movie?.name) return;
@@ -99,7 +105,7 @@ const Movie = () => {
         const response = await fetch(`${API_URL}/movie/${id}`);
         if (!response.ok) throw new Error();
         const data = await response.json();
-        
+
         setMovie(data);
         if (data.youtubelink && data.youtubelink.trim() !== '') {
           setYoutubeLink(convertYouTubeToEmbed(data.youtubelink));

@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Slide from '../components/Slide';
 
 const Home = () => {
-  // const API_URL = "http://localhost:8080/api";
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  const API_URL = "http://localhost:8080/api";
+  // const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
   const [series, setSeries] = useState([]);
   const [movies, setMovies] = useState([]);
 
@@ -25,7 +25,6 @@ const Home = () => {
   const disneyRef = useRef(null);
   const dcRef = useRef(null);
   const cartoonRef = useRef(null);
-
   const navigate = useNavigate();
 
   const scroll = (ref, direction) => {
@@ -51,9 +50,15 @@ const Home = () => {
         })
         .catch((error) => console.error('Erro ao carregar dados:', error));
     } else {
-        navigate("/login");
+      navigate("/login");
     }
   }, [navigate]);
+
+  {
+    !isAuthenticated && (
+      navigate('/login')
+    )
+  }
 
   const fetchMovies = (page = 0) => {
     fetch(`${API_URL}/movie?page=${page}&size=12`)
@@ -196,7 +201,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      
+
       {/* DISNEY */}
       <div className="genericContentBox">
         <div className="specialSecction">

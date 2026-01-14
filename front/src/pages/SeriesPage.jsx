@@ -6,9 +6,14 @@ const SeriesPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isLast, setIsLast] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // const API_URL = "http://localhost:8080/api";
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  const API_URL = "http://localhost:8080/api";
+  // const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
   const navigate = useNavigate();
+  {
+    !isAuthenticated && (
+      navigate('/login')
+    )
+  }
 
   const fetchSeries = (page) => {
     fetch(`${API_URL}/series?page=${page}&size=20`)
@@ -45,7 +50,6 @@ const SeriesPage = () => {
         ))}
       </div>
 
-      {/* 
       <div className="paginationControls">
         <button 
           disabled={currentPage === 0} 
@@ -61,7 +65,7 @@ const SeriesPage = () => {
           Próxima
         </button>
       </div>
-      */}
+      <div className="space"></div>
     </div>
   )
 }

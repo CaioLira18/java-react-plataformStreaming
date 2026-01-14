@@ -62,11 +62,45 @@ const AdminPage = () => {
                             <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1764903493/coming-soon-letter-hanging-door-600nw-2497993761_mgpqmi.webp" alt="Coming Soon" />
                         </div>
                         <div className="updateContent">
-                            <h1>Coming Soon</h1>
-                            <p>Atualize, Insira ou Delete Series</p>
+                            <h1>Deletar Filmes</h1>
+                            <p>Delete Filmes</p>
                             <div className="buttonUpdate">
-                                <a href="/adicionarconteudo">
-                                    <button>Inserir</button>
+                                <a href="/deleteMovie">
+                                    <button>Deletar</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="updateContainer">
+                    <div className="updateBox">
+                        <div className="updateBackground">
+                            <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1764903493/coming-soon-letter-hanging-door-600nw-2497993761_mgpqmi.webp" alt="Coming Soon" />
+                        </div>
+                        <div className="updateContent">
+                            <h1>Delete Serie</h1>
+                            <p>Delete Series</p>
+                            <div className="buttonUpdate">
+                                <a href="/deleteSerie">
+                                    <button>Deletar</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="updateContainer">
+                    <div className="updateBox">
+                        <div className="updateBackground">
+                            <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1764903493/coming-soon-letter-hanging-door-600nw-2497993761_mgpqmi.webp" alt="Coming Soon" />
+                        </div>
+                        <div className="updateContent">
+                            <h1>Deletar Temporadas</h1>
+                            <p>Delete Temporadas</p>
+                            <div className="buttonUpdate">
+                                <a href="/deleteTemporadas">
+                                    <button>Deletar</button>
                                 </a>
                             </div>
                         </div>

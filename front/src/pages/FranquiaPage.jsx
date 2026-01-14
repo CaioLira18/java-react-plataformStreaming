@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 const FranquiaPage = () => {
-const { id } = useParams();
-const navigate = useNavigate();
-const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
-// const API_URL = "http://localhost:8080/api";
+    const { id } = useParams();
+    const navigate = useNavigate();
+    // const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+    const API_URL = "http://localhost:8080/api";
 
     const [series, setSeries] = useState([]);
     const [movies, setMovies] = useState([]);
@@ -29,6 +29,12 @@ const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
             navigate('/login');
         }
     }, [navigate]);
+
+    {
+        !isAuthenticated && (
+            navigate('/login')
+        )
+    }
 
     useEffect(() => {
         if (!isAuthenticated) return;
@@ -115,7 +121,7 @@ const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
                     {series.length > 0 && (
                         <div className="boxInformationPageFranquia">
                             {series
-                                .filter(serie => serie.franquia === collection.franquia) 
+                                .filter(serie => serie.franquia === collection.franquia)
                                 .map(serie => (
                                     <div key={serie.id}>
                                         <a href={`/series/${serie.id}`}>
@@ -130,7 +136,7 @@ const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
                     {movies.length > 0 && (
                         <div className="boxInformationPageFranquia">
                             {movies
-                                .filter(movie => movie.franquia === collection.franquia) 
+                                .filter(movie => movie.franquia === collection.franquia)
                                 .sort((a, b) => a.year - b.year)
                                 .map(movie => (
                                     <div key={movie.id}>

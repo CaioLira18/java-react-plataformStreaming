@@ -7,7 +7,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: black;
+  background-color: #000
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
@@ -103,13 +103,13 @@ ul, ol {
 }
 
 /* Search */
-
 .containerContentPage {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
   padding: 20px;
+  margin-top: 100px;
 }
 
 .boxContentPage {
@@ -454,6 +454,10 @@ ul, ol {
 .buttonAddContainer button:active {
   transform: translateY(0);
   box-shadow: 0 6px 15px rgba(0, 180, 216, 0.3);
+}
+
+.space {
+  padding: 20px;
 }
 
 /* Responsividade */

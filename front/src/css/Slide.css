@@ -8,7 +8,7 @@
   padding: 0;
   overflow: hidden;
   gap: 0;
-  margin-bottom: 100px;
+  position: relative;
 }
 
 .container-images {
@@ -32,7 +32,6 @@
       rgba(0, 0, 0, 0.6) 40%,
       rgba(0, 0, 0, 1) 100%);
   pointer-events: none;
-  /* evita bloquear cliques */
 }
 
 .image-overlay {
@@ -46,24 +45,20 @@
       rgba(0, 0, 0, 0.6) 40%,
       rgb(0, 0, 0) 100%);
   z-index: 2;
-  /* sobre a imagem */
 }
 
 .slide-container img.slider {
   z-index: 1;
-  /* imagem */
 }
 
 .franquiaInformations {
   z-index: 3;
-  /* texto sobre o gradiente */
 }
 
 .container-images img {
   position: relative;
   z-index: 1;
 }
-
 
 .slide-container {
   position: absolute;
@@ -305,6 +300,11 @@
 }
 
 @media (max-width: 768px) {
+  .container-slider {
+    top: -60px;
+    margin-top: -60px;
+  }
+
   .franquiaInformations {
     width: calc(100% - 40px);
     left: 20px;

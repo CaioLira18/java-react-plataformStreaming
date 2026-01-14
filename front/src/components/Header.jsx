@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -9,11 +9,17 @@ const Header = () => {
   const [userId, setUserId] = useState(null);
   const [users, setUsers] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const navigate = useNavigate();
-  // const API_URL = "http://localhost:8080/api";
   const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
 
+  const links = [
+    { name: 'Início', to: '/' },
+    { name: 'Séries', to: '/series' },
+    { name: 'Filmes', to: '/movies' },
+  ];
 
+  // Autenticação
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -24,105 +30,111 @@ const Header = () => {
         setIsAuthenticated(true);
         setName(userData.name);
         setIsAdmin(userData.role === 'ADMIN');
-        setUserId(userData.id)
+        setUserId(userData.id);
+        setImage(userData.photo);
       } catch (error) {
-        console.error("Erro ao carregar dados do usuário:", error);
+        console.error("Erro ao carregar usuário:", error);
       }
     }
   }, []);
 
+  // Buscar usuários
   useEffect(() => {
-    fetch(`${API_URL}/users`)
-      .then(response => response.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setUsers(data);
-        } else {
-          console.error('Formato inesperado para Users:', data);
-        }
-      })
-      .catch(error => console.error('Erro ao buscar Users:', error));
-  }, []);
+    if (isAuthenticated) {
+      fetch(`${API_URL}/users`)
+        .then(res => res.json())
+        .then(data => Array.isArray(data) && setUsers(data))
+        .catch(err => console.error(err));
+    }
+  }, [isAuthenticated]);
 
+  // Resize mobile
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setIsMenuOpen(false);
-      }
+      if (window.innerWidth > 768) setIsMenuOpen(false);
     };
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  function removeProfile() {
+  const removeProfile = () => {
     localStorage.removeItem("user");
     setIsAuthenticated(false);
     setIsAdmin(false);
     setName('');
-    setImage('');
-    setUserId('');
+    setImage(null);
+    setUserId(null);
     setIsMenuOpen(false);
     navigate('/login');
-  }
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
   };
 
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
+
+  const userPhoto =
+    users.find(u => u.id === userId)?.photo ||
+    image ||
+    "https://res.cloudinary.com/dthgw4q5d/image/upload/v1753994647/icon_fzzpew.png";
 
   return (
     <>
       <header className="hbo-header">
         <div className="hbo-container">
           <div className="hbo-logo">
-            <a href="/">
+            <NavLink to="/">
               <img
                 src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1753825253/logo_wzqgvp.png"
                 alt="Logo"
               />
-            </a>
+            </NavLink>
           </div>
 
+          {/* DESKTOP NAV */}
           <nav className="hbo-nav">
-            <a href="/" className="hbo-nav-link">Início</a>
-            <a href="/series" className="hbo-nav-link">Séries</a>
-            <a href="/movies" className="hbo-nav-link">Filmes</a>
+            {links.map(link => (
+              <NavLink
+                key={link.name}
+                to={link.to}
+                end={link.to === '/'}
+                className={({ isActive }) =>
+                  `hbo-nav-link ${isActive ? 'active' : ''}`
+                }
+              >
+                {link.name}
+              </NavLink>
+            ))}
           </nav>
 
           <div className="hbo-right">
-            <a href="/search" className="hbo-search-btn">
+            <NavLink to="/search" className="hbo-search-btn">
               <i className="fa-solid fa-magnifying-glass"></i>
-            </a>
+            </NavLink>
 
             {!isAuthenticated ? (
-              <a href="/login" className="hbo-user-btn">
+              <NavLink to="/login" className="hbo-user-btn">
                 <i className="fa-solid fa-user"></i>
-              </a>
+              </NavLink>
             ) : (
               <div className="hbo-user-menu">
-                <img
-                  src={users.find(user => user.id == userId)?.photo || "https://res.cloudinary.com/dthgw4q5d/image/upload/v1753994647/icon_fzzpew.png"}
-                  alt="Perfil"
-                  className="hbo-user-avatar"
-                />
+                <img src={userPhoto} alt="Perfil" className="hbo-user-avatar" />
+
                 <div className="hbo-dropdown">
                   <div className="hbo-dropdown-header">
                     <div className="hbo-dropdown-name">{name}</div>
                   </div>
-                  <a href="/Edit" className="hbo-dropdown-item">
+
+                  <NavLink to="/Edit" className="hbo-dropdown-item">
                     <i className="fa-solid fa-user"></i>
                     <span>Minha Conta</span>
-                  </a>
+                  </NavLink>
+
                   {isAdmin && (
-                    <a href="/adminpage" className="hbo-dropdown-item">
+                    <NavLink to="/adminpage" className="hbo-dropdown-item">
                       <i className="fa-solid fa-user-shield"></i>
                       <span>Admin Portal</span>
-                    </a>
+                    </NavLink>
                   )}
+
                   <div className="hbo-dropdown-item hbo-logout" onClick={removeProfile}>
                     <i className="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Sair</span>
@@ -138,65 +150,68 @@ const Header = () => {
         </div>
       </header>
 
-      <div className={`hbo-mobile-overlay ${isMenuOpen ? 'active' : ''}`} onClick={closeMenu}></div>
+      {/* OVERLAY */}
+      <div
+        className={`hbo-mobile-overlay ${isMenuOpen ? 'active' : ''}`}
+        onClick={closeMenu}
+      />
 
+      {/* MOBILE MENU */}
       <div className={`hbo-mobile-menu ${isMenuOpen ? 'active' : ''}`}>
         <div className="hbo-mobile-header">
-          <div className="hbo-logo">
-            <img
-              src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1753825253/logo_wzqgvp.png"
-              alt="Logo"
-            />
-          </div>
-          <button className="hbo-mobile-close" onClick={closeMenu}>
+          <button className='closeMenuHeader' onClick={closeMenu}>
             <i className="fa-solid fa-times"></i>
           </button>
         </div>
 
         <nav className="hbo-mobile-nav">
-          <a href="/" className="hbo-mobile-link" onClick={closeMenu}>
-            <i className="fa-solid fa-house"></i>
-            <span>Início</span>
-          </a>
-          <a href="/series" className="hbo-mobile-link" onClick={closeMenu}>
-            <i className="fa-solid fa-clapperboard"></i>
-            <span>Séries</span>
-          </a>
-          <a href="/movies" className="hbo-mobile-link" onClick={closeMenu}>
-            <i className="fa-solid fa-film"></i>
-            <span>Filmes</span>
-          </a>
-          <a href="/search" className="hbo-mobile-link" onClick={closeMenu}>
-            <i className="fa-solid fa-magnifying-glass"></i>
-            <span>Pesquisar</span>
-          </a>
+          {links.map(link => (
+            <NavLink
+              key={link.name}
+              to={link.to}
+              end={link.to === '/'}
+              onClick={closeMenu}
+              className={({ isActive }) =>
+                `hbo-mobile-link ${isActive ? 'active' : ''}`
+              }
+            >
+              {link.name}
+            </NavLink>
+          ))}
+
+          <NavLink to="/search" onClick={closeMenu} className="hbo-mobile-link">
+            Pesquisar
+          </NavLink>
+
           {isAdmin && (
-            <a href="/adminpage" className="hbo-mobile-link" onClick={closeMenu}>
-              <i className="fa-solid fa-user-shield"></i>
-              <span>Admin Page</span>
-            </a>
+            <NavLink to="/adminpage" onClick={closeMenu} className="hbo-mobile-link">
+              Admin Page
+            </NavLink>
           )}
         </nav>
 
         <div className="hbo-mobile-user">
           {!isAuthenticated ? (
-            <a href="/login" className="hbo-mobile-link" onClick={closeMenu}>
-              <i className="fa-solid fa-user"></i>
-              <span>Fazer Login</span>
-            </a>
+            <NavLink to="/login" onClick={closeMenu} className="hbo-mobile-link">
+              Fazer Login
+            </NavLink>
           ) : (
             <>
-              <a href="/Edit" className="hbo-mobile-link" onClick={closeMenu}>
+              <NavLink to="/Edit" onClick={closeMenu} className="hbo-mobile-link">
                 <img
-                  src={image || "https://res.cloudinary.com/dthgw4q5d/image/upload/v1753994647/icon_fzzpew.png"}
+                  src={userPhoto}
                   alt="Perfil"
-                  style={{ width: '24px', height: '24px', borderRadius: '4px' }}
+                  style={{ width: 24, height: 24, borderRadius: 4 }}
                 />
-                <span>{name}</span>
-              </a>
-              <div className="hbo-mobile-link" onClick={removeProfile} style={{ color: '#e74c3c' }}>
-                <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                <span>Sair</span>
+                {name}
+              </NavLink>
+
+              <div
+                className="hbo-mobile-link"
+                onClick={removeProfile}
+                style={{ color: '#e74c3c' }}
+              >
+                Sair
               </div>
             </>
           )}

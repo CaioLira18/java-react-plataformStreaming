@@ -16,6 +16,7 @@ import AdicionarConteudo from './pages/AdicionarConteudo'
 import FranquiaPage from './pages/FranquiaPage'
 import Search from './pages/Search'
 import AdminPage from './pages/AdminPage'
+import { DeleteMoviePage } from './pages/deletePages/DeleteMoviePage'
 
 function App() {
   
@@ -34,6 +35,7 @@ function App() {
         <Route path="/AdicionarTemporadas" element={<AdicionarTemporada />} />
         <Route path="/AdicionarConteudo" element={<AdicionarConteudo />} />
         <Route path="/AdicionarEpisodio/:id" element={<AdicionarEpisodio />} />
+        <Route path="/deleteMovie" element={<DeleteMoviePage />} />
         <Route path="/search" element={<Search />} />
         <Route path="/franquia/:id" element={<FranquiaPage />} />
         <Route path="/adminpage" element={<AdminPage />} />

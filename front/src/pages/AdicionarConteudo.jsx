@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AdicionarConteudo = () => {
-  // const API_URL = "http://localhost:8080/api";
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  const API_URL = "http://localhost:8080/api";
+  // const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
 
 
   const [series, setSeries] = useState([]);

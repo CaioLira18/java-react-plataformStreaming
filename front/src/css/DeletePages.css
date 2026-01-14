@@ -1,0 +1,39 @@
+.deletePageContainer {
+  margin-top: 100px;
+}
+
+.itemPageContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 100px;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  padding: 20px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.itemPageBox {
+  transition: 0.3s all ease-in-out;
+}
+
+.itemPageBox:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.itemPageBoxImage img {
+  width: 300px;
+}
+
+.itemPageBoxInformation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 10px;
+  margin-top: 20px;
+}

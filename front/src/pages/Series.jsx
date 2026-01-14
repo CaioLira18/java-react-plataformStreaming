@@ -2,19 +2,24 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const Series = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [serie, setSerie] = useState(null); 
+  const [serie, setSerie] = useState(null);
   const [imdbRating, setImdbRating] = useState(null);
-  const [seassons, setSeassons] = useState([]); 
-  const [episodes, setEpisodes] = useState([]); 
+  const [seassons, setSeassons] = useState([]);
+  const [episodes, setEpisodes] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [favoriteList, setFavoriteList] = useState([]);
   const [user, setUser] = useState(null);
-  // const API_URL = "http://localhost:8080/api";
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  const API_URL = "http://localhost:8080/api";
+  // const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  {
+    !isAuthenticated && (
+      navigate('/login')
+    )
+  }
 
 
   useEffect(() => {
@@ -25,7 +30,7 @@ const Series = () => {
         setUser(parsedUser);
         setIsAuthenticated(true);
         setIsAdmin(parsedUser.role === 'ADMIN');
-        
+
         fetch(`${API_URL}/users/${parsedUser.id}`)
           .then(response => response.json())
           .then(userData => {
@@ -101,7 +106,7 @@ const Series = () => {
     }
   };
 
-  const isInFavorites = favoriteList.some(item => 
+  const isInFavorites = favoriteList.some(item =>
     seassons.some(season => season.id === item.id)
   );
 
@@ -134,18 +139,18 @@ const Series = () => {
                 <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754851380/logoMarca_tmnmvb.png" alt="" />
               )}
             </div>
-            
+
             <h1 className="serieMainTitle">{serie.name}</h1>
-            
+
             <div className="serieTags">
               <span className="serieTag serieTagNew">Novo</span>
               <span className="serieTag serieTagRating">{serie.age}</span>
               <span className="serieTag serieTagQuality">4K UHD</span>
             </div>
-            
+
             {seassons.length > 0 && (
               <div className="seasonSelector">
-                <select 
+                <select
                   onChange={(e) => {
                     const season = seassons.find(s => s.name === e.target.value);
                     setSelectedSeason(season);
@@ -159,7 +164,7 @@ const Series = () => {
                 </select>
               </div>
             )}
-            
+
             <div className="flexMovie">
               <button className="watchButton">
                 <i className="fa-solid fa-play"></i>
@@ -172,14 +177,14 @@ const Series = () => {
             </div>
 
             <div className="secondaryActions">
-              {isAuthenticated && isAdmin && (
+              {!isAuthenticated && isAdmin && (
                 <button className="actionButton" onClick={() => navigate(`/AdicionarEpisodio/${serie.id}`)}>
                   <i className="fa-solid fa-plus-circle"></i>
                   <span>Adicionar Episódio</span>
                 </button>
               )}
             </div>
-            
+
             <div className="serieDescription">
               <p>{serie.description}</p>
             </div>
@@ -206,7 +211,7 @@ const Series = () => {
                     <span>Duração: {episode.duration}</span>
                     <span>{episode.year}</span>
                   </div>
-                </div>   
+                </div>
               </div>
             ))}
           </div>

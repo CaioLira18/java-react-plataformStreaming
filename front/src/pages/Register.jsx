@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const API_URL = "https://java-react-plataformstreaming.onrender.com/api/users";
@@ -124,6 +125,10 @@ const Register = () => {
           <button onClick={handleCreateUser} disabled={loading}>
             {loading ? 'Salvando...' : 'Criar Conta'}
           </button>
+        </div>
+
+        <div className="registerLink">
+          <p>Já tem conta? <a href="/login">Faça Login</a></p>
         </div>
 
         {message && (

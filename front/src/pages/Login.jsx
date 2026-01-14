@@ -11,15 +11,13 @@ const Login = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
   // const API_URL = "http://localhost:8080/api";
-
-  
   const navigate = useNavigate();
 
   useEffect(() => {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        setIsAuthenticated(true);
-      }
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setIsAuthenticated(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -49,10 +47,10 @@ const Login = () => {
           token: response.data.token,
           authenticated: true,
         };
-        
+
         localStorage.setItem("user", JSON.stringify(userData));
         setSuccess("Login realizado com sucesso!");
-        setIsAuthenticated(true); 
+        setIsAuthenticated(true);
       }
     } catch (error) {
       if (error.response) {
