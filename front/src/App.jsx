@@ -17,6 +17,7 @@ import FranquiaPage from './pages/FranquiaPage'
 import Search from './pages/Search'
 import AdminPage from './pages/AdminPage'
 import { DeleteMoviePage } from './pages/deletePages/DeleteMoviePage'
+import DeleteSeriePage from './pages/deletePages/DeleteSeriePage'
 
 function App() {
   
@@ -36,6 +37,7 @@ function App() {
         <Route path="/AdicionarConteudo" element={<AdicionarConteudo />} />
         <Route path="/AdicionarEpisodio/:id" element={<AdicionarEpisodio />} />
         <Route path="/deleteMovie" element={<DeleteMoviePage />} />
+        <Route path="/deleteSerie" element={<DeleteSeriePage />} />
         <Route path="/search" element={<Search />} />
         <Route path="/franquia/:id" element={<FranquiaPage />} />
         <Route path="/adminpage" element={<AdminPage />} />
