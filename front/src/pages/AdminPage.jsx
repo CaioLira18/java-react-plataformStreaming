@@ -112,6 +112,24 @@ const AdminPage = () => {
                         </div>
                     </div>
                 </div>
+
+                {/*Adicionar Temporadas*/}
+                <div className="updateContainer">
+                    <div className="updateBox">
+                        <div className="updateBackground">
+                            <img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1764902884/tbbt_2_oshudg.jpg" alt="Series" />
+                        </div>
+                        <div className="updateContent">
+                            <h1>Adicionar Episodios</h1>
+                            <p>Adicionar Episodios</p>
+                            <div className="buttonUpdate">
+                                <a href="/viewSeries">
+                                    <button>Inserir</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

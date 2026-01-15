@@ -11,7 +11,8 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigate = useNavigate();
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  // const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  const API_URL = "http://localhost:8080/api";
 
   const links = [
     { name: 'Início', to: '/' },

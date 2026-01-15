@@ -25,9 +25,16 @@ public class Series {
     private String description;
 
     private String image;
+
+    @Enumerated(EnumType.STRING)
     private ContentCategory category;
+
+    @Enumerated(EnumType.STRING)
     private ContentType type;
+
+    @Enumerated(EnumType.STRING)
     private MarcaEnum marca;
+
     private String imageVertical;
     private String age;
     private String franquia;

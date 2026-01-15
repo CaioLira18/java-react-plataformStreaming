@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 const Series = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [serie, setSerie] = useState(null);
   const [imdbRating, setImdbRating] = useState(null);
   const [seassons, setSeassons] = useState([]);
@@ -46,6 +46,7 @@ const Series = () => {
   }, [navigate, fetchUserData]);
 
   // Busca os dados da série
+  // Busca os dados da série
   useEffect(() => {
     fetch(`${API_URL}/series/${id}`)
       .then(response => response.json())
@@ -56,7 +57,10 @@ const Series = () => {
 
         if (seasonList.length > 0) {
           setSelectedSeason(seasonList[0]);
-          setEpisodes(seasonList[0].episodesList || []);
+          const sortedEpisodes = (seasonList[0].episodesList || []).sort((a, b) => {
+            return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
+          });
+          setEpisodes(sortedEpisodes);
         }
       })
       .catch(err => console.error("Erro ao buscar dados da série:", err));
@@ -94,9 +98,9 @@ const Series = () => {
       const method = isInFavorites ? "DELETE" : "POST";
       const response = await fetch(
         `${API_URL}/favorites/series/${serie.id}/${user.id}`,
-        { 
-          method, 
-          headers: { "Content-Type": "application/json" } 
+        {
+          method,
+          headers: { "Content-Type": "application/json" }
         }
       );
 
@@ -202,6 +206,7 @@ const Series = () => {
                   <img src={episode.imageEpisode} alt={episode.name} />
                   <div className="episodeOverlay">
                     <button className="playEpisodeButton"><i className="fa-solid fa-play"></i></button>
+                    <button className="playEpisodeButton"><i class="fa-solid fa-ellipsis"></i></button>
                   </div>
                 </div>
                 <div className="episodeInfo">

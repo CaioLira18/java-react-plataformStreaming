@@ -1,0 +1,147 @@
+/* AdicionarEpisodio.css */
+:root {
+  --primary-color: #00b4d8;
+  --bg-dark: #0a0a0a;
+  --card-bg: #1a1a1a;
+  --text-main: #ffffff;
+  --text-muted: #a0a0a0;
+  --input-bg: #2d2d2d;
+  --transition: all 0.3s ease;
+}
+
+.episode-page-container {
+  min-height: 100vh;
+  background-color: var(--bg-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  margin-top: 100px;
+}
+
+.episode-form-card {
+  background-color: var(--card-bg);
+  width: 100%;
+  max-width: 600px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.episode-header-banner {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-bottom: 4px solid var(--primary-color);
+}
+
+.episode-form-content {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-section-title {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  border-left: 4px solid var(--primary-color);
+  padding-left: 10px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.input-field, .select-field, .textarea-field {
+  background-color: var(--input-bg);
+  border: 1px solid transparent;
+  padding: 12px 15px;
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.input-field:focus, .select-field:focus, .textarea-field:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background-color: #333;
+}
+
+.textarea-field {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Estilização do Upload de Arquivo */
+.file-upload-wrapper {
+  position: relative;
+}
+
+.custom-file-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: var(--input-bg);
+  border: 2px dashed #444;
+  padding: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.custom-file-label:hover {
+  border-color: var(--primary-color);
+  background-color: #333;
+}
+
+.preview-container {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.image-preview-img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.submit-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+.submit-button:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 180, 216, 0.4);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}

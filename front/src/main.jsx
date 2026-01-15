@@ -20,6 +20,7 @@ import './css/Modal.css'
 import './css/AdminPage.css'
 import './css/Favorite.css'
 import './css/DeletePages.css'
+import './css/AdicionarEpisodio.css'
 
 
 import App from './App.jsx'

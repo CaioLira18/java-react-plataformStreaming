@@ -1,5 +1,3 @@
-/* Series */
-
 /* Hero Section para Séries */
 .serieHeroSection {
   position: relative;
@@ -19,12 +17,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    200deg,
-    rgba(0, 0, 0, 0.1) 0%,
-    rgba(0, 0, 0, 0.3) 40%,
-    rgba(0, 0, 0, 0.8) 100%
-  );
+  background: linear-gradient(200deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.3) 40%,
+      rgba(0, 0, 0, 0.8) 100%);
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
@@ -56,13 +52,6 @@
   font-weight: bold;
   font-size: 18px;
   letter-spacing: 2px;
-}
-
-.brandText {
-  color: white;
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 1px;
 }
 
 /* Título Principal */
@@ -101,7 +90,9 @@
   color: white;
 }
 
-.serieTagRating, .serieTagYear, .serieTagQuality {
+.serieTagRating,
+.serieTagYear,
+.serieTagQuality {
   background: rgba(255, 255, 255, 0.2);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -111,7 +102,6 @@
 .seasonSelector {
   margin-bottom: 20px;
 }
-
 .seasonSelector select {
   background: rgba(255, 255, 255, 0.1);
   color: white;
@@ -124,17 +114,7 @@
   min-width: 200px;
 }
 
-.seasonSelector select:focus {
-  outline: none;
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-.seasonSelector option {
-  background: #333;
-  color: white;
-}
-
-/* Botão Principal */
+/* Botão Principal e Ações */
 .watchButton {
   display: flex;
   align-items: center;
@@ -157,18 +137,6 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-.watchButton i {
-  font-size: 14px;
-}
-
-/* Ações Secundárias */
-.secondaryActions {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-}
-
 .actionButton {
   display: flex;
   flex-direction: column;
@@ -182,22 +150,7 @@
   padding: 8px;
 }
 
-.actionButton:hover {
-  color: #ccc;
-  transform: translateY(-2px);
-}
-
-.actionButton i {
-  font-size: 20px;
-  margin-bottom: 4px;
-}
-
-.actionButton span {
-  font-size: 12px;
-  font-weight: 500;
-}
-
-/* Descrição */
+/* Descrição da Série */
 .serieDescription {
   margin-bottom: 20px;
   max-width: 450px;
@@ -212,19 +165,7 @@
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* Informações Técnicas */
-.serieTechInfo {
-  margin-top: 20px;
-}
-
-.serieTechInfo p {
-  color: #999;
-  font-size: 12px;
-  line-height: 1.4;
-  margin: 0;
-}
-
-/* Seção de Episódios */
+/* SEÇÃO DE EPISÓDIOS - CORRIGIDA */
 .episodesSection {
   padding: 80px 5% 60px;
   background: #000;
@@ -234,14 +175,16 @@
   color: white;
   font-size: 2rem;
   margin-bottom: 40px;
-  text-align: center;
+  text-align: start;
 }
 
 .episodesGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* Grid responsivo */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 30px;
-  margin-bottom: 40px;
+  align-items: stretch;
+  /* Garante que os itens da linha estiquem juntos */
 }
 
 .episodeCard {
@@ -250,6 +193,10 @@
   overflow: hidden;
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.1);
+
+  /* Layout Flex para alinhar verticalmente */
+  display: flex;
+  flex-direction: column;
 }
 
 .episodeCard:hover {
@@ -261,7 +208,8 @@
 .episodeImageContainer {
   position: relative;
   width: 100%;
-  height: 200px;
+  aspect-ratio: 16/9;
+  /* Mantém a proporção da imagem fixa */
   overflow: hidden;
 }
 
@@ -269,33 +217,107 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
 }
 
-.episodeCard:hover .episodeImageContainer img {
+.episodeInfo {
+  padding: 20px;
+  flex-grow: 1;
+  /* Faz a área de texto ocupar o espaço restante */
+  display: flex;
+  flex-direction: column;
+}
+
+.episodeInfo h3 {
+  color: white;
+  font-size: 1.1rem;
+  margin: 0 0 10px 0;
+  font-weight: 600;
+}
+
+.episodeDescription {
+  color: #ccc;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0 0 15px 0;
+
+  /* LIMITAR LINHAS E MANTER ALINHAMENTO */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  /* Corta o texto na 3ª linha */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 4.5em;
+  /* Garante espaço mesmo se o texto for curto */
+}
+
+.episodeMetadata {
+  margin-top: auto;
+  /* Empurra os metadados para o rodapé do card */
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #999;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 10px;
+}
+
+/* Seção de Imagens Extras */
+.serieImagesSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 80px 0;
+  padding: 0 5%;
+  gap: 40px;
+  font-size: 20px;
+}
+
+.serieImages {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.serieImages img {
+  width: 100%;
+  max-width: 350px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+.serieImages img:hover {
   transform: scale(1.05);
 }
 
+/* Controla a camada escura e o botão centralizado no hover */
 .episodeOverlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.6); /* Fundo escurecido */
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  opacity: 0;
+  opacity: 0; /* Invisível por padrão */
   transition: opacity 0.3s ease;
+  z-index: 2;
+  gap: 20px;
 }
 
+/* Faz o overlay aparecer quando o card recebe hover */
 .episodeCard:hover .episodeOverlay {
   opacity: 1;
 }
 
-.playEpisodeButton, .episodeOptionsButton {
+.playEpisodeButton,
+.episodeOptionsButton {
   background: rgba(255, 255, 255, 0.9);
   border: none;
   width: 50px;
@@ -308,92 +330,16 @@
   transition: all 0.3s ease;
 }
 
-.playEpisodeButton:hover, .episodeOptionsButton:hover {
+.playEpisodeButton:hover,
+.episodeOptionsButton:hover {
   background: white;
   transform: scale(1.1);
 }
 
-.playEpisodeButton i, .episodeOptionsButton i {
+.playEpisodeButton i,
+.episodeOptionsButton i {
   color: #000;
   font-size: 18px;
-}
-
-.episodeInfo {
-  padding: 20px;
-}
-
-.episodeInfo h3 {
-  color: white;
-  font-size: 1.3rem;
-  margin: 0 0 10px 0;
-  font-weight: 600;
-}
-
-.episodeDescription {
-  color: #ccc;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin: 0 0 15px 0;
-}
-
-.episodeMetadata {
-  display: flex;
-  gap: 20px;
-  font-size: 0.8rem;
-  color: #999;
-}
-
-.episodeDisclaimer {
-  text-align: center;
-  padding: 20px;
-  background: rgba(255, 193, 7, 0.1);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 193, 7, 0.3);
-}
-
-.episodeDisclaimer p {
-  color: #ffc107;
-  margin: 0;
-  font-size: 14px;
-}
-
-/* Seção de Imagens */
-.serieImagesSection {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin: 80px 0;
-  padding: 0 5%;
-  box-sizing: border-box;
-}
-
-.serieImagesSection h2 {
-  color: white;
-  font-size: 2rem;
-  margin-bottom: 40px;
-}
-
-.serieImages {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-}
-
-.serieImagesSection img {
-  width: 400px;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 8px;
-  transition: 0.3s all ease-in-out;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.serieImagesSection img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
 }
 
 .paginationControls {

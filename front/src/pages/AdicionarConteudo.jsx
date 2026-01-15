@@ -261,11 +261,12 @@ const AdicionarConteudo = () => {
             <div className="inputBox">
               <label>Marca</label>
               <select value={marca} onChange={(e) => setMarca(e.target.value)}>
-                <option value="DC">DC</option>
                 <option value="DISNEY">DISNEY</option>
+                <option value="DC">DC</option>
                 <option value="WARNER">WARNER</option>
                 <option value="CARTOON">CARTOON</option>
                 <option value="PARAMOUNT">PARAMOUNT</option>
+                <option value="NICKELODEON">NICKELODEON</option>
               </select>
             </div>
 
