@@ -4,7 +4,7 @@ import Slide from '../components/Slide';
 
 const Home = () => {
   const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
-  
+
   // Estados de Dados
   const [series, setSeries] = useState([]);
   const [movies, setMovies] = useState([]);
@@ -27,7 +27,7 @@ const Home = () => {
   const dcRef = useRef(null);
   const cartoonRef = useRef(null);
   const destaquesRef = useRef(null);
-  
+
   const navigate = useNavigate();
 
   // --- FUNÇÕES DE CARREGAMENTO ---
@@ -121,21 +121,38 @@ const Home = () => {
       {/* MINHA LISTA */}
       {allFavorites.length > 0 && (
         <div className="genericContentBox">
-          <div className="flexHomeSecction"><h1>Minha Lista</h1><a href="/">Mostrar Tudo</a></div>
+          <div className="flexHomeSecction">
+            <h1>Minha Lista</h1>
+            <a href="/">Mostrar Tudo</a>
+          </div>
           <div className="slideWrapper">
-            <div className="sliderControls left" onClick={() => scroll(favRef, 'left')}><i className="fa-solid fa-angle-left"></i></div>
+            <div className="sliderControls left" onClick={() => scroll(favRef, 'left')}>
+              <i className="fa-solid fa-angle-left"></i>
+            </div>
             <div className="containerContent" ref={favRef}>
               {allFavorites.map((item) => (
                 <div className="boxContent" key={item.uniqueKey}>
                   <div className="boxInformation">
-                    <a href={`/${item.type === 'MOVIE' ? 'movies' : 'series'}/${item.id}`}>
-                      <img src={item.imageVertical || item.image} alt={item.name} />
-                    </a>
+                    <div>
+                      {/* CORREÇÃO: Removidas as chaves extras no terceiro argumento do openModal */}
+                      <div
+                        className="ellipsisBox"
+                        onClick={(e) => openModal(e, item, item.type === "SERIE" ? 'SERIE' : 'MOVIE')}
+                      >
+                        <i className="fa-solid fa-ellipsis-vertical"></i>
+                      </div>
+
+                      <a href={`/${item.type === 'SERIE' ? 'series' : 'movies'}/${item.id}`}>
+                        <img src={item.imageVertical || item.image} alt={item.name} />
+                      </a>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="sliderControls right" onClick={() => scroll(favRef, 'right')}><i className="fa-solid fa-angle-right"></i></div>
+            <div className="sliderControls right" onClick={() => scroll(favRef, 'right')}>
+              <i className="fa-solid fa-angle-right"></i>
+            </div>
           </div>
         </div>
       )}
@@ -258,33 +275,32 @@ const Home = () => {
       {openModalItem && selectedItem && (
         <>
           <div className="modal-streaming-overlay" onClick={closeModal}></div>
-          <div 
+          <div
             className="modal-streaming-content"
-            style={{ 
-              top: `${modalPos.y}px`, 
-              left: `${modalPos.x}px` 
+            style={{
+              top: `${modalPos.y}px`,
+              left: `${modalPos.x}px`
             }}
           >
-            <button 
+            <button
               className="modal-streaming-item"
               onClick={() => {
-                selectedItem.itemType === "MOVIE" 
-                  ? handleAddMovieToFavorites(selectedItem.id) 
+                selectedItem.itemType === "MOVIE"
+                  ? handleAddMovieToFavorites(selectedItem.id)
                   : handleAddSerieToFavorites(selectedItem.id);
               }}
             >
-              <i className={`fa-solid ${
-                (selectedItem.itemType === "MOVIE" ? movieIsInFavorites : serieIsInFavorites) 
+              <i className={`fa-solid ${(selectedItem.itemType === "MOVIE" ? movieIsInFavorites : serieIsInFavorites)
                 ? 'fa-check' : 'fa-plus'
-              }`}></i>
+                }`}></i>
               <span>
-                {(selectedItem.itemType === "MOVIE" ? movieIsInFavorites : serieIsInFavorites) 
+                {(selectedItem.itemType === "MOVIE" ? movieIsInFavorites : serieIsInFavorites)
                   ? "Remover da lista" : "Adicionar à minha lista"}
               </span>
             </button>
 
-            <NavLink 
-              to={`/${selectedItem.itemType === 'MOVIE' ? 'movies' : 'series'}/${selectedItem.id}`} 
+            <NavLink
+              to={`/${selectedItem.itemType === 'MOVIE' ? 'movies' : 'series'}/${selectedItem.id}`}
               className="modal-streaming-item"
             >
               <i className="fa-solid fa-circle-info"></i>
