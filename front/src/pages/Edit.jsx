@@ -20,9 +20,6 @@ const Edit = () => {
   const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
   // const API_URL = "http://localhost:8080/api";
   const navigate = useNavigate();
-  {!isAuthenticated && (
-    navigate('/login')
-  )}
 
 
   useEffect(() => {
@@ -388,3 +385,5 @@ const Edit = () => {
 
 
 export default Edit;
+
+
