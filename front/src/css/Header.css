@@ -1,14 +1,23 @@
-/* Header Estilo HBO Max - FIXO */
+/* Estado inicial: Totalmente limpo */
 .hbo-header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  width: 99%;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 100%);
-  backdrop-filter: blur(12px);
+  width: 100%;
   z-index: 1000;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease-in-out;
+    background: transparent !important;
+  backdrop-filter: blur(0px) !important;
+  -webkit-backdrop-filter: blur(0px) !important;
+  border-bottom: 1px solid transparent;
+}
+
+.hbo-header.scrolled {
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .hbo-container {
@@ -83,6 +92,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
+  height: 40px;
 }
 
 .hbo-search-btn:hover,

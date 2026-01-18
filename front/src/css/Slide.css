@@ -29,9 +29,10 @@
   height: 100%;
   background: linear-gradient(180deg,
       rgba(0, 0, 0, 0.1) 0%,
-      rgba(0, 0, 0, 0.6) 40%,
+      rgba(0, 0, 0, 0.6) 60%,
       rgba(0, 0, 0, 1) 100%);
   pointer-events: none;
+  z-index: 5;
 }
 
 .image-overlay {
@@ -40,11 +41,26 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg,
-      rgba(0, 0, 0, 0.1) 0%,
-      rgba(0, 0, 0, 0.6) 40%,
-      rgb(0, 0, 0) 100%);
-  z-index: 2;
+  background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+  z-index: 4; /* Acima do vídeo (2) e imagem (1) */
+  pointer-events: none;
+}
+
+.video-franquia {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2; 
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  pointer-events: none;
+}
+
+.video-franquia.visible {
+  opacity: 1;
 }
 
 .slide-container img.slider {
@@ -52,7 +68,7 @@
 }
 
 .franquiaInformations {
-  z-index: 3;
+  z-index: 10;
 }
 
 .container-images img {

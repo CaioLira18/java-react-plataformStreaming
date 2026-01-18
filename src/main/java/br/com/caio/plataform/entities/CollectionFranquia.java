@@ -16,6 +16,7 @@ public class CollectionFranquia {
     private String backgroundFranquia;
     private String descricaoFranquia;
     private String logoFranquia;
+    private String videoFranquia;
 
     // Construtor padrão
     public CollectionFranquia() {
@@ -69,4 +70,14 @@ public class CollectionFranquia {
     public void setLogoFranquia(String logoFranquia) {
         this.logoFranquia = logoFranquia;
     }
+
+    public String getVideoFranquia() {
+        return videoFranquia;
+    }
+
+    public void setVideoFranquia(String videoFranquia) {
+        this.videoFranquia = videoFranquia;
+    }
+
+
 }

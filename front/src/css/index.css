@@ -26,15 +26,6 @@
   box-sizing: border-box;
 }
 
-
-html, body {
-  height: 100%;
-  width: 100%;
-  font-family: sans-serif;
-  color: #fff;            /* texto branco como base */
-  overflow-x: hidden;
-}
-
 a {
   text-decoration: none;
   color: inherit; /* herda a cor do elemento pai */

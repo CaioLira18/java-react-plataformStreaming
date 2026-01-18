@@ -39,6 +39,7 @@ public class CollectionFranquiaService {
         collectionToUpdate.setBackgroundFranquia(collectionFranquia.getBackgroundFranquia());
         collectionToUpdate.setDescricaoFranquia(collectionFranquia.getDescricaoFranquia());
         collectionToUpdate.setLogoFranquia(collectionFranquia.getLogoFranquia());
+        collectionToUpdate.setVideoFranquia(collectionFranquia.getVideoFranquia());
 
         return Optional.of(collectionFranquiaRepository.save(collectionToUpdate));
     }

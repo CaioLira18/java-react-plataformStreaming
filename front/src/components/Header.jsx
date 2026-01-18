@@ -9,6 +9,20 @@ const Header = () => {
   const [userId, setUserId] = useState(null);
   const [users, setUsers] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navigate = useNavigate();
   // const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
@@ -79,7 +93,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="hbo-header">
+      <header className={`hbo-header ${scrolled ? 'scrolled' : ''}`}>
         <div className="hbo-container">
           <div className="hbo-logo">
             <NavLink to="/">
