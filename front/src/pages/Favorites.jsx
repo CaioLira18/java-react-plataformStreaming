@@ -11,7 +11,7 @@ export const Favorites = () => {
   const [userId, setUserId] = useState(null);
   const [modalPos, setModalPos] = useState({ x: 0, y: 0 });
 
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  const API_URL = "https://java-react-plataformstreaming-8f2k.onrender.com/api";
   const navigate = useNavigate();
 
   const fetchUserData = (id) => {

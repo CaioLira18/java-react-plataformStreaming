@@ -15,7 +15,7 @@ const Series = () => {
   const [favoriteList, setFavoriteList] = useState([]);
   const [user, setUser] = useState(null);
   // const API_URL = "http://localhost:8080/api";
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  const API_URL = "https://java-react-plataformstreaming-8f2k.onrender.com/api";
 
   // Função para buscar dados atualizados do usuário (favoritos)
   const fetchUserData = useCallback((userId) => {

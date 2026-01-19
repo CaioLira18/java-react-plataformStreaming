@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api/users";
+  const API_URL = "https://java-react-plataformstreaming-8f2k.onrender.com/api/users";
   // const API_URL = "http://localhost:8080/api/users";
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

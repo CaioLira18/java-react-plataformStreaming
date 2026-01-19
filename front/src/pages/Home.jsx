@@ -3,7 +3,7 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import Slide from '../components/Slide';
 
 const Home = () => {
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  const API_URL = "https://java-react-plataformstreaming-8f2k.onrender.com/api";
 
   // Estados de Dados
   const [series, setSeries] = useState([]);

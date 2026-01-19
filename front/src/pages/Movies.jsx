@@ -13,7 +13,7 @@ const Movie = () => {
   const [user, setUser] = useState(null);
   const [showTrailer, setShowTrailer] = useState(false);
   const [youtubeLink, setYoutubeLink] = useState("");
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  const API_URL = "https://java-react-plataformstreaming-8f2k.onrender.com/api";
   // const API_URL = "http://localhost:8080/api";
   {
     !isAuthenticated && (

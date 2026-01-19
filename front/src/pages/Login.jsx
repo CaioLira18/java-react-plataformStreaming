@@ -9,7 +9,7 @@ const Login = () => {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const API_URL = "https://java-react-plataformstreaming.onrender.com/api";
+  const API_URL = "https://java-react-plataformstreaming-8f2k.onrender.com/api";
   // const API_URL = "http://localhost:8080/api";
   const navigate = useNavigate();
 
