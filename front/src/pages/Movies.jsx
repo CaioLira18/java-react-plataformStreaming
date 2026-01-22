@@ -189,7 +189,7 @@ const Movie = () => {
 
             <div className="serieTags">
               <span className="serieTag serieTagNew">Novo</span>
-              <span className="serieTag serieTagRating">{movie.age}</span>
+              <span className="serieTag serieTagRating">{movie.age.descricao}</span>
               <span className="serieTag serieTagQuality">4K UHD</span>
             </div>
 
