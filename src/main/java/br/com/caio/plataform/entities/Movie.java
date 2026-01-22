@@ -2,6 +2,7 @@ package br.com.caio.plataform.entities;
 
 import br.com.caio.plataform.entities.enums.ContentCategory;
 import br.com.caio.plataform.entities.enums.ContentType;
+import br.com.caio.plataform.entities.enums.FaixaEtariaEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ public class Movie {
     private ContentCategory category;
     private ContentType type;
     private String marca;
-    private String age;
+    private FaixaEtariaEnum age;
     private String franquia;
 
     private String image1;
@@ -126,11 +127,11 @@ public class Movie {
         this.marca = marca;
     }
 
-    public String getAge() {
+    public FaixaEtariaEnum getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(FaixaEtariaEnum age) {
         this.age = age;
     }
 

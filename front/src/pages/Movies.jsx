@@ -186,6 +186,13 @@ const Movie = () => {
               )}
             </div>
             <h1 className="movieMainTitle">{movie.name}</h1>
+
+            <div className="serieTags">
+              <span className="serieTag serieTagNew">Novo</span>
+              <span className="serieTag serieTagRating">{movie.age}</span>
+              <span className="serieTag serieTagQuality">4K UHD</span>
+            </div>
+
             <div className="flexMovie">
               <button className="watchButton">
                 <i className="fa-solid fa-play"></i>
