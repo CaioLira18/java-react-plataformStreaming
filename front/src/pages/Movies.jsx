@@ -15,6 +15,14 @@ const Movie = () => {
   const [youtubeLink, setYoutubeLink] = useState("");
   const API_URL = "https://java-react-plataformstreaming-8f2k.onrender.com/api";
   // const API_URL = "http://localhost:8080/api";
+
+  const ageClasses = {
+    "16": "boxAgeColor16",
+    "12": "boxAgeColor12",
+    "Livre": "boxAgeColorL",
+    "18": "boxAgeColor18",
+  };
+
   {
     !isAuthenticated && (
       navigate('/login')
@@ -189,7 +197,9 @@ const Movie = () => {
 
             <div className="serieTags">
               <span className="serieTag serieTagNew">Novo</span>
-              <span className="serieTag serieTagRating">{movie.age.descricao}</span>
+              <span className={`serieTag ${ageClasses[movie.age] || ""}`}>
+                {movie.age}
+              </span>
               <span className="serieTag serieTagQuality">4K UHD</span>
             </div>
 
