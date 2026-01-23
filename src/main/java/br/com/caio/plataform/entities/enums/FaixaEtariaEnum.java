@@ -3,7 +3,7 @@ package br.com.caio.plataform.entities.enums;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum FaixaEtariaEnum {
-    L("Livre"),
+    L("L"),
     DEZ("10"),
     DOZE("12"),
     DEZESEIS("16"),
