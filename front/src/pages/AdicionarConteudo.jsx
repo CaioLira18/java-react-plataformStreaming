@@ -298,12 +298,13 @@ const AdicionarConteudo = () => {
             {/* Classificação Etária */}
             <div className="inputBox">
               <label>Classificação Etária</label>
-              <input
-                type="text"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-                placeholder="Ex: 14, 16, 18"
-              />
+              <select value={age} onChange={(e) => setAge(e.target.value)}>
+                <option value="0">L</option>
+                <option value="1">DEZ</option>
+                <option value="2">DOZE</option>
+                <option value="3">DEZESEIS</option>
+                <option value="4">DEZOITO</option>
+              </select>
             </div>
 
             {/* Duração (Apenas para Filme) */}
