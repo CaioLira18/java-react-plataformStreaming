@@ -1,5 +1,4 @@
 package br.com.caio.plataform.entities.enums;
-
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum FaixaEtariaEnum {
