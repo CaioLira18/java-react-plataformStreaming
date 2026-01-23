@@ -19,7 +19,7 @@ const Movie = () => {
   const ageClasses = {
     "16": "boxAgeColor16",
     "12": "boxAgeColor12",
-    "Livre": "boxAgeColorL",
+    "L": "boxAgeColorL",
     "18": "boxAgeColor18",
   };
 
