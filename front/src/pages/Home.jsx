@@ -30,6 +30,13 @@ const Home = () => {
 
   const navigate = useNavigate();
 
+  const ageClasses = {
+    "16": "boxAgeColor16",
+    "12": "boxAgeColor12",
+    "L": "boxAgeColorL",
+    "18": "boxAgeColor18",
+  };
+
   // --- FUNÇÕES DE CARREGAMENTO ---
 
   const fetchUserData = (userId) => {
@@ -270,6 +277,38 @@ const Home = () => {
           <div className="sliderControls right" onClick={() => scroll(destaquesRef, 'right')}><i className="fa-solid fa-angle-right"></i></div>
         </div>
       </div>
+
+      {/* SEÇÃO RECOMENDADOS */}
+      <div className="genericContentBox">
+        <div className="flexHomeSecction"><h1>Recomendações</h1><a href="/movies">Mostrar Tudo</a></div>
+        <div className="slideWrapper">
+          <div className="sliderControls left" onClick={() => scroll(destaquesRef, 'left')}><i className="fa-solid fa-angle-left"></i></div>
+          <div className="containerContent" ref={destaquesRef}>
+            {movies.map((movie) => (
+              <div className="boxContentBigVertical" key={movie.id}>
+                <div className="boxInformationBigVertical">
+                  <a href={`/movies/${movie.id}`}><img src={movie.imageVertical} alt={movie.name} /></a>
+                  <div className="boxInformationBigVerticalInformations">
+                    <h1>{movie.name}</h1>
+                    <div className="ageYearTypeItem">
+                      <span className={`serieTag ${ageClasses[movie.age] || ""}`}>
+                        {movie.age}
+                      </span>
+                      <span>{movie.year}</span>
+                      <span>{movie.category}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="sliderControls right" onClick={() => scroll(destaquesRef, 'right')}><i className="fa-solid fa-angle-right"></i></div>
+        </div>
+        <div className="space"></div>
+      </div>
+
+
+
 
       {/* MODAL DROPDOWN POSICIONADO DINAMICAMENTE */}
       {openModalItem && selectedItem && (

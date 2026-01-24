@@ -23,6 +23,7 @@ public class Movie {
     private String duration;
     private String year;
     private String imageVertical;
+    private String recomendationImage;
     private String youtubeLink;
     
     @Column(columnDefinition = "TEXT")
@@ -166,4 +167,22 @@ public class Movie {
     public void setImage3(String image3) {
         this.image3 = image3;
     }
+
+    public String getRecomendationImage() {
+        return recomendationImage;
+    }
+
+    public void setRecomendationImage(String recomendationImage) {
+        this.recomendationImage = recomendationImage;
+    }
+
+    public String getYoutubeLink() {
+        return youtubeLink;
+    }
+
+    public void setYoutubeLink(String youtubeLink) {
+        this.youtubeLink = youtubeLink;
+    }
+
+
 }

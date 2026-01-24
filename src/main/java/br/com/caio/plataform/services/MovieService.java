@@ -53,6 +53,8 @@ public class MovieService {
             moviesToUpdate.setImage1(movie.getImage1());
             moviesToUpdate.setImage2(movie.getImage2());
             moviesToUpdate.setImage3(movie.getImage3());
+            moviesToUpdate.setImageVertical(movie.getImageVertical());
+            moviesToUpdate.setRecomendationImage(movie.getRecomendationImage());
   
             return movieRepository.save(moviesToUpdate);
         }

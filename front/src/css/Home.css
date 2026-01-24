@@ -120,6 +120,124 @@
   /* Garante que não haja espaços vazios embaixo */
 }
 
+.boxContentBigVertical {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  min-width: 260px;
+  max-width: 500px;
+  gap: 20px;
+}
+
+.containerContent {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px;
+}
+
+.boxInformationBigVertical {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.boxInformationBigVertical:hover {
+  transform: scale(1.05);
+}
+
+.boxInformationBigVertical img {
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px;
+}
+
+.boxInformationBigVerticalInformations {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  padding: 30px 16px 16px 16px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 50%, rgba(0, 0, 0, 0.3) 80%, transparent 100%);
+  width: 100%;
+}
+
+.boxInformationBigVerticalInformations h1 {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.9);
+  line-height: 1.3;
+  text-align: center;
+}
+
+.ageYearTypeItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ageYearTypeItem span {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.serieTag {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.boxInformationBigVertical a {
+  display: block;
+  width: 100%;
+}
+
+.boxInformationBigVertical img:hover {
+  cursor: pointer;
+}
+
+.serieTag {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.boxInformationBigVertical a {
+  display: block;
+  width: 100%;
+}
+
+.boxInformationBigVertical img:hover {
+  cursor: pointer;
+}
+
 .boxInformation a {
   text-align: center;
   cursor: pointer;
@@ -252,4 +370,32 @@
   height: 100vh;
   z-index: 10000;
   background: transparent;
+}
+
+@media (max-width: 480px) {
+  .boxContentBigVertical {
+    min-width: 130px;
+    max-width: 180px;
+  }
+  
+  .boxInformationBigVerticalInformations h1 {
+    font-size: 12px;
+  }
+  
+  .ageYearTypeItem span {
+    font-size: 10px;
+  }
+  
+  .ageYearTypeItem {
+    gap: 8px;
+  }
+  
+  .containerContent {
+    gap: 22px;
+  }
+  
+  .serieTag {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
 }

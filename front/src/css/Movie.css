@@ -35,11 +35,15 @@
 }
 
 .boxAgeColor12 {
-  background-color: rgb(255, 255, 126);
+  background-color: rgb(123, 92, 1);
 }
 
 .boxAgeColorL {
   background-color: rgb(60, 148, 64);
+}
+
+.boxAgeColor18 {
+  background-color: #000;
 }
 
 @media (max-width: 768px) {

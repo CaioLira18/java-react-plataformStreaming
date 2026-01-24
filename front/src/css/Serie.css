@@ -87,14 +87,11 @@
 
 .serieTagNew {
   background: #ff4444;
-  color: white;
 }
 
 .serieTagRating,
 .serieTagYear,
 .serieTagQuality {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
