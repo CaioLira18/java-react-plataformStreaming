@@ -41,9 +41,117 @@
 .boxAgeColorL {
   background-color: rgb(60, 148, 64);
 }
+/* =========================
+   IMAGENS MAIS VISÍVEIS
+========================= */
 
-.boxAgeColor18 {
-  background-color: #000;
+.serieImagesSection {
+  margin: 120px 0;
+  padding: 0 5%;
+  text-align: center;
+}
+
+.serieImagesSection h2 {
+  color: white;
+  font-size: 2.3rem;
+  margin-bottom: 60px;
+  font-weight: 800;
+}
+
+/* Layout correto agora */
+.cinemaGallery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+/* Imagens grandes */
+.cinemaGallery img {
+  width: 500px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 18px;
+  transition: all 0.4s ease;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
+}
+
+/* Hover */
+.cinemaGallery img:hover {
+  transform: scale(1.18);
+  box-shadow: 0 35px 90px rgba(0, 0, 0, 0.9);
+}
+
+.cinemaGallery:hover img:not(:hover) {
+  opacity: 0.6;
+  transform: scale(0.95);
+}
+
+/* =========================
+   SOBRE - WORLD OF WINX
+========================= */
+
+.aboutSection {
+  padding: 60px 5%;
+  color: #ccc;
+  max-width: 1100px;
+}
+
+.aboutSection h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  font-weight: 600;
+  color: #aaa;
+}
+
+.aboutSection h2 span {
+  color: #fff;
+  font-weight: 800;
+}
+
+.aboutInfo p {
+  margin-bottom: 18px;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.aboutInfo strong {
+  color: #888;
+  font-weight: 600;
+}
+
+/* Classificação Etária */
+.ageRating {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+  font-size: 15px;
+}
+
+.ageRating .label {
+  color: #888;
+  font-weight: 600;
+}
+
+/* Badge AL */
+.ageBadge {
+  background-color: #1db954;
+  color: #fff;
+  font-weight: 800;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+@media (max-width: 1200px) {
+  .serieImages img {
+    width: 100%;
+    max-width: 600px;
+    height: 280px;
+  }
 }
 
 @media (max-width: 768px) {
