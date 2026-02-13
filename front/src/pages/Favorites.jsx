@@ -10,6 +10,7 @@ export const Favorites = () => {
   const [name, setName] = useState('');
   const [userId, setUserId] = useState(null);
   const [modalPos, setModalPos] = useState({ x: 0, y: 0 });
+  const [pageBackground, setPageBackground] = useState("");
 
   const API_URL = "https://java-react-plataformstreaming-8f2k.onrender.com/api";
   const navigate = useNavigate();
@@ -21,7 +22,6 @@ export const Favorites = () => {
         setIsAuthenticated(true);
         setName(fullUser.name);
         setFavoriteMovieList(fullUser.favoriteMovieList || []);
-        // Corrigido para bater com o nome da lista que vem do back-end
         setFavoriteSerieList(fullUser.favoriteSeassonList || fullUser.favoriteSeriesList || []);
       })
       .catch((error) => console.error('Erro ao carregar dados:', error));
@@ -60,14 +60,11 @@ export const Favorites = () => {
   const movieIsInFavorites = selectedItem?.itemType === 'MOVIE' && favoriteMovieList.some((item) => item.id === selectedItem.id);
   const serieIsInFavorites = selectedItem?.itemType === 'SERIE' && favoriteSerieList.some((item) => item.id === selectedItem.id);
 
-  // Função Unificada para Adicionar/Remover
   const handleToggleFavorite = async () => {
     if (!isAuthenticated || !userId || !selectedItem) return;
 
     const isMovie = selectedItem.itemType === 'MOVIE';
     const isAlreadyFavorite = isMovie ? movieIsInFavorites : serieIsInFavorites;
-    
-    // Endpoint corrigido: se for série, usa 'series'
     const endpoint = isMovie ? 'movie' : 'series';
     const method = isAlreadyFavorite ? "DELETE" : "POST";
 
@@ -102,7 +99,18 @@ export const Favorites = () => {
 
   return (
     <div>
-      <div className="favoritePageContainer">
+      <div
+        className="favoritePageContainer"
+        style={{
+          backgroundImage: pageBackground
+            ? `linear-gradient(to bottom, rgba(0,0,0,0.85), #000), url(${pageBackground})`
+            : "none",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          transition: "background-image 0.2s ease-in-out"
+        }}
+      >
         <div className="headerList">
           <h1>Sua Lista, {name}</h1>
         </div>
@@ -110,13 +118,25 @@ export const Favorites = () => {
         {allFavorites.length > 0 ? (
           <div className="containerContentPage">
             {allFavorites.map((item) => (
-              <div className="boxContent" key={item.uniqueKey}>
+              <div
+                className="boxContent"
+                key={item.uniqueKey}
+                onMouseEnter={() => setPageBackground(item.image)}
+                onMouseLeave={() => setPageBackground("")}
+              >
                 <div className="boxInformation">
-                  <div className="ellipsisBox" onClick={(e) => openModal(e, item, item.type)}>
+                  <div
+                    className="ellipsisBox"
+                    onClick={(e) => openModal(e, item, item.type)}
+                  >
                     <i className="fa-solid fa-ellipsis-vertical"></i>
                   </div>
-                  <a href={`/${item.type === 'MOVIE' ? 'movies' : 'series'}/${item.id}`}>
-                    <img src={item.imageVertical || item.image} alt={item.name} />
+
+                  <a href={`/${item.type === "MOVIE" ? "movies" : "series"}/${item.id}`}>
+                    <img
+                      src={item.imageVertical || item.image}
+                      alt={item.name}
+                    />
                   </a>
                 </div>
               </div>
@@ -140,17 +160,19 @@ export const Favorites = () => {
             }}
           >
             <button className="modal-streaming-item" onClick={handleToggleFavorite}>
-              <i className={`fa-solid ${(selectedItem.itemType === "MOVIE" ? movieIsInFavorites : serieIsInFavorites)
-                ? 'fa-check' : 'fa-plus'
-                }`}></i>
+              <i className={`fa-solid ${selectedItem.itemType === "MOVIE" 
+                ? (movieIsInFavorites ? "fa-check" : "fa-plus") 
+                : (serieIsInFavorites ? "fa-check" : "fa-plus")}`}>
+              </i>
               <span>
-                {(selectedItem.itemType === "MOVIE" ? movieIsInFavorites : serieIsInFavorites)
-                  ? "Remover da lista" : "Adicionar à minha lista"}
+                {selectedItem.itemType === "MOVIE"
+                  ? (movieIsInFavorites ? "Remover da lista" : "Adicionar à minha lista")
+                  : (serieIsInFavorites ? "Remover da lista" : "Adicionar à minha lista")}
               </span>
             </button>
 
             <NavLink
-              to={`/${selectedItem.itemType === 'MOVIE' ? 'movies' : 'series'}/${selectedItem.id}`}
+              to={`/${selectedItem.itemType === "MOVIE" ? "movies" : "series"}/${selectedItem.id}`}
               className="modal-streaming-item"
             >
               <i className="fa-solid fa-circle-info"></i>

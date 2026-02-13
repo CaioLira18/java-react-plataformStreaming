@@ -1,11 +1,16 @@
-/* Home */
+/* ================= HOME ================= */
+
+.home {
+  position: relative;
+}
+
+/* ================= BOTÕES SUPERIORES ================= */
 
 .buttonsAdd {
   display: flex;
   align-items: center;
   justify-content: left;
-  margin: 0 auto;
-  margin-top: 30px;
+  margin: 30px auto 0;
   gap: 20px;
 }
 
@@ -24,46 +29,44 @@
   cursor: pointer;
 }
 
-.containerContent {
-  display: flex;
-  gap: 4px;
-  /* mínimo espaço entre os itens */
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
-  padding: 10px 4px;
-  /* menos espaço nas laterais */
-  flex-wrap: nowrap;
-}
-
-
-.containerContent::-webkit-scrollbar {
-  display: none;
-  /* esconde a barra */
-}
+/* ================= SLIDER ================= */
 
 .slideWrapper {
   position: relative;
 }
 
-/* Botões escondidos inicialmente */
+.containerContent {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding: 10px 60px; /* espaço lateral para setas */
+  flex-wrap: nowrap;
+}
+
+.containerContent::-webkit-scrollbar {
+  display: none;
+}
+
+/* ================= CONTROLES ================= */
+
 .sliderControls {
-  opacity: 0;
-  transition: 0.3s ease-in-out;
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 50%;
+  transform: translateY(-50%);
   width: 60px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2;
-  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .slideWrapper:hover .sliderControls {
   opacity: 1;
-  pointer-events: auto;
 }
 
 .sliderControls.left {
@@ -75,16 +78,16 @@
 }
 
 .rowAngle {
-  width: 40px;
-  height: 40px;
-  background-color: rgba(0, 0, 0, 0.6);
+  width: 42px;
+  height: 42px;
+  background-color: rgba(0, 0, 0, 0.85);
   color: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 22px;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.8);
   transition: transform 0.2s ease;
 }
@@ -93,12 +96,13 @@
   transform: scale(1.1);
 }
 
-/* Conteúdo de cada item */
+/* ================= CARDS ================= */
+
 .boxContent {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  min-width: 260px;
+  min-width: 270px;
   max-width: 300px;
 }
 
@@ -117,33 +121,26 @@
   object-fit: cover;
   padding: 5px;
   display: block;
-  /* Garante que não haja espaços vazios embaixo */
+  transition: 0.2s;
 }
+
+.boxInformation img:hover {
+  border: 3px solid white;
+  cursor: pointer;
+}
+
+/* ================= BIG VERTICAL ================= */
 
 .boxContentBigVertical {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   min-width: 260px;
-  max-width: 500px;
-  gap: 20px;
-}
-
-.containerContent {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 10px;
+  max-width: 350px;
 }
 
 .boxInformationBigVertical {
   position: relative;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  text-align: center;
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.3s ease;
@@ -155,53 +152,41 @@
 
 .boxInformationBigVertical img {
   width: 100%;
-  max-width: 350px;
-  height: auto;
   object-fit: cover;
   display: block;
-  border-radius: 2px;
 }
 
 .boxInformationBigVerticalInformations {
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 12px;
-  padding: 30px 16px 16px 16px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 50%, rgba(0, 0, 0, 0.3) 80%, transparent 100%);
   width: 100%;
+  padding: 30px 16px 16px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.7) 60%,
+    transparent 100%
+  );
 }
 
 .boxInformationBigVerticalInformations h1 {
-  color: #ffffff;
+  color: #fff;
   font-size: 18px;
-  font-weight: 600;
   margin: 0;
-  text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.9);
-  line-height: 1.3;
-  text-align: center;
 }
+
+/* ================= TAGS ================= */
 
 .ageYearTypeItem {
   display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 16px;
-  flex-wrap: wrap;
+  margin-top: 8px;
 }
 
 .ageYearTypeItem span {
-  color: #ffffff;
+  color: #fff;
   font-size: 14px;
-  font-weight: 500;
-  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.9);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .serieTag {
@@ -212,74 +197,11 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.boxInformationBigVertical a {
-  display: block;
-  width: 100%;
-}
+/* ================= GENERIC ================= */
 
-.boxInformationBigVertical img:hover {
-  cursor: pointer;
-}
-
-.serieTag {
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: bold;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.boxInformationBigVertical a {
-  display: block;
-  width: 100%;
-}
-
-.boxInformationBigVertical img:hover {
-  cursor: pointer;
-}
-
-.boxInformation a {
-  text-align: center;
-  cursor: pointer;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.boxInformation img:hover {
-  border: 3px solid white;
-  cursor: pointer;
-}
-
-.home {
-  position: relative;
-}
-
-/* Container geral */
 .genericContentBox {
   margin-top: 60px;
   padding: 30px;
-}
-
-.genericContentBox h1 {
-  margin-bottom: 10px;
-  font-size: 24px;
-}
-
-.genericContentBox>a {
-  color: #007bff;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.genericContentBox>a:hover {
-  text-decoration: underline;
-}
-
-/* Perfil */
-.liProfile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .flexHomeSecction {
@@ -293,14 +215,13 @@
   cursor: pointer;
 }
 
+/* ================= ELLIPSIS ================= */
+
 .ellipsisBox {
   position: absolute;
   top: 10px;
-  /* Distância do topo */
-  right: 30px;
-  /* Distância da direita */
+  right: 15px;
   z-index: 10;
-  /* Acima da imagem */
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -308,94 +229,30 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.2s;
 }
-
 
 .ellipsisBox i {
   color: white;
   font-size: 18px;
 }
 
-.modal-streaming-content {
-  position: absolute;
-  /* Mudado de fixed para absolute */
-  background-color: #1a1a1a;
-  border-radius: 10px;
-  /* Cantos arredondados como na imagem */
-  min-width: 220px;
-  padding: 8px 0;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-  z-index: 10001;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #333;
-}
-
-.modal-streaming-item {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  background: none;
-  border: none;
-  color: white;
-  width: 100%;
-  cursor: pointer;
-  transition: background 0.2s;
-  text-align: left;
-}
-
-.modal-streaming-item:hover {
-  background-color: #333;
-}
-
-.modal-streaming-item i {
-  margin-right: 12px;
-  font-size: 18px;
-  width: 20px;
-  text-align: center;
-}
-
-.modal-streaming-item span {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* Overlay invisível para fechar ao clicar fora */
-.modal-streaming-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 10000;
-  background: transparent;
-}
+/* ================= RESPONSIVO ================= */
 
 @media (max-width: 480px) {
+  .containerContent {
+    padding: 10px 40px;
+  }
+
   .boxContentBigVertical {
-    min-width: 130px;
+    min-width: 140px;
     max-width: 180px;
   }
-  
+
   .boxInformationBigVerticalInformations h1 {
     font-size: 12px;
   }
-  
+
   .ageYearTypeItem span {
-    font-size: 10px;
-  }
-  
-  .ageYearTypeItem {
-    gap: 8px;
-  }
-  
-  .containerContent {
-    gap: 22px;
-  }
-  
-  .serieTag {
-    padding: 3px 6px;
     font-size: 10px;
   }
 }

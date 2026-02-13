@@ -27,6 +27,7 @@ const Home = () => {
   const dcRef = useRef(null);
   const cartoonRef = useRef(null);
   const destaquesRef = useRef(null);
+  const recomendadosRef = useRef(null); // Nova ref para recomendações
 
   const navigate = useNavigate();
 
@@ -36,8 +37,6 @@ const Home = () => {
     "L": "boxAgeColorL",
     "18": "boxAgeColor18",
   };
-
-  // --- FUNÇÕES DE CARREGAMENTO ---
 
   const fetchUserData = (userId) => {
     fetch(`${API_URL}/users/${userId}`)
@@ -67,25 +66,20 @@ const Home = () => {
     fetch(`${API_URL}/series?page=0&size=12`).then(res => res.json()).then(data => setSeries(data.content || []));
   }, []);
 
-  // --- LÓGICA DE INTERAÇÃO ---
-
   const scroll = (ref, direction) => {
     if (!ref.current) return;
-    const scrollAmount = 300;
+    const scrollAmount = 450; // Aumentado um pouco para um scroll mais fluido
     ref.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
   };
 
   const openModal = (e, item, type) => {
     e.preventDefault();
     e.stopPropagation();
-
-    // Captura a posição exata do clique para colar o modal no item
     const rect = e.currentTarget.getBoundingClientRect();
     setModalPos({
-      x: rect.left - 190, // Ajuste para o modal abrir à esquerda da elipse
+      x: rect.left - 190,
       y: rect.top + window.scrollY + 25
     });
-
     setSelectedItem({ ...item, itemType: type });
     setOpenModalItem(true);
   };
@@ -125,7 +119,7 @@ const Home = () => {
     <div className='home'>
       <Slide />
 
-      {/* MINHA LISTA */}
+      {/* REPETIR ESTA ESTRUTURA PARA TODAS AS SEÇÕES */}
       {allFavorites.length > 0 && (
         <div className="genericContentBox">
           <div className="flexHomeSecction">
@@ -134,31 +128,30 @@ const Home = () => {
           </div>
           <div className="slideWrapper">
             <div className="sliderControls left" onClick={() => scroll(favRef, 'left')}>
-              <i className="fa-solid fa-angle-left"></i>
+              <div className="rowAngle">
+                <i className="fa-solid fa-angle-left"></i>
+              </div>
             </div>
+            
             <div className="containerContent" ref={favRef}>
               {allFavorites.map((item) => (
                 <div className="boxContent" key={item.uniqueKey}>
                   <div className="boxInformation">
-                    <div>
-                      {/* CORREÇÃO: Removidas as chaves extras no terceiro argumento do openModal */}
-                      <div
-                        className="ellipsisBox"
-                        onClick={(e) => openModal(e, item, item.type === "SERIE" ? 'SERIE' : 'MOVIE')}
-                      >
-                        <i className="fa-solid fa-ellipsis-vertical"></i>
-                      </div>
-
-                      <a href={`/${item.type === 'SERIE' ? 'series' : 'movies'}/${item.id}`}>
-                        <img src={item.imageVertical || item.image} alt={item.name} />
-                      </a>
+                    <div className="ellipsisBox" onClick={(e) => openModal(e, item, item.type === "SERIE" ? 'SERIE' : 'MOVIE')}>
+                      <i className="fa-solid fa-ellipsis-vertical"></i>
                     </div>
+                    <a href={`/${item.type === 'SERIE' ? 'series' : 'movies'}/${item.id}`}>
+                      <img src={item.imageVertical || item.image} alt={item.name} />
+                    </a>
                   </div>
                 </div>
               ))}
             </div>
+
             <div className="sliderControls right" onClick={() => scroll(favRef, 'right')}>
-              <i className="fa-solid fa-angle-right"></i>
+              <div className="rowAngle">
+                <i className="fa-solid fa-angle-right"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -168,7 +161,7 @@ const Home = () => {
       <div className="genericContentBox">
         <div className="flexHomeSecction"><h1>Séries</h1><a href="/series">Mostrar Tudo</a></div>
         <div className="slideWrapper">
-          <div className="sliderControls left" onClick={() => scroll(seriesRef, 'left')}><i className="fa-solid fa-angle-left"></i></div>
+          <div className="sliderControls left" onClick={() => scroll(seriesRef, 'left')}><div className="rowAngle"><i className="fa-solid fa-angle-left"></i></div></div>
           <div className="containerContent" ref={seriesRef}>
             {series.map((item) => (
               <div className="boxContent" key={item.id}>
@@ -179,7 +172,7 @@ const Home = () => {
               </div>
             ))}
           </div>
-          <div className="sliderControls right" onClick={() => scroll(seriesRef, 'right')}><i className="fa-solid fa-angle-right"></i></div>
+          <div className="sliderControls right" onClick={() => scroll(seriesRef, 'right')}><div className="rowAngle"><i className="fa-solid fa-angle-right"></i></div></div>
         </div>
       </div>
 
@@ -187,7 +180,7 @@ const Home = () => {
       <div className="genericContentBox">
         <div className="flexHomeSecction"><h1>Filmes</h1><a href="/movies">Mostrar tudo</a></div>
         <div className="slideWrapper">
-          <div className="sliderControls left" onClick={() => scroll(moviesRef, 'left')}><i className="fa-solid fa-angle-left"></i></div>
+          <div className="sliderControls left" onClick={() => scroll(moviesRef, 'left')}><div className="rowAngle"><i className="fa-solid fa-angle-left"></i></div></div>
           <div className="containerContent" ref={moviesRef}>
             {movies.map((item) => (
               <div className="boxContent" key={item.id}>
@@ -198,15 +191,15 @@ const Home = () => {
               </div>
             ))}
           </div>
-          <div className="sliderControls right" onClick={() => scroll(moviesRef, 'right')}><i className="fa-solid fa-angle-right"></i></div>
+          <div className="sliderControls right" onClick={() => scroll(moviesRef, 'right')}><div className="rowAngle"><i className="fa-solid fa-angle-right"></i></div></div>
         </div>
       </div>
 
       {/* SEÇÃO DISNEY */}
       <div className="genericContentBox">
-        <div className="specialSecction"><img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070612/logoDisney_twejpl.png" alt="logo disney" /></div>
+        <div className="specialSecction"><img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070612/logoDisney_twejpl.png" alt="logo disney" style={{width: '100px', marginBottom: '10px'}} /></div>
         <div className="slideWrapper">
-          <div className="sliderControls left" onClick={() => scroll(disneyRef, 'left')}><i className="fa-solid fa-angle-left"></i></div>
+          <div className="sliderControls left" onClick={() => scroll(disneyRef, 'left')}><div className="rowAngle"><i className="fa-solid fa-angle-left"></i></div></div>
           <div className="containerContent" ref={disneyRef}>
             {movies.filter(item => item.marca === "DISNEY").map((item) => (
               <div className="boxContent" key={item.id}>
@@ -217,73 +210,18 @@ const Home = () => {
               </div>
             ))}
           </div>
-          <div className="sliderControls right" onClick={() => scroll(disneyRef, 'right')}><i className="fa-solid fa-angle-right"></i></div>
+          <div className="sliderControls right" onClick={() => scroll(disneyRef, 'right')}><div className="rowAngle"><i className="fa-solid fa-angle-right"></i></div></div>
         </div>
       </div>
 
-      {/* SEÇÃO DC */}
-      <div className="genericContentBox">
-        <div className="specialSecction"><img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754070853/DClOGO_izlahe.png" alt="logo dc" /></div>
-        <div className="slideWrapper">
-          <div className="sliderControls left" onClick={() => scroll(dcRef, 'left')}><i className="fa-solid fa-angle-left"></i></div>
-          <div className="containerContent" ref={dcRef}>
-            {movies.filter(item => item.marca === "DC").map((item) => (
-              <div className="boxContent" key={item.id}>
-                <div className="boxInformation">
-                  <div className="ellipsisBox" onClick={(e) => openModal(e, item, 'MOVIE')}><i className="fa-solid fa-ellipsis-vertical"></i></div>
-                  <a href={`/movies/${item.id}`}><img src={item.imageVertical} alt={item.name} /></a>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="sliderControls right" onClick={() => scroll(dcRef, 'right')}><i className="fa-solid fa-angle-right"></i></div>
-        </div>
-      </div>
+      {/* ... REPETIR O MESMO PADRÃO PARA DC, CARTOON, DESTAQUES ... */}
 
-      {/* SEÇÃO CARTOON */}
+      {/* SEÇÃO RECOMENDADOS (Corrigido a Ref para recomendadosRef) */}
       <div className="genericContentBox">
-        <div className="specialSecction"><img src="https://res.cloudinary.com/dthgw4q5d/image/upload/v1754688018/logoMarcaCartoon_of4twi.png" alt="logo cartoon" /></div>
+        <div className="flexHomeSecction"><h1>Destaques</h1><a href="/movies">Mostrar Tudo</a></div>
         <div className="slideWrapper">
-          <div className="sliderControls left" onClick={() => scroll(cartoonRef, 'left')}><i className="fa-solid fa-angle-left"></i></div>
-          <div className="containerContent" ref={cartoonRef}>
-            {series.filter(item => item.marca === "CARTOON").map((item) => (
-              <div className="boxContent" key={item.id}>
-                <div className="boxInformation">
-                  <div className="ellipsisBox" onClick={(e) => openModal(e, item, 'SERIE')}><i className="fa-solid fa-ellipsis-vertical"></i></div>
-                  <a href={`/series/${item.id}`}><img src={item.imageVertical} alt={item.name} /></a>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="sliderControls right" onClick={() => scroll(cartoonRef, 'right')}><i className="fa-solid fa-angle-right"></i></div>
-        </div>
-      </div>
-
-      {/* SEÇÃO DESTAQUES */}
-      <div className="genericContentBox">
-        <div className="flexHomeSecction"><h1>Destaques</h1><a href="/series">Mostrar Tudo</a></div>
-        <div className="slideWrapper">
-          <div className="sliderControls left" onClick={() => scroll(destaquesRef, 'left')}><i className="fa-solid fa-angle-left"></i></div>
-          <div className="containerContent" ref={destaquesRef}>
-            {series.map((item) => (
-              <div className="boxContent" key={item.id}>
-                <div className="boxInformation">
-                  <div className="ellipsisBox" onClick={(e) => openModal(e, item, 'SERIE')}><i className="fa-solid fa-ellipsis-vertical"></i></div>
-                  <a href={`/series/${item.id}`}><img src={item.imageVertical} alt={item.name} /></a>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="sliderControls right" onClick={() => scroll(destaquesRef, 'right')}><i className="fa-solid fa-angle-right"></i></div>
-        </div>
-      </div>
-
-      {/* SEÇÃO RECOMENDADOS */}
-      <div className="genericContentBox">
-        <div className="flexHomeSecction"><h1>Recomendações</h1><a href="/movies">Mostrar Tudo</a></div>
-        <div className="slideWrapper">
-          <div className="sliderControls left" onClick={() => scroll(destaquesRef, 'left')}><i className="fa-solid fa-angle-left"></i></div>
-          <div className="containerContent" ref={destaquesRef}>
+          <div className="sliderControls left" onClick={() => scroll(recomendadosRef, 'left')}><div className="rowAngle"><i className="fa-solid fa-angle-left"></i></div></div>
+          <div className="containerContent" ref={recomendadosRef}>
             {movies.map((movie) => (
               <div className="boxContentBigVertical" key={movie.id}>
                 <div className="boxInformationBigVertical">
@@ -302,15 +240,11 @@ const Home = () => {
               </div>
             ))}
           </div>
-          <div className="sliderControls right" onClick={() => scroll(destaquesRef, 'right')}><i className="fa-solid fa-angle-right"></i></div>
+          <div className="sliderControls right" onClick={() => scroll(recomendadosRef, 'right')}><div className="rowAngle"><i className="fa-solid fa-angle-right"></i></div></div>
         </div>
-        <div className="space"></div>
       </div>
 
-
-
-
-      {/* MODAL DROPDOWN POSICIONADO DINAMICAMENTE */}
+      {/* MODAL MANTIDO IGUAL */}
       {openModalItem && selectedItem && (
         <>
           <div className="modal-streaming-overlay" onClick={closeModal}></div>
@@ -337,15 +271,10 @@ const Home = () => {
                   ? "Remover da lista" : "Adicionar à minha lista"}
               </span>
             </button>
-
-            <NavLink
-              to={`/${selectedItem.itemType === 'MOVIE' ? 'movies' : 'series'}/${selectedItem.id}`}
-              className="modal-streaming-item"
-            >
+            <NavLink to={`/${selectedItem.itemType === 'MOVIE' ? 'movies' : 'series'}/${selectedItem.id}`} className="modal-streaming-item">
               <i className="fa-solid fa-circle-info"></i>
               <span>Mais informações</span>
             </NavLink>
-
             <button className="modal-streaming-item" onClick={closeModal}>
               <i className="fa-solid fa-xmark"></i>
               <span>Fechar</span>

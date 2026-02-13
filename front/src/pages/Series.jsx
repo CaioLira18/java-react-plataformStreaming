@@ -123,6 +123,13 @@ const Series = () => {
     );
   }
 
+  const ageClasses = {
+    "16": "boxAgeColor16",
+    "12": "boxAgeColor12",
+    "L": "boxAgeColorL",
+    "18": "boxAgeColor18",
+  };
+
   return (
     <div>
       <div
@@ -147,7 +154,9 @@ const Series = () => {
 
             <div className="serieTags">
               <span className="serieTag serieTagNew">Novo</span>
-              <span className="serieTag serieTagRating">{serie.age}</span>
+              <span className={`serieTag ${ageClasses[serie.age] || ""}`}>
+                {serie.age}
+              </span>
               <span className="serieTag serieTagQuality">4K UHD</span>
             </div>
 
