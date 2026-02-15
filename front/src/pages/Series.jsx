@@ -235,15 +235,15 @@ const Series = () => {
       <div className="serieImagesSection">
         <div className="cinemaGallery">
           <div className="cinemaItem left">
-            <img src={movie.image1} alt={`${movie.name} cena 1`} />
+            <img src={serie.image1} alt={`${serie.name} cena 1`} />
           </div>
 
           <div className="cinemaItem center">
-            <img src={movie.image2} alt={`${movie.name} cena 2`} />
+            <img src={serie.image2} alt={`${serie.name} cena 2`} />
           </div>
 
           <div className="cinemaItem right">
-            <img src={movie.image3} alt={`${movie.name} cena 3`} />
+            <img src={serie.image3} alt={`${serie.name} cena 3`} />
           </div>
         </div>
       </div>
