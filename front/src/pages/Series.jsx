@@ -233,11 +233,18 @@ const Series = () => {
       )}
 
       <div className="serieImagesSection">
-        <h2>Imagens</h2>
-        <div className="serieImages">
-          <img src={serie.image1} alt="Imagem 1" />
-          <img src={serie.image2} alt="Imagem 2" />
-          <img src={serie.image3} alt="Imagem 3" />
+        <div className="cinemaGallery">
+          <div className="cinemaItem left">
+            <img src={movie.image1} alt={`${movie.name} cena 1`} />
+          </div>
+
+          <div className="cinemaItem center">
+            <img src={movie.image2} alt={`${movie.name} cena 2`} />
+          </div>
+
+          <div className="cinemaItem right">
+            <img src={movie.image3} alt={`${movie.name} cena 3`} />
+          </div>
         </div>
       </div>
     </div>
