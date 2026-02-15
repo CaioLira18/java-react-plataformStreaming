@@ -52,6 +52,7 @@ public class SeriesService {
             seriesToUpdate.setImage1(series.getImage1());
             seriesToUpdate.setImage2(series.getImage2());
             seriesToUpdate.setImage3(series.getImage3());
+            seriesToUpdate.setLogo(series.getLogo());
 
             return seriesRepository.save(seriesToUpdate);
         }

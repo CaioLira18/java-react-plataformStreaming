@@ -39,6 +39,7 @@ public class Series {
     private String imageVertical;
     private FaixaEtariaEnum age;
     private String franquia;
+    private String logo;
 
     private String image1;
     private String image2;
@@ -186,5 +187,15 @@ public class Series {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    
 
 }

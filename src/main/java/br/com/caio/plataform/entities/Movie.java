@@ -34,6 +34,7 @@ public class Movie {
     private String marca;
     private FaixaEtariaEnum age;
     private String franquia;
+    private String logo;
 
     private String image1;
     private String image2;
@@ -183,6 +184,16 @@ public class Movie {
     public void setYoutubeLink(String youtubeLink) {
         this.youtubeLink = youtubeLink;
     }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    
 
 
 }
