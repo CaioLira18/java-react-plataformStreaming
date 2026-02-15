@@ -65,12 +65,15 @@
   align-items: center;
   gap: 50px;
   flex-wrap: wrap;
+  padding: 20px;
 }
 
-/* Imagens grandes */
+/* Imagens com largura responsiva */
 .cinemaGallery img {
-  width: 500px;
-  height: 300px;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  aspect-ratio: 5 / 3; /* Mantém proporção 500:300 */
   object-fit: cover;
   border-radius: 18px;
   transition: all 0.4s ease;
@@ -86,6 +89,57 @@
 .cinemaGallery:hover img:not(:hover) {
   opacity: 0.6;
   transform: scale(0.95);
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .cinemaGallery {
+    gap: 30px;
+  }
+  
+  .cinemaGallery img {
+    max-width: 400px;
+  }
+  
+  .cinemaGallery img:hover {
+    transform: scale(1.08);
+  }
+}
+
+/* Celulares */
+@media (max-width: 768px) {
+  .cinemaGallery {
+    gap: 20px;
+    padding: 15px;
+  }
+  
+  .cinemaGallery img {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+  
+  /* Desativa hover em mobile para melhor performance */
+  .cinemaGallery img:hover {
+    transform: scale(1.02);
+  }
+  
+  .cinemaGallery:hover img:not(:hover) {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Celulares pequenos */
+@media (max-width: 480px) {
+  .cinemaGallery {
+    gap: 15px;
+    padding: 10px;
+  }
+  
+  .cinemaGallery img {
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  }
 }
 
 /* =========================

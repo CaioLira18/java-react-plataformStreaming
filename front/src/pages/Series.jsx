@@ -247,6 +247,21 @@ const Series = () => {
           </div>
         </div>
       </div>
+
+      <section class="aboutSection">
+        <h2>Sobre <span>{serie.name}</span></h2>
+
+        <div class="aboutInfo">
+          <p><strong>Produtora:</strong> {serie.marca}</p>
+
+          <p><strong>Gênero:</strong> {serie.category}</p>
+            <span class="label">Classificação etária: </span>
+            <span className={`serieTag ${ageClasses[serie.age] || ""}`}>
+              {serie.age}
+            </span>
+  
+        </div>
+      </section>
     </div>
   );
 };
